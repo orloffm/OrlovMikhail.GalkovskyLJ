@@ -16,10 +16,8 @@ namespace OrlovMikhail.LJ.BookWriter
         void ThreadBegin();
         void ThreadEnd();
 
-        void EntryBegin();
         void EntryEnd();
 
-        void CommentBegin();
         void CommentEnd();
 
         void EntryHeader(DateTime dateTime, long id, string subject, UserLite user, string posterUserpicRelativeLocation);

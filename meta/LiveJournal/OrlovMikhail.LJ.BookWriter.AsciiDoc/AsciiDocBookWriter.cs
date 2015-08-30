@@ -55,6 +55,7 @@ namespace OrlovMikhail.LJ.BookWriter.AsciiDoc
             subject = subject.Trim();
             if (subject.EndsWith("."))
                 subject = subject.Substring(0, subject.Length - 1);
+            subject = Tp.Prepare(subject);
 
             PL(String.Format("== {0}", subject));
             PL("");
@@ -73,7 +74,10 @@ namespace OrlovMikhail.LJ.BookWriter.AsciiDoc
 
             PL(String.Format("*{0}, {1:dd-MM-yyy HH:mm}*", user.Username, dateTime));
             if (!String.IsNullOrWhiteSpace(subject))
+            {
+                subject = Tp.Prepare(subject);
                 PL(String.Format("{0}", subject));
+            }
 
             PL("");
         }
@@ -96,7 +100,7 @@ namespace OrlovMikhail.LJ.BookWriter.AsciiDoc
 
         protected override void WriteUsernameInternal(string username)
         {
-            PL(String.Format("*{0}*", username));
+            P(String.Format("*{0}*", username));
         }
 
         protected override void WriteParagraphStartInternal() { PL(""); PL(""); }

@@ -52,7 +52,6 @@ namespace OrlovMikhail.LJ.Galkovsky.BookMaker
             {
                 w.EntryPageBegin();
 
-                w.EntryBegin();
                 Entry e = ep.Entry;
                 string userpicRelative = GetUserpicRelativeLocation(e, us, bookRootLocation);
                 w.EntryHeader(e.Date.Value, e.Id, e.Subject, e.Poster, userpicRelative);
@@ -72,8 +71,6 @@ namespace OrlovMikhail.LJ.Galkovsky.BookMaker
                         {
                             if (string.IsNullOrWhiteSpace(c.Text) && string.IsNullOrWhiteSpace(c.Subject))
                                 continue;
-
-                            w.CommentBegin();
 
                             userpicRelative = GetUserpicRelativeLocation(c, us, bookRootLocation);
                             w.CommentHeader(c.Date.Value, c.Id, c.Subject, c.Poster, userpicRelative);

@@ -61,24 +61,24 @@ namespace OrlovMikhail.LJ.BookWriter
         #region by regeces
         protected virtual void AddPostRegeces(Action<string, string> add)
         {
-       
+
         }
 
         protected virtual void AddPreRegeces(Action<string, string> add)
         {
-        
+
         }
 
         private void AddMainRegeces(Action<string, string> add)
         {
             // начало и конец строки
             add("^\"", laquo);
-            add("\"$", raquo );
+            add("\"$", raquo);
             add("\"\r\n", @"\" + raquo + @"\r\n");
             add("\"\n", @"\" + raquo + @"\n");
 
             // остальные кавычки
-            add(" \"", " " + laquo );
+            add(" \"", " " + laquo);
             add("“", laquo);
             add("«", laquo);
             add("” ", raquo + " ");
@@ -91,8 +91,9 @@ namespace OrlovMikhail.LJ.BookWriter
             add(@"""\!", raquo + "!");
             add("\",", raquo + ",");
             add(@"""\)", raquo + ")");
+            add(@"\(""", "(" + raquo);
             add("!\"", @"!" + raquo);
-            add(@"\.\.\.""", @"..." + raquo );
+            add(@"\.\.\.""", @"..." + raquo);
 
             // тире
             add(" - ", nobr + emdash + " ");
@@ -149,7 +150,7 @@ namespace OrlovMikhail.LJ.BookWriter
         /// <summary>Searches for </summary>
         /// <param name="work">Source string.</param>
         /// <param name="start">Where to look for tilde candidate from.</param>
-   int PositiveLookAhead(string work, int start)
+        int PositiveLookAhead(string work, int start)
         {
             bool hasSpaceTokenAtStart = Char.IsWhiteSpace(work, start);
 

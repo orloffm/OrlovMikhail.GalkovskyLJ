@@ -16,7 +16,7 @@ namespace OrlovMikhail.LJ.BookWriter
 
         protected readonly DirectoryInfoBase Root;
         protected readonly FileInfoBase Target;
-        protected readonly ITextPreparator Tp;
+        protected ITextPreparator Tp { get; private set; }
 
         protected BookWriterBase(DirectoryInfoBase root, FileInfoBase target, ITextPreparator tp)
         {
@@ -32,9 +32,7 @@ namespace OrlovMikhail.LJ.BookWriter
         public virtual void CommentsEnd() { }
         public virtual void ThreadBegin() { }
         public virtual void ThreadEnd() { }
-        public virtual void EntryBegin() { }
         public virtual void EntryEnd() { }
-        public virtual void CommentBegin() { }
         public virtual void CommentEnd() { }
         public abstract void EntryHeader(DateTime dateTime, long id, string subject, UserLite user, string posterUserpicRelativeLocation);
         public abstract void CommentHeader(DateTime dateTime, long id, string subject, UserLite user, string commentUserpicRelativeLocation);

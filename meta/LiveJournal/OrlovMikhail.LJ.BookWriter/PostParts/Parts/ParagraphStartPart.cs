@@ -2,7 +2,7 @@ using System.Diagnostics;
 
 namespace OrlovMikhail.LJ.BookWriter
 {
-    [DebuggerDisplay(" ")]
+    [DebuggerDisplay("[Paragraph]")]
     public class ParagraphStartPart : PostPartBase
     {
     }
