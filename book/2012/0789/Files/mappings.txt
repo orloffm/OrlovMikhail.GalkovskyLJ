@@ -1,0 +1,4 @@
+http://www.samisdat.com/picture/LJ2/2017.jpg	2017.jpg
+http://www.samisdat.com/picture/LJ2/2018.jpg	2018.jpg
+http://www.samisdat.com/picture/LJ2/2019.jpg	2019.jpg
+http://www.samisdat.com/picture/LJ2/2020.jpg	2020.jpg

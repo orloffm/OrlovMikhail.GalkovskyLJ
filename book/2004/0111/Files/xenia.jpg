@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:og="http://ogp.me/ns#" xml:lang="ru" lang="ru">
+<head>
+<meta name="viewport" content="width=device-width, maximum-scale=1.0"> <!-- ??? -->
+
+<meta property="og:title" content="QIP.RU" />
+<meta property="og:type" content="website" />
+<meta property="og:image" content="http://qip.ru/skin/img/logo.png" />
+<meta property="og:url" content="qip.ru" />
+<meta property="og:description" content="QIP.RU — коммуникации, новости и развлечения. Сайт объединяет в себе все необходимые пользователям сервисы: почту, мессенджер, новости, поиск, знакомства, интересные статьи, юмор и многое другое." />
+
+<link rel="stylesheet" href="/skin/index2014.css?558">
+<link rel="stylesheet" href="/skin/topline-white.css?558">
+
+<title>QIP.RU</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<meta name="keywords" content="скачать, qip, почта, поиск, звонки, знакомства, открытки, рефераты, блоги" />
+<meta name="description" content="QIP.RU - новости и развлечения. Сайт объединяет в себе все необходимые пользователям сервисы: почту, поиск, знакомства, хранение данных: фото, видео, файлов, а так же широкий спектр различных онлайн игр." />
+<link href="https://plus.google.com/112134539647487818428" rel="publisher" />
+<link rel="shortcut icon" href="/favicon14.ico" />
+<link rel="search" type="application/opensearchdescription+xml" title="QIP Search" href="/opensearch.xml" />
+<!--<link rel="stylesheet" href="/skin/s_index.css?558" />-->
+
+<!-- требование - подключить jquery не самой старой версии -->
+<script type='text/javascript' src='//pass.qip.ru/js/jquery-1.9.1.min.js'></script>
+<script type='text/javascript' src='/js/puskcfg.js'></script>
+<script>puskcfg.mobile=false;</script>
+
+<!--[if lt IE 8]><link rel="stylesheet" href="/skin/index_ie6-7.css?558" type="text/css" /><![endif]-->
+
+<!--<script type="text/javascript" src="/js/s_index.js?558"></script>-->
+<script type="text/javascript" src="/js/main.js?558"></script>
+<script type="text/javascript" src="/js/head.js?558"></script>
+<script type="text/javascript" src="/js/index.js?558"></script>
+<script type="text/javascript" src="/js/suggest.min2.new.js?558"></script>
+<script type="text/javascript" src="/js/JsHttpRequest.js?558"></script>
+<script src="/js/custom-form-elements.js?558" type="text/javascript"></script>
+
+<script type="text/javascript" src="/js/criteo.js?558"></script>
+<link rel="image_src" href="/i/logo/social.png" />
+<link rel="canonical" href="http://qip.ru/" />
+<link href='http://fonts.googleapis.com/css?family=PT+Sans:400,700&subset=latin,cyrillic-ext' rel='stylesheet' type='text/css'>
+
+	<span rbslot="qip_main_head" block="6969"></span>
+<script type='text/javascript'>
+  var googletag = googletag || {};
+  googletag.cmd = googletag.cmd || [];
+  (function() {
+    var gads = document.createElement('script');
+    gads.async = true;
+    gads.type = 'text/javascript';
+    var useSSL = 'https:' == document.location.protocol;
+    gads.src = (useSSL ? 'https:' : 'http:') +
+      '//www.googletagservices.com/tag/js/gpt.js';
+    var node = document.getElementsByTagName('script')[0];
+    node.parentNode.insertBefore(gads, node);
+  })();
+</script>
+
+<script type='text/javascript'>
+  googletag.cmd.push(function() {
+    googletag.defineSlot('/88960190/QIP_R_SB_2_240X400', [240, 400], 'div-gpt-ad-1433323523164-0').addService(googletag.pubads());
+    googletag.pubads().enableSingleRequest();
+    googletag.enableServices();
+  });
+</script>
+<script type="text/javascript"><!--
+
+			window.login_url = 'http://api.qip.ru/api/test';
+			window.base_url = '/';
+			window.reload_personal_url = 'http://qip.ru/blocks/reloadPersonal';
+			var start_before_news = new Date();
+			window.api_host = 'qip.ru';
+--></script>
+</head>
+
+
+<body >
+
+	<div class="q_hidden" style="padding-top: 0px; position:absolute; left:-10000px;}">
+			</div>
+
+
+<div class="allpage">
+	<div id="qip_suggest" class="q_plate"></div>
+
+	
+	<div id="alert" class="alert error">
+		<i title="Закрыть" class="alertclose"></i>
+		<div id="msgLine"></div>
+	</div>
+	
+	
+	<!-- TOPLINE -->
+	<!-- место для плашки, раз не настраиваем, должен иметь id=puskHeader -->
+	<div id='header'></div>
+	<!-- подключение кеширующего плагина. Должен подключаться после контейнера для топлайна -->
+	<script type='text/javascript' src='//pass.qip.ru/js/pusk.cacher.min.js'></script>
+	<script type="text/javascript" src="/js/ontopline.js?558"></script>
+	<!-- /TOPLINE -->
+
+    <!-- Content -->
+    <div class="content clerafix">
+
+		<!-- Header -->
+		<header>
+			<!-- ИНФОБЛОК -->
+			<div class="infoblock">
+				<div class="city">
+					
+					<div class="qip_head_wrap"><div class="qip_head"><div class="qip_head_limiter">
+						<ul class="qh_list qh_main">
+							<li class="qh_extra qhm_city" data-geocode="_geoCode_">
+								<div class="qhe_popup">
+									<div class="selectbox" style="display:block;" >
+										<select id="cityChange" name="cityChange" class="styled" data-ga-category="head" data-ga-action="main.city/change"  onchange="qipHead.City.change(this)" >
+											<option selected="selected" value="RU_45_45">Москва</option><option value="RU_40_4">Санкт-Петербург</option><option value="UA_AA_UA49713">Киев</option><option value="RU_95_95401">Абакан</option><option value="RU_03_03201501">Абинск</option><option value="RU_03_03426362">Адлер</option><option value="RU_60_60404">Азов</option><option value="RU_60_60202501">Аксай</option><option value="RU_65_65403">Алапаевск</option><option value="RU_98_98203501">Алдан</option><option value="RU_17_1741">Александров</option><option value="RU_57_57405">Александровск</option><option value="RU_64_64405">Александровск-Сахалинский</option><option value="RU_07_07202802001">Александровское</option><option value="RU_14_14230844003">Алексеевка</option><option value="RU_70_70202501">Алексин</option><option value="RU_92_92405">Альметьевск</option><option value="RU_77_77401">Анадырь</option><option value="RU_03_03403">Анапа</option><option value="RU_25_25248812001">Ангарск</option><option value="RU_32_32404">Анжеро-Судженск</option><option value="RU_64_64208501">Анива</option><option value="RU_20_20202551">Анна</option><option value="RU_47_47405">Апатиты</option><option value="RU_46_46238502">Апрелевка</option><option value="RU_22_22403">Арзамас</option><option value="RU_07_07207802001">Арзгир</option><option value="RU_03_03405">Армавир</option><option value="RU_05_05403">Арсеньев</option><option value="RU_05_05405">Артем</option><option value="RU_65_65406">Артемовский</option><option value="RU_11_11401">Архангельск</option><option value="RU_65_65241501001">Асбест</option><option value="RU_12_12401">Астрахань</option><option value="RU_63_63404">Аткарск</option><option value="RU_04_04403">Ачинск</option><option value="RU_75_75403">Аша</option><option value="RU_60_60205805">Багаевский</option><option value="RU_55_55">Байконур</option><option value="RU_29_29206505">Балабаново</option><option value="RU_63_63407">Балаково</option><option value="RU_22_22205501">Балахна</option><option value="RU_46_46204501">Балашиха</option><option value="RU_63_6341">Балашов</option><option value="RU_81_81203820001">Баргузин</option><option value="RU_01_01401">Барнаул</option><option value="RU_60_60407">Батайск</option><option value="RU_60_60206501">Белая Калитва</option><option value="RU_14_14401">Белгород</option><option value="RU_32_32407">Белово</option><option value="RU_10_1041">Белогорск</option><option value="RU_80_80228803002">Белорецк</option><option value="RU_03_03406">Белореченск</option><option value="RU_50_50408">Бердск</option><option value="RU_57_57204810001">Березники</option><option value="RU_57_57121942016">Березовка</option><option value="RU_32_32204551001">Березовский (Кемеровская обл.)</option><option value="RU_65_65201806">Березовский (Свердловская обл.)</option><option value="RU_90_90235501">Беслан</option><option value="RU_01_01405">Бийск</option><option value="RU_99_99401">Биробиджан</option><option value="RU_80_80415">Бирск</option><option value="RU_10_10401">Благовещенск</option><option value="RU_07_07210501">Благодарный</option><option value="RU_20_20204501">Бобров</option><option value="RU_22_22207501">Богородск</option><option value="RU_20_20205501">Богучар</option><option value="RU_25_2541">Бодайбо</option><option value="RU_28_28408">Бологое</option><option value="RU_05_05506">Большой Камень</option><option value="RU_22_22211501">Бор</option><option value="RU_20_2041">Борисоглебск</option><option value="RU_49_49408">Боровичи</option><option value="RU_29_29206501">Боровск</option><option value="RU_25_25414">Братск</option><option value="RU_46_46248894002">Бронницы</option><option value="RU_15_15401">Брянск</option><option value="RU_07_07402">Буденновск</option><option value="RU_53_53412">Бузулук</option><option value="RU_82_82405">Буйнакск</option><option value="RU_20_20208501">Бутурлиновка</option><option value="RU_14_1442">Валуйки</option><option value="RU_08_08212551">Ванино</option><option value="RU_58_5841">Великие Луки</option><option value="RU_49_49401">Великий Новгород</option><option value="RU_19_1941">Великий Устюг</option><option value="RU_11_11205501">Вельск</option><option value="RU_75_75406">Верхний Уфалей</option><option value="RU_65_6542">Верхняя Пышма</option><option value="RU_65_65424">Верхняя Салда</option><option value="RU_60_60202815002">Веселый</option><option value="RU_60_60211810001">Вешенская</option><option value="RU_46_46228501">Видное</option><option value="RU_30_30535">Вилючинск</option><option value="RU_25_25204503">Вихоревка</option><option value="RU_05_05401">Владивосток</option><option value="RU_90_90401">Владикавказ</option><option value="RU_17_17401">Владимир</option><option value="RU_46_46205819011">Внуково</option><option value="RU_18_18401">Волгоград</option><option value="RU_60_60412">Волгодонск</option><option value="RU_88_88405">Волжск</option><option value="RU_18_1841">Волжский</option><option value="RU_19_19401">Вологда</option><option value="RU_46_46205501">Волоколамск</option><option value="RU_41_41209853005">Волхов</option><option value="RU_05_05223000013">Вольно-Надеждинское</option><option value="RU_63_63413">Вольск</option><option value="RU_87_8741">Воркута</option><option value="RU_20_20212806001">Воробьевка</option><option value="RU_20_20401">Воронеж</option><option value="RU_46_46206501">Воскресенск</option><option value="RU_46_46220810015">Воскресенское</option><option value="RU_94_9441">Воткинск</option><option value="RU_41_41413">Всеволожск</option><option value="RU_97_97210551">Вурнары</option><option value="RU_41_41417">Выборг</option><option value="RU_22_22224501">Выкса</option><option value="RU_41_41218554">Вырица</option><option value="RU_28_28414">Вышний Волочек</option><option value="RU_75_75455000005">Вязовая</option><option value="RU_66_66205501">Вязьма</option><option value="RU_33_33404">Вятские Поляны</option><option value="RU_78_78212501">Гаврилов-ям</option><option value="RU_66_66208501">Гагарин</option><option value="RU_53_53413">Гай</option><option value="RU_05_05226000003">Галенки</option><option value="RU_41_4142">Гатчина</option><option value="RU_03_03408">Геленджик</option><option value="RU_07_07407">Георгиевск</option><option value="RU_94_9442">Глазов</option><option value="RU_46_46241504">Голицыно</option><option value="RU_84_84401">Горно-Алтайск</option><option value="RU_57_57214501">Горнозаводск</option><option value="RU_22_22228501">Городец</option><option value="RU_18_18205551">Городище</option><option value="RU_57_57412">Гремячинск</option><option value="RU_96_96401">Грозный</option><option value="RU_19_19224501">Грязовец</option><option value="RU_57_57415">Губаха</option><option value="RU_14_1443">Губкин</option><option value="RU_96_96404">Гудермес</option><option value="RU_60_60226815001">Гуково</option><option value="RU_81_81248501">Гусиноозерск</option><option value="RU_17_1742">Гусь-Хрустальный</option><option value="RU_37_37208501">Далматово</option><option value="RU_05_05407">Дальнегорск</option><option value="RU_05_05408">Дальнереченск</option><option value="RU_46_46218503">Дедовск</option><option value="RU_17_17220830001">Демидово</option><option value="RU_66_6641">Десногорск</option><option value="RU_22_22421">Дзержинск</option><option value="RU_46_46411">Дзержинский</option><option value="RU_04_04409">Дивногорск</option><option value="RU_07_07205819001">Дивное</option><option value="RU_73_73405">Димитровград</option><option value="RU_46_46208501">Дмитров</option><option value="RU_57_57416">Добрянка</option><option value="RU_46_46416">Долгопрудный</option><option value="RU_46_46209501">Домодедово</option><option value="RU_46_4622283101">Дубна</option><option value="RU_18_18208501">Дубовка</option><option value="RU_04_04121">Дудинка</option><option value="RU_60_60215817">Егорлык</option><option value="RU_60_60215817001">Егорлыкская</option><option value="RU_46_46212501">Егорьевск</option><option value="RU_03_03411">Ейск</option><option value="RU_65_65401">Екатеринбург</option><option value="RU_92_92415">Елабуга</option><option value="RU_18_18210551">Елань</option><option value="RU_42_42415">Елец</option><option value="RU_30_30402">Елизово</option><option value="RU_75_75409">Еманжелинск</option><option value="RU_10_10249555">Ерофей-Павлович</option><option value="RU_07_0741">Ессентуки</option><option value="RU_70_70220501">Ефремов</option><option value="RU_07_07412">Железноводск</option><option value="RU_04_04535">Железногорск (Красноярский край)</option><option value="RU_38_38405">Железногорск (Курская обл.)</option><option value="RU_25_25226501">Железногорск-Илимский</option><option value="RU_46_46246816022">Железнодорожный</option><option value="RU_36_36404">Жигулевск</option><option value="RU_18_18212501">Жирновск</option><option value="RU_46_46425">Жуковский</option><option value="RU_76_76212551">Забайкальск</option><option value="RU_22_22228503">Заволжье</option><option value="RU_47_47215503">Заполярный</option><option value="RU_46_46216501">Зарайск</option><option value="RU_56_56245819005">Заречный</option><option value="RU_01_01406">Заринск</option><option value="RU_46_4643">Звенигород</option><option value="RU_04_04537">Зеленогорск</option><option value="RU_45_45272">Зеленоград</option><option value="RU_07_07250501">Зеленокумск</option><option value="RU_60_60218501">Зерноград</option><option value="RU_25_2542">Зима</option><option value="RU_60_60219817001">Зимовники</option><option value="RU_75_75412">Златоуст</option><option value="RU_24_24219840015">Иваново</option><option value="RU_46_46432">Ивантеевка</option><option value="RU_94_94401">Ижевск</option><option value="RU_07_07220501">Изобильный</option><option value="RU_04_04218501">Иланский</option><option value="RU_18_18214551">Иловля</option><option value="RU_68_68208551">Инжавино</option><option value="RU_87_87415">Инта</option><option value="RU_07_07222501">Ипатово</option><option value="RU_25_25401">Иркутск</option><option value="RU_50_50412">Искитим</option><option value="RU_46_46218501">Истра</option><option value="RU_80_8042">Ишимбай</option><option value="RU_88_88401">Йошкар-Ола</option><option value="RU_81_81224830001">Кабанск</option><option value="RU_05_05210551">Кавалерово</option><option value="RU_60_60222814001">Кагальницкая</option><option value="RU_60_60208812001">Казанская</option><option value="RU_92_92401">Казань</option><option value="RU_87_87244825003">Казлук</option><option value="RU_20_20215501">Калач</option><option value="RU_18_18216501">Калач-на-дону</option><option value="RU_27_27401">Калининград</option><option value="RU_32_32219846002">Калтан</option><option value="RU_29_29401">Калуга</option><option value="RU_28_28222501">Калязин</option><option value="RU_60_60241551">Каменоломни</option><option value="RU_65_65436">Каменск-Уральский</option><option value="RU_60_60419">Каменск-Шахтинский</option><option value="RU_05_05246000001">Камень-Рыболов</option><option value="RU_18_18415">Камышин</option><option value="RU_97_97232880003">Канаш</option><option value="RU_47_47408">Кандалакша</option><option value="RU_03_03220802001">Каневская</option><option value="RU_04_0442">Канск</option><option value="RU_20_20219551">Кантемировка</option><option value="RU_75_75415">Карабаш</option><option value="RU_57_57222810001">Карагай</option><option value="RU_61_61405">Касимов</option><option value="RU_82_8242">Каспийск</option><option value="RU_65_65448">Качканар</option><option value="RU_60_60224830001">Кашары</option><option value="RU_46_46220501">Кашира</option><option value="RU_32_32401">Кемерово</option><option value="RU_57_57418">Кизел</option><option value="RU_82_8243">Кизляр</option><option value="RU_28_28426">Кимры</option><option value="RU_24_24405">Кинешма</option><option value="RU_17_17230501">Киржач</option><option value="RU_41_41209868014">Кириши</option><option value="RU_33_33401">Киров</option><option value="RU_65_65453">Кировград</option><option value="RU_33_33407">Кирово-Чепецк</option><option value="RU_41_41428">Кировск (Ленинградская обл.)</option><option value="RU_47_47412">Кировск (Мурманская обл.)</option><option value="RU_05_05212551">Кировский</option><option value="RU_32_32416">Киселевск</option><option value="RU_07_07415">Кисловодск</option><option value="RU_46_46436">Климовск</option><option value="RU_46_46221501">Клин</option><option value="RU_17_17425">Ковров</option><option value="RU_71100_71183">Когалым</option><option value="RU_04_04224501">Кодинск</option><option value="RU_47_47205501">Кола</option><option value="RU_46_46438">Коломна</option><option value="RU_17_1743">Кольчугино</option><option value="RU_08_08409">Комсомольск-на-Амуре</option><option value="RU_28_2843">Конаково</option><option value="RU_60_60225501">Константиновск</option><option value="RU_75_75428">Копейск</option><option value="RU_46_46434">Королев</option><option value="RU_64_64415">Корсаков</option><option value="RU_11_11408">Коряжма</option><option value="RU_34_34401">Кострома</option><option value="RU_46_46444">Котельники</option><option value="RU_18_18224501">Котельниково</option><option value="RU_18_18226501">Котово</option><option value="RU_68_6841">Котовск</option><option value="RU_46_46443">Красноармейск</option><option value="RU_57_57226501">Красновишерск</option><option value="RU_46_46223501">Красногорск</option><option value="RU_03_03401">Краснодар</option><option value="RU_46_46505">Краснознаменск</option><option value="RU_76_7641">Краснокаменск</option><option value="RU_57_5742">Краснокамск</option><option value="RU_65_65456">Краснотурьинск</option><option value="RU_65_6546">Красноуральск</option><option value="RU_65_65468">Красноуфимск</option><option value="RU_04_04401">Красноярск</option><option value="RU_60_60226501">Красный Сулин</option><option value="RU_36_36217804004">Красный Яр</option><option value="RU_03_03415">Крымск</option><option value="RU_22_22237501">Кстово</option><option value="RU_76_76215807001">Куанда</option><option value="RU_57_57141">Кудымкар</option><option value="RU_56_56405">Кузнецк</option><option value="RU_22_22238501">Кулебаки</option><option value="RU_80_80423">Кумертау</option><option value="RU_57_57212819009">Кунгур</option><option value="RU_46_46239503005">Купавна</option><option value="RU_37_37401">Курган</option><option value="RU_07_07232810001">Курсавка</option><option value="RU_38_38401">Курск</option><option value="RU_38_38408">Курчатов</option><option value="RU_65_6547">Кушва</option><option value="RU_93_93401">Кызыл</option><option value="RU_75_75434">Кыштым</option><option value="RU_71140_71173">Лабытнанги</option><option value="RU_71100_71132">Лангепас</option><option value="RU_42_42233501">Лебедянь</option><option value="RU_07_07236810001">Левокумское</option><option value="RU_92_92425">Лениногорск</option><option value="RU_18_18230501">Ленинск</option><option value="RU_32_32419">Ленинск-Кузнецкий</option><option value="RU_98_98227501">Ленск</option><option value="RU_07_07418">Лермонтов</option><option value="RU_65_65218806006">Лесной</option><option value="RU_05_05411">Лесозаводск</option><option value="RU_04_04422">Лесосибирск</option><option value="RU_07_07256819001">Летняя Ставка</option><option value="RU_50_50215552">Линево</option><option value="RU_42_42401">Липецк</option><option value="RU_46_4644">Лобня</option><option value="RU_46_46259503">Лосино-Петровский</option><option value="RU_41_41221828001">Луга</option><option value="RU_46_46230501">Луховицы</option><option value="RU_05_05234551">Лучегорск</option><option value="RU_22_22240501">Лысково</option><option value="RU_57_57212816002">Лысьва</option><option value="RU_46_46441">Лыткарино</option><option value="RU_46_46231501">Люберцы</option><option value="RU_44_44401">Магадан</option><option value="RU_75_75438">Магнитогорск</option><option value="RU_79_79401">Майкоп</option><option value="RU_46_46231567">Малаховка</option><option value="RU_29_29223501">Малоярославец</option><option value="RU_32_32422">Мариинск</option><option value="RU_63_63422">Маркс</option><option value="RU_60_60231845001">Матвеев Курган</option><option value="RU_82_82401">Махачкала</option><option value="RU_71100_71133">Мегион</option><option value="RU_86_86224501">Медвежьегорск</option><option value="RU_32_32425">Междуреченск</option><option value="RU_27_27209810009">Менделеево</option><option value="RU_92_92239501">Менделеевск</option><option value="RU_75_75442">Миасс</option><option value="RU_87_87244505">Микунь</option><option value="RU_60_60227804009">Миллерово</option><option value="RU_07_07421">Минеральные Воды</option><option value="RU_04_04423">Минусинск</option><option value="RU_11_11222551005">Мирный (Архангельская обл.)</option><option value="RU_98_98404">Мирный (Респ. Саха (Якутия))</option><option value="RU_18_18220816002">Михайловка (Волгоградская обл.)</option><option value="RU_05_05220000017">Михайловка (Приморский край)</option><option value="RU_46_46248802004">Михнево</option><option value="RU_68_68415">Мичуринск</option><option value="RU_76_76226501">Могоча</option><option value="RU_46_46233501">Можайск</option><option value="RU_47_47415">Мончегорск</option><option value="RU_60_60234501">Морозовск</option><option value="RU_71140_71175">Муравленко</option><option value="RU_47_47401">Мурманск</option><option value="RU_17_17435">Муром</option><option value="RU_46_46234501">Мытищи</option><option value="RU_78_78221501">Мышкин</option><option value="RU_92_9243">Набережные Челны</option><option value="RU_22_22241501">Навашино</option><option value="RU_15_15238551">Навля</option><option value="RU_71140_71174">Надым</option><option value="RU_26_26406">Назрань</option><option value="RU_83_83401">Нальчик</option><option value="RU_46_46238501">Наро-Фоминск</option><option value="RU_11100_11111">Нарьян-Мар</option><option value="RU_46_46223554">Нахабино</option><option value="RU_05_05414">Находка</option><option value="RU_07_07424">Невинномысск</option><option value="RU_65_65473">Невьянск</option><option value="RU_34_3442">Нерехта</option><option value="RU_98_98406">Нерюнгри</option><option value="RU_36_36230501">Нефтегорск</option><option value="RU_80_80427">Нефтекамск</option><option value="RU_71100_71134">Нефтеюганск</option><option value="RU_18_18234826">Нехаевский</option><option value="RU_71100_71135">Нижневартовск</option><option value="RU_92_92435">Нижнекамск</option><option value="RU_25_25424">Нижнеудинск</option><option value="RU_65_65228501">Нижние Серги</option><option value="RU_91_91210000011">Нижний Архыз</option><option value="RU_22_22401">Нижний Новгород</option><option value="RU_65_65476">Нижний Тагил</option><option value="RU_65_65477">Нижняя Салда</option><option value="RU_65_65478">Нижняя Тура</option><option value="RU_18_18236501">Николаевск</option><option value="RU_08_08414">Николаевск-на-Амуре</option><option value="RU_20_20225891001">Новая Усмань</option><option value="RU_76_76215556">Новая Чара</option><option value="RU_07_07243501">Новоалександровск</option><option value="RU_18_18238501">Новоаннинский</option><option value="RU_20_20427">Нововоронеж</option><option value="RU_11_11415">Новодвинск</option><option value="RU_03_03234501">Новокубанск</option><option value="RU_32_32431">Новокузнецк</option><option value="RU_36_36413">Новокуйбышевск</option><option value="RU_61_61225514">Новомичуринск</option><option value="RU_70_70234501">Новомосковск</option><option value="RU_18_18240551">Новониколаевский</option><option value="RU_07_07225501">Новопавловск</option><option value="RU_03_0342">Новороссийск</option><option value="RU_50_50401">Новосибирск</option><option value="RU_53_5342">Новотроицк</option><option value="RU_65_6554">Новоуральск</option><option value="RU_97_9741">Новочебоксарск</option><option value="RU_60_60427">Новочеркасск</option><option value="RU_60_6043">Новошахтинск</option><option value="RU_05_05220554">Новошахтинский</option><option value="RU_14_14244501">Новый Оскол</option><option value="RU_18_18205556">Новый Рогачик</option><option value="RU_08_08214553">Новый Ургал</option><option value="RU_71140_71176">Новый Уренгой</option><option value="RU_46_46239501">Ногинск</option><option value="RU_04_04429">Норильск</option><option value="RU_71_71178">Ноябрьск</option><option value="RU_57_57234501">Нытва</option><option value="RU_29_29415">Обнинск</option><option value="RU_46_46209822009">Одинцово</option><option value="RU_75_75543">Озерск</option><option value="RU_18_18216832004">Октябрьский (Волгоградская обл.)</option><option value="RU_80_80215834">Октябрьский (Респ. Башкортостан)</option><option value="RU_47_47417">Оленегорск</option><option value="RU_05_05228551">Ольга</option><option value="RU_20_20210836001">Ольховатка</option><option value="RU_52_52401">Омск</option><option value="RU_57_57238828001">Орда</option><option value="RU_54_54401">Орел</option><option value="RU_53_53401">Оренбург</option><option value="RU_46_46457">Орехово-Зуево</option><option value="RU_60_60233866">Орловский</option><option value="RU_53_53423">Орск</option><option value="RU_57_57240501">Оса</option><option value="RU_41_41215804003">Отрадное</option><option value="RU_57_57244501">Очер</option><option value="RU_22_22212832005">Павлово</option><option value="RU_46_46245501">Павловский Посад</option><option value="RU_18_18245501">Палласовка</option><option value="RU_56_56401">Пенза</option><option value="RU_22_22243501">Первомайск</option><option value="RU_65_6548">Первоуральск</option><option value="RU_78_78405">Переславль-Залесский</option><option value="RU_57_57401">Пермь</option><option value="RU_57_57206834005">Песьянка</option><option value="RU_86_86401">Петрозаводск</option><option value="RU_30_30401">Петропавловск-Камчатский</option><option value="RU_87_8742">Печора</option><option value="RU_41_4144">Пикалево</option><option value="RU_86_86233501">Питкяранта</option><option value="RU_46_4646">Подольск</option><option value="RU_17_1724652">Покров</option><option value="RU_05_05202000016">Покровка</option><option value="RU_65_65482">Полевской</option><option value="RU_64_6443">Поронайск</option><option value="RU_32_32437">Прокопьевск</option><option value="RU_46_46467">Протвино</option><option value="RU_14_14246551">Прохоровка</option><option value="RU_58_58401">Псков</option><option value="RU_41_41221804027">Пулково</option><option value="RU_46_46223821001">Путилково</option><option value="RU_46_46206825014">Пушкино</option><option value="RU_46_46251813008">Пущино</option><option value="RU_71100_71185">Пыть-ях</option><option value="RU_07_07427">Пятигорск</option><option value="RU_17_17537">Радужный (Владимирская обл.)</option><option value="RU_71100_71137">Радужный (Ханты-Мансийский АО)</option><option value="RU_46_46248501">Раменское</option><option value="RU_65_65484">Ревда</option><option value="RU_60_60247">Ремонтное</option><option value="RU_20_20245832001">Репьевка</option><option value="RU_46_46464">Реутов</option><option value="RU_60_60248847001">Родионово-Несветайская</option><option value="RU_60_60212832001">Романовская</option><option value="RU_66_66236501">Рославль</option><option value="RU_20_20220827001">Россошь</option><option value="RU_78_7841">Ростов</option><option value="RU_60_60401">Ростов-на-Дону</option><option value="RU_01_01416">Рубцовск</option><option value="RU_18_18247551">Рудня</option><option value="RU_46_46205831004">Руза</option><option value="RU_89_8942">Рузаевка</option><option value="RU_46_46218828008">Румянцево</option><option value="RU_78_78415">Рыбинск</option><option value="RU_61_61230501">Ряжск</option><option value="RU_61_61401">Рязань</option><option value="RU_80_80439">Салават</option><option value="RU_71140_71171">Салехард</option><option value="RU_71100_71118905001">Салым</option><option value="RU_60_60250501">Сальск</option><option value="RU_36_36401">Самара</option><option value="RU_53_53241807006">Саракташ</option><option value="RU_89_89401">Саранск</option><option value="RU_94_9444">Сарапул</option><option value="RU_63_63401">Саратов</option><option value="RU_22_22503">Саров</option><option value="RU_75_75448">Сатка</option><option value="RU_66_66216848029">Сафоново</option><option value="RU_95_95408">Саяногорск</option><option value="RU_27_2742">Светлогорск</option><option value="RU_07_07246501">Светлоград</option><option value="RU_27_27425">Светлый</option><option value="RU_18_18202812006">Светлый Яр</option><option value="RU_10_1043">Свободный</option><option value="RU_81_8142">Северобайкальск</option><option value="RU_11_1143">Северодвинск</option><option value="RU_69_69541">Северск</option><option value="RU_86_86245501">Сегежа</option><option value="RU_46_46238568">Селятино</option><option value="RU_22_22234840025">Семенов</option><option value="RU_60_60251501">Семикаракорск</option><option value="RU_22_22248501">Сергач</option><option value="RU_46_46215501">Сергиев Посад</option><option value="RU_65_65492">Серов</option><option value="RU_46_4647">Серпухов</option><option value="RU_41_4145">Сертолово</option><option value="RU_40_4028152">Сестрорецк</option><option value="RU_80_80443">Сибай</option><option value="RU_10_10249501">Сковородино</option><option value="RU_05_05248551">Славянка</option><option value="RU_03_03423">Славянск-на-Кубани</option><option value="RU_66_66401">Смоленск</option><option value="RU_75_75545">Снежинск</option><option value="RU_17_1744">Собинка</option><option value="RU_27_2743">Советск</option><option value="RU_08_08418">Советская Гавань</option><option value="RU_71100_71124604">Советский</option><option value="RU_57_5743">Соликамск</option><option value="RU_46_46252501">Солнечногорск</option><option value="RU_86_8641">Сортавала</option><option value="RU_04_04433">Сосновоборск</option><option value="RU_41_41203888008">Сосновый Бор</option><option value="RU_03_03426">Сочи</option><option value="RU_05_0542">Спасск-Дальний</option><option value="RU_18_18251551">Средняя Ахтуба</option><option value="RU_07_07401">Ставрополь</option><option value="RU_46_46239503">Старая Купавна</option><option value="RU_18_18252853001">Старая Полтавка</option><option value="RU_49_49413">Старая Русса</option><option value="RU_14_1444">Старый Оскол</option><option value="RU_07_07252826001">Степное</option><option value="RU_80_80445">Стерлитамак</option><option value="RU_69_6941">Стрежевой</option><option value="RU_46_46208824018">Ступино</option><option value="RU_70_70240501">Суворов</option><option value="RU_71100_71136">Сургут</option><option value="RU_65_65494">Сухой Лог</option><option value="RU_36_36435">Сызрань</option><option value="RU_87_87401">Сыктывкар</option><option value="RU_65_65241000003">Сысерть</option><option value="RU_60_60437">Таганрог</option><option value="RU_32_32204820004">Тайга</option><option value="RU_25_25428">Тайшет</option><option value="RU_81_81235551">Таксимо</option><option value="RU_68_68401">Тамбов</option><option value="RU_60_60253853">Тарасовский</option><option value="RU_71140_71160605">Тарко-сале</option><option value="RU_63_63246551">Татищево</option><option value="RU_32_32443">Таштагол</option><option value="RU_28_28401">Тверь</option><option value="RU_24_24407">Тейково</option><option value="RU_03_03251501">Темрюк</option><option value="RU_05_05240551">Терней</option><option value="RU_03_03253501">Тимашевск</option><option value="RU_41_4146">Тихвин</option><option value="RU_03_03429">Тихорецк</option><option value="RU_71_7141">Тобольск</option><option value="RU_36_3644">Тольятти</option><option value="RU_46_46231573">Томилино</option><option value="RU_69_69401">Томск</option><option value="RU_75_75507">Трехгорный</option><option value="RU_46_46475">Троицк (Московская обл.)</option><option value="RU_75_75452">Троицк (Челябинская обл.)</option><option value="RU_05_05401000006">Трудовое</option><option value="RU_03_03432">Туапсе</option><option value="RU_80_8045">Туймазы</option><option value="RU_70_70401">Тула</option><option value="RU_78_78417">Тутаев</option><option value="RU_64_64250551">Тымовское</option><option value="RU_10_10432">Тында</option><option value="RU_71_71401">Тюмень</option><option value="RU_75_75255872">Увельский</option><option value="RU_78_7842">Углич</option><option value="RU_28_28455">Удомля</option><option value="RU_81_81401">Улан-Удэ</option><option value="RU_73_73401">Ульяновск</option><option value="RU_71100_71138">Урай</option><option value="RU_22_22254501">Урень</option><option value="RU_18_18425">Урюпинск</option><option value="RU_87_87423">Усинск</option><option value="RU_05_05423">Уссурийск</option><option value="RU_25_25438">Усть-Илимск</option><option value="RU_25_2544">Усть-Кут</option><option value="RU_80_80401">Уфа</option><option value="RU_87_8742284">Ухта</option><option value="RU_80_80253896001">Учалы</option><option value="RU_05_05547">Фокино</option><option value="RU_18_18428">Фролово</option><option value="RU_46_46239822008">Фрязево</option><option value="RU_46_46248858009">Фрязино</option><option value="RU_08_08401">Хабаровск</option><option value="RU_71100_71131">Ханты-Мансийск</option><option value="RU_82_82435">Хасавюрт</option><option value="RU_76_76247501">Хилок</option><option value="RU_46_46483">Химки</option><option value="RU_64_6444">Холмск</option><option value="RU_05_05250000001">Хороль</option><option value="RU_60_60256">Целина</option><option value="RU_60_60257501">Цимлянск</option><option value="RU_57_5723481">Чайковский</option><option value="RU_60_60235852001">Чалтырь</option><option value="RU_89_89207880006">Чамзинка</option><option value="RU_36_3645">Чапаевск</option><option value="RU_75_75458">Чебаркуль</option><option value="RU_97_97401">Чебоксары</option><option value="RU_75_75401">Челябинск</option><option value="RU_19_1943">Череповец</option><option value="RU_91_91401">Черкесск</option><option value="RU_05_05253000001">Черниговка</option><option value="RU_46_46239504">Черноголовка</option><option value="RU_95_95415">Черногорск</option><option value="RU_57_57257501">Чернушка</option><option value="RU_76_76248551">Чернышевск</option><option value="RU_27_27239501">Черняховск</option><option value="RU_60_60258854001">Чертково</option><option value="RU_46_46256501">Чехов</option><option value="RU_76_76250815001">Чита</option><option value="RU_49_49228831019">Чудово</option><option value="RU_57_5744">Чусовой</option><option value="RU_37_37405">Шадринск</option><option value="RU_04_0444">Шарыпово</option><option value="RU_34_3443">Шарья</option><option value="RU_46_46257501">Шатура</option><option value="RU_60_6044">Шахты</option><option value="RU_22_22258501">Шахунья</option><option value="RU_14_1445">Шебекино</option><option value="RU_25_2545">Шелехов</option><option value="RU_32_32227575">Шерегеш</option><option value="RU_76_76254501">Шилка</option><option value="RU_10_1044">Шимановск</option><option value="RU_97_97250860001">Шумерля</option><option value="RU_37_37242501">Шумиха</option><option value="RU_46_46259501">Щелково</option><option value="RU_46_46209813013">Щербинка</option><option value="RU_46_46245505">Электрогорск</option><option value="RU_46_4649">Электросталь</option><option value="RU_46_46239505">Электроугли</option><option value="RU_85_85401">Элиста</option><option value="RU_63_6345">Энгельс</option><option value="RU_46_46493">Юбилейный</option><option value="RU_71100_71187">Югорск</option><option value="RU_64_64401">Южно-Сахалинск</option><option value="RU_75_75464">Южноуральск</option><option value="RU_32_32449">Юрга</option><option value="RU_75_75229516">Юрюзань</option><option value="RU_97_97253501">Ядрин</option><option value="RU_05_05259000001">Яковлевка</option><option value="RU_98_98401">Якутск</option><option value="RU_80_80204840009">Янаул</option><option value="RU_33_33202824017">Яранск</option><option value="RU_78_78401">Ярославль</option><option value="RU_66_66258501">Ярцево</option><option value="RU_53_53432">Ясный</option><option value="RU_46_46208505">Яхрома</option><option value="RU_46_4624156">п. Лесной Городок</option><option value="RU_46_46233816002">пос. Вешки</option>										</select>
+								</div></div>
+							</li>
+						</ul>
+					</div></div></div>
+				</div>
+
+				<!-- ПЕРЕСМОТРЕТЬ -->
+				<ul class="datalist">
+										<li id="li_probki" class="traffic yellow">
+						<a href="http://maps.qip.ru/?utm_source=mainqip&utm_medium=referral&utm_content=click&utm_campaign=main_new_maps" >
+							<span id= "q_maps">
+								<span class="icon"></span>
+								<span id="q_probki"><b>3</b> балла</span>
+							</span>
+						</a>
+					</li>
+					<li class="currency dollar">
+						<a href="http://quote.rbc.ru/exchanges/demo/cb.0/USD/daily?show=3M&from=qip&utm_source=mainqip&utm_medium=referral&utm_content=us&utm_campaign=main_new_quote" >
+							<span class="icon"></span>
+							64,00 <span class="down"> &darr;</span> <!-- СДЕЛАТЬ AFTER -->
+						</a>
+					</li>
+					<li class="currency euro">
+						<a href="http://quote.rbc.ru/exchanges/demo/cb.0/EUR/daily?show=3M&from=qip&utm_source=mainqip&utm_medium=referral&utm_content=eu&utm_campaign=main_new_quote" >
+							<span class="icon"></span>
+							71,15 <span class="down"> &darr;</span> <!-- СДЕЛАТЬ AFTER -->
+						</a>
+					</li>
+				</ul>
+				<!-- END ПЕРЕСМОТРЕТЬ -->
+			</div>
+			<!-- /ИНФОБЛОК -->
+
+			<a href="" class="logo">qip.ru</a>
+			<div class="search">
+				<form id="qip_search_form" name="qip_search_form" action="//search.qip.ru/search" method="get" >
+					<input type="hidden" name="from" value="qip" />
+					<input type="hidden" name="utm_source" value="mainqip" />
+					<input type="hidden" name="utm_medium" value="cpc" />
+					<input type="hidden" name="utm_content" value="click" />
+					<input type="hidden" name="utm_campaign" value="main_new_search" />
+					<button >Найти</button>
+					<div class="searcharea">
+						<input id="qip_search_form_input" class="qs_tfield" type="text" name="query" value="" placeholder="Поиск" maxlength="200" tabindex="1" autocomplete="off" />
+					</div>
+				</form>
+			</div>
+		</header>
+		<!-- /Header -->
+
+
+		<!-- Leftcolumn -->
+		<div class="leftcolumn height410">
+
+		<!-- Post -->
+		<div class="postcolumn">
+			<div class="post">
+													<!-- НЕ АВТОРИЗОВАН -->
+							<iframe name="iauth" id="iauth" style="display: none;"></iframe>
+							<div class="postbox loginbox">
+								<form target="iauth" name="qip_login_form" action="https://pass.qip.ru/pusk/login" method="post" onsubmit="if(this.retpath.checked){_gaq.push(['_trackEvent', 'index', 'signin', 'mail'])}">
+									<div class="line">
+										<input type="text" name="login" tabindex="3" title="Логин" placeholder="Логин"/>
+										<div class="domain">
+											@<div class="selectbox">
+												<select class="styled" name="host" tabindex="5">
+												<option value="borda.ru">borda.ru</option><option value="qip.ru" selected="selected">qip.ru</option><option value="pochta.ru">pochta.ru</option><option value="fromru.com">fromru.com</option><option value="front.ru">front.ru</option><option value="hotbox.ru">hotbox.ru</option><option value="hotmail.ru">hotmail.ru</option><option value="krovatka.su">krovatka.su</option><option value="land.ru">land.ru</option><option value="mail15.com">mail15.com</option><option value="mail333.com">mail333.com</option><option value="newmail.ru">newmail.ru</option><option value="nightmail.ru">nightmail.ru</option><option value="nm.ru">nm.ru</option><option value="pisem.net">pisem.net</option><option value="pochtamt.ru">pochtamt.ru</option><option value="pop3.ru">pop3.ru</option><option value="rbcmail.ru">rbcmail.ru</option><option value="smtp.ru">smtp.ru</option><option value="5ballov.ru">5ballov.ru</option><option value="aeterna.ru">aeterna.ru</option><option value="ziza.ru">ziza.ru</option><option value="memori.ru">memori.ru</option><option value="photofile.ru">photofile.ru</option><option value="fotoplenka.ru">fotoplenka.ru</option><option value="pochta.com">pochta.com</option>												</select>
+											</div>
+										</div>
+									</div>
+									<input type="hidden" name="agree_check" value="">
+									<input type="hidden" name="retpath" value="http://qip.ru">
+									<input type="hidden" name="stylizeLogin" value="https://pass.qip.ru/mnt/pages/login">
+									<div class="line">
+										<input type="password" name="password" tabindex="4" title="Пароль" />
+										<span class="helplink"></span>
+									</div>
+									<div class="index">
+										<div class="right">
+											<span class="entry"><input type="submit" title="Войти" class="lovesearchbutton" value="Вход"></span>
+											<a href="/mnt/pages/register?retpath=http%3A%2F%2Fqip.ru%2F&utm_source=mainqip&utm_medium=referral&utm_term=title&utm_campaign=main_new_register">Регистрация</a>
+										</div>
+										<div class="left">
+											<!-- <label for="checkbox1" class="checkbox"> <input id="checkbox1" type="checkbox" name="alien" class="checkbox" value="1" tabindex="7" ><span></span> Чужой компьютер</label> -->
+											<input id="checkbox1" type="checkbox" name="alien" class="checkbox"><span></span> <label for="checkbox1" class="forcheckbox">Чужой компьютер</label>
+										</div>
+									</div>
+								</form>
+							</div>
+											</div>
+
+								<div class="download download2"><a title="Скачать QIP"  href="http://welcome.qip.ru/im?utm_source=mainqip&amp;utm_medium=referral&amp;utm_content=download&amp;utm_campaign=main_new_download">
+						<span >Скачать QIP</span></a></div>
+		</div>
+		<!-- /Post -->
+
+
+			<!-- News -->
+			<div class="news">
+
+				<div class="newsmenubox">
+					<ul class="newsmenu">
+						<li class="current"><a class="point constant q_newstabs_rbc" href="//news.qip.ru/?from=qip&utm_source=mainqip&utm_medium=referral&utm_content=menu&utm_campaign=main_new_news"  onclick="return qipNewsSwitchTheme_2014(this)">Главное</a></li><li><a class="point constant q_newstabs_politics" href="//news.qip.ru/politics?from=qip&utm_source=mainqip&utm_medium=referral&utm_content=menu&utm_campaign=main_new_politics"  onclick="return qipNewsSwitchTheme_2014(this)">Политика</a></li><li><a class="point constant q_newstabs_wild" href="//news.qip.ru/incidents?from=qip&utm_source=mainqip&utm_medium=referral&utm_content=menu&utm_campaign=main_new_newsqip_in"  onclick="return qipNewsSwitchTheme_2014(this)">Происшествия</a></li><li><a class="point constant q_newstabs_sport" href="http://sport.rbc.ru/?from=qip&utm_source=mainqip&utm_medium=referral&utm_content=menu&utm_campaign=main_new_sport"  onclick="return qipNewsSwitchTheme_2014(this)">Спорт</a></li><li><a class="point constant q_newstabs_auto" href="//news.qip.ru/auto?from=qip&utm_source=mainqip&utm_medium=referral&utm_content=menu&utm_campaign=main_new_auto"  onclick="return qipNewsSwitchTheme_2014(this)">Авто</a></li><li><a class="point q_newstabs_economics" href="//news.qip.ru/economics?from=qip&utm_source=mainqip&utm_medium=referral&utm_content=menu&utm_campaign=main_new_economics"  onclick="return qipNewsSwitchTheme_2014(this)">Экономика</a></li><li><a class="point q_newstabs_society" href="//news.qip.ru/society?from=qip&utm_source=mainqip&utm_medium=referral&utm_content=menu&utm_campaign=main_new_society"  onclick="return qipNewsSwitchTheme_2014(this)">Общество</a></li>					</ul>
+					<ul class="newsmenu">
+						<li class="extrapoint"><a href="#" class="point constant">Ещё</a>
+							<ul class="dropmenu">
+								<li><a href="//news.qip.ru/economics?from=qip&utm_source=mainqip&utm_medium=referral&utm_content=menu&utm_campaign=main_new_economics" class="extra" >Экономика</a></li><li><a href="//news.qip.ru/society?from=qip&utm_source=mainqip&utm_medium=referral&utm_content=menu&utm_campaign=main_new_society" class="extra" >Общество</a></li>								<li><a href="http://news.qip.ru/showbiz/?from=qip&amp;utm_source=mainqip&amp;utm_medium=referral&amp;utm_content=menu&amp;utm_campaign=main_new_showbiz" >Шоубизнес</a></li>
+								<li><a href="http://news.qip.ru/techlogies/?from=qip&amp;utm_source=mainqip&amp;utm_medium=referral&amp;utm_content=menu&amp;utm_campaign=main_new_techlogies" >Технологии</a></li>
+							</ul>
+						</li>
+					</ul>
+				</div>
+
+										<div class="qn_content">
+							<div class="mainnews">
+								<h2><a id="q_news_rbc_RU_caption" href="http://news.qip.ru/redirect?p=0&b=1&t=main&i=0&n=177878139&nuri=%2F2015%2F08%2F11%2F177878139%3Ftag%3Dall&from=qip&utm_source=mainqip&utm_medium=referral&utm_content=title&utm_campaign=main_new_news" >Украина сравнила ситуацию с переселенцами с чернобыльской катастрофой</a></h2><a id="q_news_rbc_RU_picture" href="http://news.qip.ru/redirect?p=0&b=1&t=main&i=0&n=177878139&nuri=%2F2015%2F08%2F11%2F177878139%3Ftag%3Dall&from=qip&utm_source=mainqip&utm_medium=referral&utm_content=pic&utm_campaign=main_new_news" ><img src="/i/photo/RUrbc.jpg?t=1439570941" alt="Украина сравнила ситуацию с переселенцами с чернобыльской катастрофой" width="105" height="65" align="left" /></a>В минсоцполитики Украины считают, что сложившаяся в стране ситуация со временно перемещенными лицами из-за конфликта на востоке страны намного хуже, чем после катастрофы на Чернобыльской АЭС. По словам украинских... <a id="q_news_rbc_RU_more" class="qnm_more_link" href="http://news.qip.ru/redirect?p=0&b=1&t=main&i=0&n=177878139&nuri=%2F2015%2F08%2F11%2F177878139%3Ftag%3Dall&from=qip&utm_source=mainqip&utm_medium=referral&utm_content=click&utm_campaign=main_new_news" >читать далее</a>										<!-- <a href=""><img src="i/idx2014/photo1.jpg" alt="" width="105" height="65" align="left"></a> -->
+								<!-- Группа депутатов фффф -->
+							</div>
+
+							<ul class="newslist"><li><a  class="firstnews" id="first q_news_rbc_RU_0" href="http://news.qip.ru/redirect?p=0&b=1&t=main&i=0&n=177878138&nuri=%2F2015%2F08%2F11%2F177878138%3Ftag%3Dall&from=qip&utm_source=mainqip&utm_medium=referral&utm_content=news_1&utm_campaign=main_new_news" title="Доходы Москвы от продажи патентов мигрантам выросли в 4 раза" >Доходы Москвы от продажи патентов мигрантам выросли в 4 раза</a></li><li><a id="first q_news_rbc_RU_1" href="http://news.qip.ru/redirect?p=0&b=1&t=main&i=0&n=177877545&nuri=%2F2015%2F08%2F11%2F177877545%3Ftag%3Dall&from=qip&utm_source=mainqip&utm_medium=referral&utm_content=news_2&utm_campaign=main_new_news" title="Минэнерго РФ ожидает нефть Ирана на рынке в 2016 г." >Минэнерго РФ ожидает нефть Ирана на рынке в 2016 г.</a></li><li><a id="first q_news_rbc_RU_2" href="http://news.qip.ru/redirect?p=0&b=1&t=main&i=0&n=177877359&nuri=%2F2015%2F08%2F11%2F177877359%3Ftag%3Dall&from=qip&utm_source=mainqip&utm_medium=referral&utm_content=news_3&utm_campaign=main_new_news" title="В Австралии предъявили обвинение 91-летнему наркокурьеру" >В Австралии предъявили обвинение 91-летнему наркокурьеру</a></li><li><a id="first q_news_rbc_RU_3" href="http://news.qip.ru/redirect?p=0&b=1&t=main&i=0&n=177877357&nuri=%2F2015%2F08%2F11%2F177877357%3Ftag%3Dall&from=qip&utm_source=mainqip&utm_medium=referral&utm_content=news_4&utm_campaign=main_new_news" title="Внезапная проверка боеготовности мотострелков началась в Приморье" >Внезапная проверка боеготовности мотострелков началась в Приморье</a></li><li><a id="first q_news_rbc_RU_4" href="http://news.qip.ru/redirect?p=0&b=1&t=main&i=0&n=177876915&nuri=%2F2015%2F08%2F11%2F177876915%3Ftag%3Dall&from=qip&utm_source=mainqip&utm_medium=referral&utm_content=news_5&utm_campaign=main_new_news" title="Депутаты хотят встать между Полтавченко и РПЦ" >Депутаты хотят встать между Полтавченко и РПЦ</a></li><li><a id="first q_news_rbc_RU_5" href="http://news.qip.ru/redirect?p=0&b=1&t=main&i=0&n=177876914&nuri=%2F2015%2F08%2F11%2F177876914%3Ftag%3Dall&from=qip&utm_source=mainqip&utm_medium=referral&utm_content=news_6&utm_campaign=main_new_news" title="МЭР может ухудшить макропрогноз на 2015 год" >МЭР может ухудшить макропрогноз на 2015 год</a></li><li><a id="first q_news_rbc_RU_6" href="http://news.qip.ru/redirect?p=0&b=1&t=main&i=0&n=177876726&nuri=%2F2015%2F08%2F11%2F177876726%3Ftag%3Dall&from=qip&utm_source=mainqip&utm_medium=referral&utm_content=news_7&utm_campaign=main_new_news" title="Трутнев решил пожертвовать свой гостиничный номер привередливому гостю ВЭФ" >Трутнев решил пожертвовать свой гостиничный номер привередливому гостю ВЭФ</a></li>								<li class="q_fade_out"></li>
+							</ul>
+						</div>
+										<div class="qn_content q_hidden">
+							<div class="mainnews">
+								<h2><a id="q_news_politics_RU_caption" href="http://news.qip.ru/redirect?p=0&b=1&t=main&i=0&n=177163893&nuri=%2F2015%2F08%2F07%2F177163893%3Ftag%3Dall&from=qip&utm_source=mainqip&utm_medium=referral&utm_content=title&utm_campaign=main_new_politics" >Российское консульство в Одессе не получало отказ Гайдар от гражданства</a></h2><a id="q_news_politics_RU_picture" href="http://news.qip.ru/redirect?p=0&b=1&t=main&i=0&n=177163893&nuri=%2F2015%2F08%2F07%2F177163893%3Ftag%3Dall&from=qip&utm_source=mainqip&utm_medium=referral&utm_content=pic&utm_campaign=main_new_politics" ><img src="/i/photo/RUpolitics.jpg?t=1439569802" alt="Российское консульство в Одессе не получало отказ Гайдар от гражданства" width="105" height="65" align="left" /></a>Генеральное консульство России в Одессе не получало от Марии Гайдар заявления на отказ от российского гражданства. Об этом заявил источник в Министерстве иностранных дел России.
+&quot;Я только что связывался с... <a id="q_news_politics_RU_more" class="qnm_more_link" href="http://news.qip.ru/redirect?p=0&b=1&t=main&i=0&n=177163893&nuri=%2F2015%2F08%2F07%2F177163893%3Ftag%3Dall&from=qip&utm_source=mainqip&utm_medium=referral&utm_content=click&utm_campaign=main_new_politics" >читать далее</a>										<!-- <a href=""><img src="i/idx2014/photo1.jpg" alt="" width="105" height="65" align="left"></a> -->
+								<!-- Группа депутатов фффф -->
+							</div>
+
+							<ul class="newslist"><li><a  class="firstnews" id="q_news_politics_RU_0" href="http://news.qip.ru/redirect?p=0&b=1&t=main&i=0&n=177733580&nuri=%2F2015%2F08%2F10%2F177733580%3Ftag%3Dall&from=qip&utm_source=mainqip&utm_medium=referral&utm_content=news_1&utm_campaign=main_new_politics" title="Мария Захарова обещает остаться в соцсетях" >Мария Захарова обещает остаться в соцсетях</a></li><li><a id="q_news_politics_RU_1" href="http://news.qip.ru/redirect?p=0&b=1&t=main&i=0&n=177156066&nuri=%2F2015%2F08%2F07%2F177156066%3Ftag%3Dall&from=qip&utm_source=mainqip&utm_medium=referral&utm_content=news_2&utm_campaign=main_new_politics" title="Клинцевич: Мария Гайдар рискует остаться в полном одиночестве" >Клинцевич: Мария Гайдар рискует остаться в полном одиночестве</a></li><li><a id="q_news_politics_RU_2" href="http://news.qip.ru/redirect?p=0&b=1&t=main&i=0&n=177147149&nuri=%2F2015%2F08%2F07%2F177147149%3Ftag%3Dall&from=qip&utm_source=mainqip&utm_medium=referral&utm_content=news_3&utm_campaign=main_new_politics" title="Марию Гайдар лишат российского гражданства в упрощенном порядке" >Марию Гайдар лишат российского гражданства в упрощенном порядке</a></li><li><a id="q_news_politics_RU_3" href="http://news.qip.ru/redirect?p=0&b=1&t=main&i=0&n=177143970&nuri=%2F2015%2F08%2F07%2F177143970%3Ftag%3Dall&from=qip&utm_source=mainqip&utm_medium=referral&utm_content=news_4&utm_campaign=main_new_politics" title="В Кремле пока не видели заявления Гайдар об отказе от гражданства" >В Кремле пока не видели заявления Гайдар об отказе от гражданства</a></li><li><a id="q_news_politics_RU_4" href="http://news.qip.ru/redirect?p=0&b=1&t=main&i=0&n=177142951&nuri=%2F2015%2F08%2F07%2F177142951%3Ftag%3Dall&from=qip&utm_source=mainqip&utm_medium=referral&utm_content=news_5&utm_campaign=main_new_politics" title="На систему контроля Арктики Россия потратит 6 миллиардов" >На систему контроля Арктики Россия потратит 6 миллиардов</a></li><li><a id="q_news_politics_RU_5" href="http://news.qip.ru/redirect?p=0&b=1&t=main&i=0&n=177137750&nuri=%2F2015%2F08%2F07%2F177137750%3Ftag%3Dall&from=qip&utm_source=mainqip&utm_medium=referral&utm_content=news_6&utm_campaign=main_new_politics" title="Западные СМИ нашли много общего между уничтожением еды в России и Сомали" >Западные СМИ нашли много общего между уничтожением еды в России и Сомали</a></li><li><a id="q_news_politics_RU_6" href="http://news.qip.ru/redirect?p=0&b=1&t=main&i=0&n=177136693&nuri=%2F2015%2F08%2F07%2F177136693%3Ftag%3Dall&from=qip&utm_source=mainqip&utm_medium=referral&utm_content=news_7&utm_campaign=main_new_politics" title="СМИ: Гайдар написала заявление об отказе от российского гражданства" >СМИ: Гайдар написала заявление об отказе от российского гражданства</a></li>								<li class="q_fade_out"></li>
+							</ul>
+						</div>
+										<div class="qn_content q_hidden">
+							<div class="mainnews">
+								<h2><a id="q_news_wild_RU_caption" href="http://news.qip.ru/redirect?p=0&b=1&t=main&i=0&n=177163891&nuri=%2F2015%2F08%2F07%2F177163891%3Ftag%3Dall&from=qip&utm_source=mainqip&utm_medium=referral&utm_content=title&utm_campaign=main_new_newsqip_in" >Дочь бывшего депутата иркутской думы арестована по делу о кровавом ДТП</a></h2><a id="q_news_wild_RU_picture" href="http://news.qip.ru/redirect?p=0&b=1&t=main&i=0&n=177163891&nuri=%2F2015%2F08%2F07%2F177163891%3Ftag%3Dall&from=qip&utm_source=mainqip&utm_medium=referral&utm_content=pic&utm_campaign=main_new_newsqip_in" ><img src="/i/photo/RUwild.jpg?t=1439569802" alt="Дочь бывшего депутата иркутской думы арестована по делу о кровавом ДТП" width="105" height="65" align="left" /></a>Суд арестовал жительницу Иркутска Юлию Киселеву, обвиняемую в совершении ДТП, в котором погибли два человека. Девушка допрошена, ей предъявлено обвинение. Мать обвиняемой — Жанна Есева — сложила полномочия депутата... <a id="q_news_wild_RU_more" class="qnm_more_link" href="http://news.qip.ru/redirect?p=0&b=1&t=main&i=0&n=177163891&nuri=%2F2015%2F08%2F07%2F177163891%3Ftag%3Dall&from=qip&utm_source=mainqip&utm_medium=referral&utm_content=click&utm_campaign=main_new_newsqip_in" >читать далее</a>										<!-- <a href=""><img src="i/idx2014/photo1.jpg" alt="" width="105" height="65" align="left"></a> -->
+								<!-- Группа депутатов фффф -->
+							</div>
+
+							<ul class="newslist"><li><a  class="firstnews" id="q_news_wild_RU_0" href="http://news.qip.ru/redirect?p=0&b=1&t=main&i=0&n=177162131&nuri=%2F2015%2F08%2F07%2F177162131%3Ftag%3Dall&from=qip&utm_source=mainqip&utm_medium=referral&utm_content=news_1&utm_campaign=main_new_newsqip_in" title="Подруга Юлии Зайцевой: детей в семье изверга Белова могло быть восемь" >Подруга Юлии Зайцевой: детей в семье изверга Белова могло быть восемь</a></li><li><a id="q_news_wild_RU_1" href="http://news.qip.ru/redirect?p=0&b=1&t=main&i=0&n=177155169&nuri=%2F2015%2F08%2F07%2F177155169%3Ftag%3Dall&from=qip&utm_source=mainqip&utm_medium=referral&utm_content=news_2&utm_campaign=main_new_newsqip_in" title="В Казани трое неизвестных с битами избили активиста &quot;Молодой гвардии&quot;" >В Казани трое неизвестных с битами избили активиста &quot;Молодой гвардии&quot;</a></li><li><a id="q_news_wild_RU_2" href="http://news.qip.ru/redirect?p=0&b=1&t=main&i=0&n=177147606&nuri=%2F2015%2F08%2F07%2F177147606%3Ftag%3Dall&from=qip&utm_source=mainqip&utm_medium=referral&utm_content=news_3&utm_campaign=main_new_newsqip_in" title="Медведь напал на рыбака в ХМАО" >Медведь напал на рыбака в ХМАО</a></li><li><a id="q_news_wild_RU_3" href="http://news.qip.ru/redirect?p=0&b=1&t=main&i=0&n=177147512&nuri=%2F2015%2F08%2F07%2F177147512%3Ftag%3Dincidents&from=qip&utm_source=mainqip&utm_medium=referral&utm_content=news_4&utm_campaign=main_new_newsqip_in" title="Суд продлил на два месяца срок ареста одному из лидеров ОПС &quot;Уралмаш&quot; ..." >Суд продлил на два месяца срок ареста одному из лидеров ОПС &quot;Уралмаш&quot; ...</a></li><li><a id="q_news_wild_RU_4" href="http://news.qip.ru/redirect?p=0&b=1&t=main&i=0&n=177140531&nuri=%2F2015%2F08%2F07%2F177140531%3Ftag%3Dincidents&from=qip&utm_source=mainqip&utm_medium=referral&utm_content=news_5&utm_campaign=main_new_newsqip_in" title="Бастрыкин приедет в Нижний Новгород в связи с массовым убийством" >Бастрыкин приедет в Нижний Новгород в связи с массовым убийством</a></li><li><a id="q_news_wild_RU_5" href="http://news.qip.ru/redirect?p=0&b=1&t=main&i=0&n=177139487&nuri=%2F2015%2F08%2F07%2F177139487%3Ftag%3Dall&from=qip&utm_source=mainqip&utm_medium=referral&utm_content=news_6&utm_campaign=main_new_newsqip_in" title="Мэр Коктебеля найден повешенным" >Мэр Коктебеля найден повешенным</a></li><li><a id="q_news_wild_RU_6" href="http://news.qip.ru/redirect?p=0&b=1&t=main&i=0&n=177138890&nuri=%2F2015%2F08%2F07%2F177138890%3Ftag%3Dall&from=qip&utm_source=mainqip&utm_medium=referral&utm_content=news_7&utm_campaign=main_new_newsqip_in" title="В ДНР не исключили нового витка военных действий в Донбассе" >В ДНР не исключили нового витка военных действий в Донбассе</a></li>								<li class="q_fade_out"></li>
+							</ul>
+						</div>
+										<div class="qn_content q_hidden">
+							<div class="mainnews">
+								<h2><a id="q_news_sport_RU_caption" href="http://news.qip.ru/redirect?p=0&b=1&t=main&i=0&n=177158656&nuri=%2F2015%2F08%2F07%2F177158656%3Ftag%3Dall&from=qip&utm_source=mainqip&utm_medium=referral&utm_content=title&utm_campaign=main_new_sport" >Леонид Слуцкий не будет получать зарплату в сборной России</a></h2><a id="q_news_sport_RU_picture" href="http://news.qip.ru/redirect?p=0&b=1&t=main&i=0&n=177158656&nuri=%2F2015%2F08%2F07%2F177158656%3Ftag%3Dall&from=qip&utm_source=mainqip&utm_medium=referral&utm_content=pic&utm_campaign=main_new_sport" ><img src="/i/photo/RUsport.jpg?t=1439569802" alt="Леонид Слуцкий не будет получать зарплату в сборной России" width="105" height="65" align="left" /></a>Стали подробности контракта Леонида Слуцкого с РФС, рассчитанного до конца отборочного турнира Евро-2016.  Новый тренер сборной не будет получать зарплату за свою работу в национальной команде.
+Назначенный главным... <a id="q_news_sport_RU_more" class="qnm_more_link" href="http://news.qip.ru/redirect?p=0&b=1&t=main&i=0&n=177158656&nuri=%2F2015%2F08%2F07%2F177158656%3Ftag%3Dall&from=qip&utm_source=mainqip&utm_medium=referral&utm_content=click&utm_campaign=main_new_sport" >читать далее</a>										<!-- <a href=""><img src="i/idx2014/photo1.jpg" alt="" width="105" height="65" align="left"></a> -->
+								<!-- Группа депутатов фффф -->
+							</div>
+
+							<ul class="newslist"><li><a  class="firstnews" id="q_news_sport_RU_0" href="http://news.qip.ru/redirect?p=0&b=1&t=main&i=0&n=177172615&nuri=%2F2015%2F08%2F07%2F177172615%3Ftag%3Dall&from=qip&utm_source=mainqip&utm_medium=referral&utm_content=news_1&utm_campaign=main_new_sport" title="Бонусы вместо зарплаты: наставником сборной стал главный тренер ЦСКА" >Бонусы вместо зарплаты: наставником сборной стал главный тренер ЦСКА</a></li><li><a id="q_news_sport_RU_1" href="http://news.qip.ru/redirect?p=0&b=1&t=main&i=0&n=177155168&nuri=%2F2015%2F08%2F07%2F177155168%3Ftag%3Dall&from=qip&utm_source=mainqip&utm_medium=referral&utm_content=news_2&utm_campaign=main_new_sport" title="Семак и Овчинников будут помогать Слуцкому в сборной России" >Семак и Овчинников будут помогать Слуцкому в сборной России</a></li><li><a id="q_news_sport_RU_2" href="http://news.qip.ru/redirect?p=0&b=1&t=main&i=0&n=177154701&nuri=%2F2015%2F08%2F07%2F177154701%3Ftag%3Dall&from=qip&utm_source=mainqip&utm_medium=referral&utm_content=news_3&utm_campaign=main_new_sport" title="РФС оставил Слуцкого без зарплаты" >РФС оставил Слуцкого без зарплаты</a></li><li><a id="q_news_sport_RU_3" href="http://news.qip.ru/redirect?p=0&b=1&t=main&i=0&n=177147709&nuri=%2F2015%2F08%2F07%2F177147709%3Ftag%3Dall&from=qip&utm_source=mainqip&utm_medium=referral&utm_content=news_4&utm_campaign=main_new_sport" title="Ротенберг сформулировал принцип работы сборной России по хоккею" >Ротенберг сформулировал принцип работы сборной России по хоккею</a></li><li><a id="q_news_sport_RU_4" href="http://news.qip.ru/redirect?p=0&b=1&t=main&i=0&n=177144025&nuri=%2F2015%2F08%2F07%2F177144025%3Ftag%3Dsport&from=qip&utm_source=mainqip&utm_medium=referral&utm_content=news_5&utm_campaign=main_new_sport" title="Степашин: члены исполкома РФС готовы брать на себя ответственность за ..." >Степашин: члены исполкома РФС готовы брать на себя ответственность за ...</a></li><li><a id="q_news_sport_RU_5" href="http://news.qip.ru/redirect?p=0&b=1&t=main&i=0&n=177142279&nuri=%2F2015%2F08%2F07%2F177142279%3Ftag%3Dsport&from=qip&utm_source=mainqip&utm_medium=referral&utm_content=news_6&utm_campaign=main_new_sport" title="Артем Дзюба: Леонид Слуцкий является одним из лучших тренеров в Европе" >Артем Дзюба: Леонид Слуцкий является одним из лучших тренеров в Европе</a></li><li><a id="q_news_sport_RU_6" href="http://news.qip.ru/redirect?p=0&b=1&t=main&i=0&n=177137249&nuri=%2F2015%2F08%2F07%2F177137249%3Ftag%3Dall&from=qip&utm_source=mainqip&utm_medium=referral&utm_content=news_7&utm_campaign=main_new_sport" title="«Краснодар» и «Рубин» узнали соперников по плей-офф квалификации Лиги ..." >«Краснодар» и «Рубин» узнали соперников по плей-офф квалификации Лиги ...</a></li>								<li class="q_fade_out"></li>
+							</ul>
+						</div>
+										<div class="qn_content q_hidden">
+							<div class="mainnews">
+								<h2><a id="q_news_auto_RU_caption" href="http://news.qip.ru/redirect?p=0&b=1&t=main&i=0&n=177155874&nuri=%2F2015%2F08%2F07%2F177155874%3Ftag%3Dauto&from=qip&utm_source=mainqip&utm_medium=referral&utm_content=title&utm_campaign=main_new_auto" >В Москве появились 6 000 предостережений о работе эвакуатора</a></h2><a id="q_news_auto_RU_picture" href="http://news.qip.ru/redirect?p=0&b=1&t=main&i=0&n=177155874&nuri=%2F2015%2F08%2F07%2F177155874%3Ftag%3Dauto&from=qip&utm_source=mainqip&utm_medium=referral&utm_content=pic&utm_campaign=main_new_auto" ><img src="/i/photo/RUauto.jpg?t=1439569802" alt="В Москве появились 6 000 предостережений о работе эвакуатора" width="105" height="65" align="left" /></a>Эвакуация возможна при нарушении требований только тех дорожных знаков, которые оснащены дополнительной табличкой, предупреждающей о работе эвакуатора. В частности, московские власти обещают, что подобным образом будут... <a id="q_news_auto_RU_more" class="qnm_more_link" href="http://news.qip.ru/redirect?p=0&b=1&t=main&i=0&n=177155874&nuri=%2F2015%2F08%2F07%2F177155874%3Ftag%3Dauto&from=qip&utm_source=mainqip&utm_medium=referral&utm_content=click&utm_campaign=main_new_auto" >читать далее</a>										<!-- <a href=""><img src="i/idx2014/photo1.jpg" alt="" width="105" height="65" align="left"></a> -->
+								<!-- Группа депутатов фффф -->
+							</div>
+
+							<ul class="newslist"><li><a  class="firstnews" id="q_news_auto_RU_0" href="http://news.qip.ru/redirect?p=0&b=1&t=main&i=0&n=177149945&nuri=%2F2015%2F08%2F07%2F177149945%3Ftag%3Dauto&from=qip&utm_source=mainqip&utm_medium=referral&utm_content=news_1&utm_campaign=main_new_auto" title="Еще одна китайская марка снижает цены в России" >Еще одна китайская марка снижает цены в России</a></li><li><a id="q_news_auto_RU_1" href="http://news.qip.ru/redirect?p=0&b=1&t=main&i=0&n=177147406&nuri=%2F2015%2F08%2F07%2F177147406%3Ftag%3Dauto&from=qip&utm_source=mainqip&utm_medium=referral&utm_content=news_2&utm_campaign=main_new_auto" title="В кровавой аварии автобусов под Хабаровском виноваты чиновники" >В кровавой аварии автобусов под Хабаровском виноваты чиновники</a></li><li><a id="q_news_auto_RU_2" href="http://news.qip.ru/redirect?p=0&b=1&t=main&i=0&n=177143798&nuri=%2F2015%2F08%2F07%2F177143798%3Ftag%3Dauto&from=qip&utm_source=mainqip&utm_medium=referral&utm_content=news_3&utm_campaign=main_new_auto" title="Мобильные приложения для водителей: двухфакторная аутентификация" >Мобильные приложения для водителей: двухфакторная аутентификация</a></li><li><a id="q_news_auto_RU_3" href="http://news.qip.ru/redirect?p=0&b=1&t=main&i=0&n=177133406&nuri=%2F2015%2F08%2F07%2F177133406%3Ftag%3Dauto&from=qip&utm_source=mainqip&utm_medium=referral&utm_content=news_4&utm_campaign=main_new_auto" title="Чем опасен для водителя режим полного отражения" >Чем опасен для водителя режим полного отражения</a></li><li><a id="q_news_auto_RU_4" href="http://news.qip.ru/redirect?p=0&b=1&t=main&i=0&n=177130796&nuri=%2F2015%2F08%2F07%2F177130796%3Ftag%3Dauto&from=qip&utm_source=mainqip&utm_medium=referral&utm_content=news_5&utm_campaign=main_new_auto" title="У Lexus появится вторая флагманская модель" >У Lexus появится вторая флагманская модель</a></li><li><a id="q_news_auto_RU_5" href="http://news.qip.ru/redirect?p=0&b=1&t=main&i=0&n=177130795&nuri=%2F2015%2F08%2F07%2F177130795%3Ftag%3Dauto&from=qip&utm_source=mainqip&utm_medium=referral&utm_content=news_6&utm_campaign=main_new_auto" title="ГАЗ может наладить производство в Латинской Америке" >ГАЗ может наладить производство в Латинской Америке</a></li><li><a id="q_news_auto_RU_6" href="http://news.qip.ru/redirect?p=0&b=1&t=main&i=0&n=177129752&nuri=%2F2015%2F08%2F07%2F177129752%3Ftag%3Dauto&from=qip&utm_source=mainqip&utm_medium=referral&utm_content=news_7&utm_campaign=main_new_auto" title="BMW, Mercedes и Audi могут стать жертвами хакеров вслед за Jeep" >BMW, Mercedes и Audi могут стать жертвами хакеров вслед за Jeep</a></li>								<li class="q_fade_out"></li>
+							</ul>
+						</div>
+										<div class="qn_content q_hidden">
+							<div class="mainnews">
+								<h2><a id="q_news_economics_RU_caption" href="http://news.qip.ru/redirect?p=0&b=1&t=main&i=0&n=177148179&nuri=%2F2015%2F08%2F07%2F177148179%3Ftag%3Deconomics&from=qip&utm_source=mainqip&utm_medium=referral&utm_content=title&utm_campaign=main_new_economics" >Жизнь после Гросса. PIMCO справилась.</a></h2><a id="q_news_economics_RU_picture" href="http://news.qip.ru/redirect?p=0&b=1&t=main&i=0&n=177148179&nuri=%2F2015%2F08%2F07%2F177148179%3Ftag%3Deconomics&from=qip&utm_source=mainqip&utm_medium=referral&utm_content=pic&utm_campaign=main_new_economics" ><img src="/i/photo/RUeconomics.jpg?t=1439569802" alt="Жизнь после Гросса. PIMCO справилась." width="105" height="65" align="left" /></a>Крупнейшей управляющей компании в мире - Pacific Investment Management Co. (PIMCO) - удалось справиться с последствиями ухода одного из ее основателей - Билла Гросса, заявил главный финансовый директор Allianz SE,... <a id="q_news_economics_RU_more" class="qnm_more_link" href="http://news.qip.ru/redirect?p=0&b=1&t=main&i=0&n=177148179&nuri=%2F2015%2F08%2F07%2F177148179%3Ftag%3Deconomics&from=qip&utm_source=mainqip&utm_medium=referral&utm_content=click&utm_campaign=main_new_economics" >читать далее</a>										<!-- <a href=""><img src="i/idx2014/photo1.jpg" alt="" width="105" height="65" align="left"></a> -->
+								<!-- Группа депутатов фффф -->
+							</div>
+
+							<ul class="newslist"><li><a  class="firstnews" id="q_news_economics_RU_0" href="http://news.qip.ru/redirect?p=0&b=1&t=main&i=0&n=177148178&nuri=%2F2015%2F08%2F07%2F177148178%3Ftag%3Dall&from=qip&utm_source=mainqip&utm_medium=referral&utm_content=news_1&utm_campaign=main_new_economics" title="Жизнь после Гросса. PIMCO справилась." >Жизнь после Гросса. PIMCO справилась.</a></li><li><a id="q_news_economics_RU_1" href="http://news.qip.ru/redirect?p=0&b=1&t=main&i=0&n=177148176&nuri=%2F2015%2F08%2F07%2F177148176%3Ftag%3Dall&from=qip&utm_source=mainqip&utm_medium=referral&utm_content=news_2&utm_campaign=main_new_economics" title="Американская нефть может быть не по зубам саудитам" >Американская нефть может быть не по зубам саудитам</a></li><li><a id="q_news_economics_RU_2" href="http://news.qip.ru/redirect?p=0&b=1&t=main&i=0&n=177146163&nuri=%2F2015%2F08%2F07%2F177146163%3Ftag%3Deconomics&from=qip&utm_source=mainqip&utm_medium=referral&utm_content=news_3&utm_campaign=main_new_economics" title="Американская нефть может быть не по зубам саудитам" >Американская нефть может быть не по зубам саудитам</a></li><li><a id="q_news_economics_RU_3" href="http://news.qip.ru/redirect?p=0&b=1&t=main&i=0&n=177144694&nuri=%2F2015%2F08%2F07%2F177144694%3Ftag%3Dkazan&from=qip&utm_source=mainqip&utm_medium=referral&utm_content=news_4&utm_campaign=main_new_economics" title="Торговое сальдо РФ за I полугодие снизилось на 15%" >Торговое сальдо РФ за I полугодие снизилось на 15%</a></li><li><a id="q_news_economics_RU_4" href="http://news.qip.ru/redirect?p=0&b=1&t=main&i=0&n=177144693&nuri=%2F2015%2F08%2F07%2F177144693%3Ftag%3Dall&from=qip&utm_source=mainqip&utm_medium=referral&utm_content=news_5&utm_campaign=main_new_economics" title="Торговое сальдо РФ за I полугодие снизилось на 15%" >Торговое сальдо РФ за I полугодие снизилось на 15%</a></li><li><a id="q_news_economics_RU_5" href="http://news.qip.ru/redirect?p=0&b=1&t=main&i=0&n=177141208&nuri=%2F2015%2F08%2F07%2F177141208%3Ftag%3Deconomics&from=qip&utm_source=mainqip&utm_medium=referral&utm_content=news_6&utm_campaign=main_new_economics" title="СМИ: ЦБ отключил &quot;Пробизнесбанк&quot; от системы расчетов" >СМИ: ЦБ отключил &quot;Пробизнесбанк&quot; от системы расчетов</a></li><li><a id="q_news_economics_RU_6" href="http://news.qip.ru/redirect?p=0&b=1&t=main&i=0&n=177141206&nuri=%2F2015%2F08%2F07%2F177141206%3Ftag%3Dall&from=qip&utm_source=mainqip&utm_medium=referral&utm_content=news_7&utm_campaign=main_new_economics" title="СМИ: ЦБ отключил &quot;Пробизнесбанк&quot; от системы расчетов" >СМИ: ЦБ отключил &quot;Пробизнесбанк&quot; от системы расчетов</a></li>								<li class="q_fade_out"></li>
+							</ul>
+						</div>
+										<div class="qn_content q_hidden">
+							<div class="mainnews">
+								<h2><a id="q_news_society_RU_caption" href="http://news.qip.ru/redirect?p=0&b=1&t=main&i=0&n=177163419&nuri=%2F2015%2F08%2F07%2F177163419%3Ftag%3Dall&from=qip&utm_source=mainqip&utm_medium=referral&utm_content=title&utm_campaign=main_new_society" >Киев обвинил ополченцев в возобновлении использования реактивной артиллерии</a></h2><a id="q_news_society_RU_picture" href="http://news.qip.ru/redirect?p=0&b=1&t=main&i=0&n=177163419&nuri=%2F2015%2F08%2F07%2F177163419%3Ftag%3Dall&from=qip&utm_source=mainqip&utm_medium=referral&utm_content=pic&utm_campaign=main_new_society" ><img src="/i/photo/RUsociety.jpg?t=1439569802" alt="Киев обвинил ополченцев в возобновлении использования реактивной артиллерии" width="105" height="65" align="left" /></a>Украинская сторона обвинила ополченцев в возобновлении использования реактивной артиллерии при ведении боевых действий в зоне конфликта в Донбассе.  По словам представителя ВСУ, противник применил системы залпового... <a id="q_news_society_RU_more" class="qnm_more_link" href="http://news.qip.ru/redirect?p=0&b=1&t=main&i=0&n=177163419&nuri=%2F2015%2F08%2F07%2F177163419%3Ftag%3Dall&from=qip&utm_source=mainqip&utm_medium=referral&utm_content=click&utm_campaign=main_new_society" >читать далее</a>										<!-- <a href=""><img src="i/idx2014/photo1.jpg" alt="" width="105" height="65" align="left"></a> -->
+								<!-- Группа депутатов фффф -->
+							</div>
+
+							<ul class="newslist"><li><a  class="firstnews" id="q_news_society_RU_0" href="http://news.qip.ru/redirect?p=0&b=1&t=main&i=0&n=177708158&nuri=%2F2015%2F08%2F10%2F177708158%3Ftag%3Dall&from=qip&utm_source=mainqip&utm_medium=referral&utm_content=news_1&utm_campaign=main_new_society" title="Августовское пекло: жара в Москве сохранится" >Августовское пекло: жара в Москве сохранится</a></li><li><a id="q_news_society_RU_1" href="http://news.qip.ru/redirect?p=0&b=1&t=main&i=0&n=177163417&nuri=%2F2015%2F08%2F07%2F177163417%3Ftag%3Dall&from=qip&utm_source=mainqip&utm_medium=referral&utm_content=news_2&utm_campaign=main_new_society" title="Про жизнь Стива Джобса споют в опере" >Про жизнь Стива Джобса споют в опере</a></li><li><a id="q_news_society_RU_2" href="http://news.qip.ru/redirect?p=0&b=1&t=main&i=0&n=177156931&nuri=%2F2015%2F08%2F07%2F177156931%3Ftag%3Dall&from=qip&utm_source=mainqip&utm_medium=referral&utm_content=news_3&utm_campaign=main_new_society" title="Лужков открывает первую точку по торговле собственной гречкой" >Лужков открывает первую точку по торговле собственной гречкой</a></li><li><a id="q_news_society_RU_3" href="http://news.qip.ru/redirect?p=0&b=1&t=main&i=0&n=177145964&nuri=%2F2015%2F08%2F07%2F177145964%3Ftag%3Dall&from=qip&utm_source=mainqip&utm_medium=referral&utm_content=news_4&utm_campaign=main_new_society" title="Мария Гайдар начала процедуру отказа от российского гражданства" >Мария Гайдар начала процедуру отказа от российского гражданства</a></li><li><a id="q_news_society_RU_4" href="http://news.qip.ru/redirect?p=0&b=1&t=main&i=0&n=177145963&nuri=%2F2015%2F08%2F07%2F177145963%3Ftag%3Dall&from=qip&utm_source=mainqip&utm_medium=referral&utm_content=news_5&utm_campaign=main_new_society" title="Ростовская полиция отказалась заводить дело на Земфиру" >Ростовская полиция отказалась заводить дело на Земфиру</a></li><li><a id="q_news_society_RU_5" href="http://news.qip.ru/redirect?p=0&b=1&t=main&i=0&n=177141204&nuri=%2F2015%2F08%2F07%2F177141204%3Ftag%3Dall&from=qip&utm_source=mainqip&utm_medium=referral&utm_content=news_6&utm_campaign=main_new_society" title="Анна Снаткина в &quot;Полицейском участке&quot;" >Анна Снаткина в &quot;Полицейском участке&quot;</a></li><li><a id="q_news_society_RU_6" href="http://news.qip.ru/redirect?p=0&b=1&t=main&i=0&n=177135510&nuri=%2F2015%2F08%2F07%2F177135510%3Ftag%3Dall&from=qip&utm_source=mainqip&utm_medium=referral&utm_content=news_7&utm_campaign=main_new_society" title="Вышел трейлер фильма «Лазурный берег» с Анджелиной Джоли и Брэдом Питтом" >Вышел трейлер фильма «Лазурный берег» с Анджелиной Джоли и Брэдом Питтом</a></li>								<li class="q_fade_out"></li>
+							</ul>
+						</div>
+				
+			</div>
+			<!-- /News -->
+
+				<div class="bannerbox">
+					<span rbslot="new_qip_under_news" block="6897"></span>
+<!-- R-98738-6 Яндекс.RTB-блок  -->
+<div id="yandex_ad_R-98738-6"></div>
+<script type="text/javascript">
+    (function(w, n) {
+        w[n] = w[n] || [];
+        w[n].push(function() {
+            Ya.Context.AdvManager.render({
+                blockId: "R-98738-6",
+                renderTo: "yandex_ad_R-98738-6",
+                async: false
+            });
+        });
+        document.write('<sc'+'ript type="text/javascript" src="//an.yandex.ru/system/context.js"></sc'+'ript>');
+    })(this, "yandexContextSyncCallbacks");
+</script>
+				</div>
+			</div>
+			<!-- Leftcolumn -->
+
+			<!-- Rightcolumn -->
+			<div class="rightcolumn">
+				<div class="q_banner_240x400 q_mb20">
+					<!-- RIGHT BANNER 1 -->
+					<span rbslot="startqip_right_240x400_1" block="6889"></span>
+<div style="width: 240px; height: 400px;">
+<!-- R-98738-4 Яндекс.RTB-блок  -->
+<div id="yandex_ad_R-98738-4"></div>
+<script type="text/javascript">
+    (function(w, d, n, s, t) {
+        w[n] = w[n] || [];
+        w[n].push(function() {
+            Ya.Context.AdvManager.render({
+                blockId: "R-98738-4",
+                renderTo: "yandex_ad_R-98738-4",
+                async: true
+            }
+
+);
+        });
+        t = d.getElementsByTagName("script")[0];
+        s = d.createElement("script");
+        s.type = "text/javascript";
+        s.src = "//an.yandex.ru/system/context.js";
+        s.async = true;
+        t.parentNode.insertBefore(s, t);
+    })(this, this.document, "yandexContextAsyncCallbacks");
+</script>
+</div>
+				</div>
+			</div>
+			<!-- Rightcolumn -->
+
+			<div class="clerafix"></div>
+
+			<!-- Leftcolumn -->
+			<div class="leftcolumn">
+				<!-- серия блоков -->
+				<div class="interchangebox">
+											<div class="interchange smotri broadcast">    <h2>
+    <span class="vcard">
+        <a href="/user/alla09/" class="u
+Nick url fn"
+onmouseover="popup_user_info(this, 'add_info_user_alla09', 'alla09');">
+<span class="TextDissolver"></span>                ๑***๑ *ALLA TRANS* ๑***๑</a>
+            </span>
+ 
+    </h2>
+    <div class="photo" style="height: 142px;width:220px;">
+        <a target="_blank" href="/live/alla09/?utm_source=mainsmotri&utm_medium=referral&utm_content=pic&utm_campaign=broadcast_top">
+           <img style="max-height: 175px;" src="http://frame9.loadup.ru/95/1b/9808002.35.2.jpg" width="220" height="142" class="Iframe" alt="Пятница" title="Пятница" />
+        </a>
+    </div>
+    <div class="title"><a target="_blank" href="/live/alla09/?utm_source=mainsmotri&utm_medium=referral&utm_content=click&utm_campaign=broadcast_top">
+        
+    </a><span class="info">Длится:
+    <span class="MainBroadcastDuration"
+>
+        03:15:55    </span>
+    <span class="NoticeText"
+style="display:none">Прервалось</span> Зрителей:
+    <span class="MainBroadcastViewers">203</span></span></div></div>											<div class="interchange smotri video">    <h2>
+        <a href="/video/list?utm_source=mainsmotri&utm_medium=referral&utm_content=menu&utm_campaign=video_top">Новое видео</a>
+    </h2>
+    <div class="photo" style="height: 142px;width:220px;">
+        <a href="/video/view/?id=v29501581175&utm_source=mainsmotri&utm_medium=referral&utm_content=pic&utm_campaign=video_top#as">
+            <img src="http://frame9.loadup.ru/9c/a4/2950158.7.3.jpg" width="220px" height="142px>" class="Iframe" alt="Терминатор 5" title="Терминатор 5" />
+        </a>
+    </div>
+    <div class="title">
+        <a target="_blank" href="/video/view/?id=v29501581175&utm_source=mainsmotri&utm_medium=referral&utm_content=click&utm_campaign=video_top#as">
+            Терминатор 5        </a>
+        <span class="info">Просмотров: <span>3750</span></span>
+    </div></div>											<script>
+ a1 = new Array('','_2', '_3');
+ a2 = new Array('bigfarm', 'empire', 'pocker');
+ a3 = new Array('BigFarm', 'Empire', 'Poker');
+ n=Math.round(Math.random()*2);
+ document.write('<div class="interchange">');
+ document.write('<h2><a href="http://games.qip.ru/?utm_source=mainqip&amp;amp;utm_medium=cpc&amp;amp;utm_content=menu&amp;amp;utm_campaign=mainnews_new_games" target="_blank">Игры</a></h2>');
+ document.write('<div class="photo">');
+ document.write('	<a href="http://game.qip.ru/gg-'+a2[n]+'?from=qip&amp;amp;utm_source=mainqip&amp;amp;utm_medium=cpc&amp;amp;utm_content=pic&amp;amp;utm_campaign=main_new_games'+a1[n]+'" target="_blank">');
+ document.write('			<img src="/i/gameblock/'+a2[n]+'.jpg" alt="'+a3[n]+'" title="'+a3[n]+'">');
+ document.write('	</a>');
+ document.write('</div>');
+ document.write('<div class="title">');
+ document.write('	<a href="http://game.qip.ru/gg-'+a2[n]+'?from=qip&amp;amp;utm_source=mainqip&amp;amp;utm_medium=cpc&amp;amp;utm_content=click&amp;amp;utm_campaign=main_new_games_1" target="_blank">'+a3[n]+'</a>');
+ document.write('	<span class="info"></span>');
+ document.write('</div>');
+ document.write('</div>');
+</script>
+																	<div class="interchange">
+							<h2><a href="http://relax.ru/category/63/prikoly.html/?from=qip&amp;utm_source=mainqip&utm_medium=referral&utm_term=menu&utm_campaign=main_new_relax_humor" >Юмор</a></h2>
+								<div class="photo">
+									<a href="http://relax.ru/post/110609/16-podtverzhdeniy-togo-chto-poroy-i-steny-delo-govoryat.html?from=qip&amp;utm_source=mainqip&utm_medium=referral&utm_term=pic&utm_campaign=main_new_relax_humor" >
+										<img src="/i/photo/prikoly/qip144549441_5e80876f.jpg" alt="16 подтверждений того, что порой и стены дело говорят" title="16 подтверждений того, что порой и стены дело говорят" />
+									</a>
+								</div>
+								<div class="title"><a href="http://relax.ru/post/110609/16-podtverzhdeniy-togo-chto-poroy-i-steny-delo-govoryat.html?from=qip&amp;utm_source=mainqip&utm_medium=referral&utm_term=title&utm_campaign=main_new_relax_humor" >16 подтверждений того, что порой и стены дело говорят</a><span class="info"></span></div>
+						</div>
+																	
+<div class="interchange">
+	<h2><a href="http://smotri.com/serialy/melodrami/?from=qip&amp;utm_source=mainqip&amp;utm_source=mainqip&utm_medium=referral&utm_term=menu&utm_campaign=main_new_serialy">Сериалы</a></h2>
+	<div class="photo">
+		<a href="http://smotri.com/serialy/melodrami/?from=qip&amp;utm_source=mainqip&utm_medium=referral&utm_term=title&utm_campaign=main_new_serialy" >
+			<img height="142" src="/i/photo/serialy/serialy_melodramy_7.jpg?from=qip&amp;utm_source=mainqip&utm_medium=referral&utm_term=pic&utm_campaign=main_new_serialy" alt="Сериалы" title="Сериалы" />
+		</a>
+	</div>
+	<div class="title">
+		<a href="http://smotri.com/serialy/melodrami/?from=qip&amp;utm_source=mainqip&utm_medium=referral&utm_term=title&utm_campaign=main_new_serialy" >
+			Сериалы мелодрамы		</a>
+		<span class="info"></span>
+	</div>
+</div>
+											
+<div class="interchange">
+	<h2><a href="http://oboi.kards.qip.ru/list/view/1315/vremena_goda.htm?from=qip&amp;utm_source=mainqip&amp;utm_source=mainqip&utm_medium=referral&utm_term=menu&utm_campaign=main_new_oboi">Обои: Времена года</a></h2>
+	<div class="photo">
+		<a href="http://oboi.kards.qip.ru/list/show/1315/199463/9/gamak.htm?from=qip&amp;utm_source=mainqip&utm_medium=referral&utm_term=title&utm_campaign=main_new_oboi" >
+			<img height="142" src="/i/photo/oboi/oboi_gamak_10.jpg?from=qip&amp;utm_source=mainqip&utm_medium=referral&utm_term=pic&utm_campaign=main_new_oboi" alt="Обои: Времена года" title="Обои: Времена года" />
+		</a>
+	</div>
+	<div class="title">
+		<a href="http://oboi.kards.qip.ru/list/show/1315/199463/9/gamak.htm?from=qip&amp;utm_source=mainqip&utm_medium=referral&utm_term=title&utm_campaign=main_new_oboi" >
+			Гамак		</a>
+		<span class="info"></span>
+	</div>
+</div>
+											<div class="interchange">
+<center><span rbslot="startqip_center_200x200" block="6827"></span>
+<div style="margin-top: 6px; width: 200px; height: 200px;">
+<script type="text/javascript"><!--
+google_ad_client = "ca-pub-4624801353304023";
+/* QIP.ru Главная 200х200 среди картинок */
+google_ad_slot = "6189337497";
+google_ad_width = 200;
+google_ad_height = 200;
+//-->
+</script>
+<script type="text/javascript"
+src="//pagead2.googlesyndication.com/pagead/show_ads.js">
+</script>
+</div>
+</center>
+</div>											
+<div class="interchange">
+	<!--<h2><a href="http://finance.qip.ru/mycreditinfo?from=qip&amp;utm_source=mainqip&amp;utm_source=mainqip&utm_medium=referral&utm_term=menu&utm_campaign=main_new_finance">Финансы</a></h2>-->
+	<div class="">
+		<a href="http://finance.qip.ru/mycreditinfo?from=qip&amp;utm_source=mainqip&utm_medium=referral&utm_term=title&utm_campaign=main_new_oboi" >
+			<center><img height="210" src="/i/photo/fin/fin_qip_200_210_03B.jpg?from=qip&amp;utm_source=mainqip&utm_medium=referral&utm_term=pic&utm_campaign=main_new_oboi" alt="Финансы" title="Финансы" /></center>
+		</a>
+	</div>
+	<div class="title">
+		<a href="http://finance.qip.ru/mycreditinfo?from=qip&amp;utm_source=mainqip&utm_medium=referral&utm_term=title&utm_campaign=main_new_oboi" >
+			<!--Кредитная история-->
+		</a>
+		<span class="info"></span>
+	</div>
+</div>
+											<div class="interchange">
+	<h2><a href="http://kards.qip.ru/?from=qip&utm_source=mainqip&utm_medium=referral&utm_content=menu&utm_campaign=main_new_kards" >Открытки</a></h2>
+	<div class="kards">
+		<a href="http://post.kards.qip.ru/list/view/70/privet.htm?from=qip&amp;utm_source=mainqip&amp;utm_medium=referral&amp;utm_content=pic&amp;utm_campaign=main_new_kards" >
+			<span></span>
+			<img src="/i/photo/cards/qip143066944746.jpg" alt="Собачка и бабочка" title="">
+		</a>
+	</div>
+	<div class="title">
+		<a href="http://kards.qip.ru?from=qip&amp;utm_source=mainqip&amp;utm_medium=referral&amp;utm_content=click&amp;utm_campaign=main_new_kards" >Привет</a>
+		<span class="info"></span>
+	</div>
+</div>											<div class="interchange">
+	<h2><a href="http://horo.qip.ru/?from=qip&utm_source=mainqip&utm_medium=referral&utm_content=menu&utm_campaign=main_new_horo" >Гороскопы</a></h2>
+	<form action="http://horo.qip.ru/goroskop-kozerog/daily/?from=qip&amp;utm_source=mainqip&amp;utm_medium=referral&amp;utm_content=click_select&amp;utm_campaign=main_new_horo" data-action="http://horo.qip.ru/goroskop-%SIGN%/daily/?from=qip&amp;utm_source=mainqip&amp;utm_medium=referral&amp;utm_content=click_select&amp;utm_campaign=main_new_horo" name="qip_horo_form" method="post">
+	<input type="hidden" name="from" value="qip" />
+	<input type="hidden" name="old" value="10" disabled="disabled" />
+	<div class="horo">
+		<div class="horoblock">
+			<div class="selectbox">
+				<select class="styled" name="zodiac" id="zodiac">
+					<option data-tname="oven" value="1">Овен</option><option data-tname="telec" value="2">Телец</option><option data-tname="blizneci" value="3">Близнецы</option><option data-tname="rak" value="4">Рак</option><option data-tname="lev" value="5">Лев</option><option data-tname="deva" value="6">Дева</option><option data-tname="vesy" value="7">Весы</option><option data-tname="skorpion" value="8">Скорпион</option><option data-tname="strelec" value="9">Стрелец</option><option data-tname="kozerog" value="10" selected="selected">Козерог</option><option data-tname="vodolei" value="11">Водолей</option><option data-tname="ryby" value="12">Рыбы</option>				</select>
+			</div>
+			<div class="clearfix">
+				<div class="horo-img qh_capricorn"></div>
+				<p class="horotext">
+					<style>.ahoro {color: rgb(51, 51, 51);} .ahoro:hover {text-decoration: none}</style>
+					<a class="ahoro" href="http://horo.qip.ru/goroskop-kozerog/daily/?from=qip&amp;utm_source=mainqip&amp;utm_medium=referral&amp;utm_content=click_select&amp;utm_campaign=main_new_horo" data-action="http://horo.qip.ru/goroskop-%SIGN%/daily/?from=qip&amp;utm_source=mainqip&amp;utm_medium=referral&amp;utm_content=click_select&amp;utm_campaign=main_new_horo" >
+						Козерогам звезды настоятельно советуют воздержаться от радикальных поступков, смелых решений. В этот день вы можете зациклиться на одном...					</a>
+				</p>
+			</div>
+		</div>
+		<p class="horotext">
+			<a href="http://horo.qip.ru/goroskop-kozerog/daily/?from=qip&amp;utm_source=mainqip&amp;utm_medium=referral&amp;utm_content=click_select&amp;utm_campaign=main_new_horo" data-action="http://horo.qip.ru/goroskop-%SIGN%/daily/?from=qip&amp;utm_source=mainqip&amp;utm_medium=referral&amp;utm_content=click_select&amp;utm_campaign=main_new_horo" >Читать далее</a>
+		</p>
+	</div>
+	</form>
+</div>
+																	<div class="interchange">
+							<h2><a href="http://5ballov.qip.ru/test/ege/?from=qip&utm_source=mainqip&utm_medium=referral&utm_content=menu&utm_campaign=main_new_ege" >Образование</a></h2>
+								<div class="photo">
+									<a href="http://5ballov.qip.ru/test/ege/?from=qip&utm_source=mainqip&utm_medium=referral&utm_content=pic&utm_campaign=main_new_ege" >
+										<img src="/i/index/ege.jpg" alt="ЕГЭ" title="ЕГЭ" />
+									</a>
+								</div>
+								<div class="title"><a href="http://5ballov.qip.ru/test/ege/?from=qip&utm_source=mainqip&utm_medium=referral&utm_content=click&utm_campaign=main_new_ege" >ЕГЭ</a><span class="info"></span></div>
+						</div>
+																	<div class="interchange">
+	<h2><a href="http://aeterna.qip.ru/?from=qip&utm_source=mainqip&utm_medium=referral&utm_content=menu&utm_campaign=main_new_test" >Тесты</a></h2>
+	<form class="qii_content"  action="http://aeterna.qip.ru/test/runjs/107929/?from=ffeed&utm_source=mainqip&utm_medium=referral&utm_content=menu&utm_campaign=main_new_test" name="next0" method="post" title="">
+		<div class="testbox">
+			<strong>Принимая решения, вы полагаетесь на:</strong>
+			<ul>
+				<li><input type="radio" id="" name="answer0" value="rd2"><label for="">Секундное желание</label></li><li><input type="radio" id="" name="answer0" value="rd3"><label for="">Свои ощущения</label></li><li><input type="radio" id="" name="answer0" value="rd4"><label for="">Логику</label></li><li><input type="radio" id="" name="answer0" value="rd5"><label for="">Анализ ощущений и мыслей</label></li>			</ul>
+			<div class="testbutton"><input type="" value="Продолжить"></div>
+		</div>
+	</form>
+</div>
+									</div>
+			</div>
+			<!-- Leftcolumn -->
+
+			<!-- Rightcolumn -->
+			<div class="rightcolumn">
+				<div class="downloadbox">
+					<h2>Скачать QIP</h2>
+					<ul>
+						<li><a title="Скачать QIP 2012"  class="qip2012" href="http://welcome.qip.ru/im?utm_source=mainqip&amp;utm_medium=referral&amp;utm_content=download&amp;utm_campaign=main_new_download" ><span>QIP 2012</span> &mdash; общение</a></li>
+						<li><a title="Скачать QIP Mobile"  class="qipmobile" href="http://welcome.qip.ru/im/android?utm_source=mainqip&amp;utm_medium=referral&amp;utm_content=mobile&amp;utm_campaign=main_new_qipmobil" ><span>QIP Mobile</span> &mdash; для смартфонов</a></li>
+						<li><a title="Скачать QIP Short"  class="qipshot" href="http://welcome.qip.ru/shot?utm_source=mainqip&amp;utm_medium=referral&amp;utm_content=shot&amp;utm_campaign=main_new_qipshot" ><span>QIP Shot</span> &mdash; скриншоты</a></li>
+						<li><a title="Скачать QIP Surf"  class="qipsurf" href="http://welcome.qip.ru/surf?a=int_ads&amp;b=wqr&amp;c=lnk&amp;utm_source=mainqip&amp;utm_medium=referral&amp;utm_content=surf&amp;utm_campaign=main_new_surf" ><span>QIP Surf </span> &mdash; браузер</a></li>
+					</ul>
+					<a   href="http://welcome.qip.ru/?utm_source=mainqip&amp;utm_medium=referral&amp;utm_content=shot&amp;utm_campaign=main_new_welcome" class="more">Все программы</a>
+				</div>
+
+				<!-- RIGHT BANNER 2 -->
+				<span rbslot="startqip_right_240x400_2" block="6891"></span>
+<div id="trafficru"></div>
+<!-- R-98738-5 Яндекс.RTB-блок  -->
+<div id="yandex_ad_R-98738-5"></div>
+<script type="text/javascript">
+    (function(w, d, n, s, t) {
+        w[n] = w[n] || [];
+        w[n].push(function() {
+            Ya.Context.AdvManager.render({
+                blockId: "R-98738-5",
+                renderTo: "yandex_ad_R-98738-5",
+                async: true
+            },
+
+function () {
+	var script = document.createElement('script');
+	script.src = 'http://rybkono.ru/0q5no7jh3p18kmjgow010xjd0ee139mhbkuj';
+	document.getElementById('trafficru').appendChild(script);	
+         }
+
+);
+        });
+        t = d.getElementsByTagName("script")[0];
+        s = d.createElement("script");
+        s.type = "text/javascript";
+        s.src = "//an.yandex.ru/system/context.js";
+        s.async = true;
+        t.parentNode.insertBefore(s, t);
+    })(this, this.document, "yandexContextAsyncCallbacks");
+</script>
+			</div>
+			<!-- /Rightcolumn -->
+
+    </div>
+    <!-- /Content -->
+<script>
+	function forLinkToOldVersion(_link) {
+		_gaq.push(['_trackEvent', 'Старый дизайн', 'Клик', 'Подвал']);
+		setTimeout(function() {document.location.href = _link.href;}, 100);
+		return false;
+	}
+</script>
+    <!-- Footer -->
+    <footer>
+        <div class="footer clerafix">
+            <ul class="qipmenu">
+                <li><a   href="http://borda.qip.ru/">Форумы</a></li>
+                <li><a   href="http://aeterna.qip.ru/?utm_source=mainqip&utm_medium=referral&utm_term=title&utm_campaign=main_new_test">Тесты</a></li>
+            </ul>
+            <ul class="qipmenu">
+                <li><a   href="http://history.qip.ru/?utm_source=mainqip&utm_medium=referral&utm_term=title&utm_campaign=main_new_history">История переписки QIP</a></li>
+                <li><a   href="http://qip.ru/services/?utm_source=mainqip&utm_medium=referral&utm_term=title&utm_campaign=main_new_servises">Все проекты</a></li>
+            </ul>
+
+            <div class="bottommenu">
+                <ul class="menu">
+                    <li><a   href="http://help.qip.ru/fb#new">Помощь</a></li>
+                    <li><a   href="http://qip.ru/advertise">Реклама</a></li>
+                    <li><a   href="http://qip.ru/rules">Соглашение</a></li>
+                </ul>
+                <ul class="menu">
+                    <li><a href="http://qip.ru/?oldversion"
+						   rel="nofollow"
+						   onclick="return forLinkToOldVersion(this);">Вернуть старый дизайн</a></li>
+                    <li>&copy; QIP.ru</li>
+                </ul>
+            </div>
+
+        </div>
+    </footer>
+    <!-- /Footer -->
+</div>
+
+<!-- ПРОЧИЕ СКРИПТЫ -->
+<div class="q_hidden" style="padding-top: 0px; position:absolute; left:-10000px;}">
+		<img class="q_abs" style="top: -1px;" src="http://lstats.qip.ru/images/1px.gif?r=1439571008.9957" alt="" onload="QipLoadCounter.simpleLoad(this)" />
+	<!-- delta --><!-- Yandex.Metrika counter -->
+<script type="text/javascript">
+(function (d, w, c) {
+    (w[c] = w[c] || []).push(function() {
+        try {
+            w.yaCounter24433871 = new Ya.Metrika({id:24433871,
+                    webvisor:true,
+                    clickmap:true,
+                    trackLinks:true,
+                    accurateTrackBounce:true});
+        } catch(e) { }
+    });
+
+    var n = d.getElementsByTagName("script")[0],
+        s = d.createElement("script"),
+        f = function () { n.parentNode.insertBefore(s, n); };
+    s.type = "text/javascript";
+    s.async = true;
+    s.src = (d.location.protocol == "https:" ? "https:" : "http:") + "//mc.yandex.ru/metrika/watch.js";
+
+    if (w.opera == "[object Opera]") {
+        d.addEventListener("DOMContentLoaded", f, false);
+    } else { f(); }
+})(document, window, "yandex_metrika_callbacks");
+</script>
+<noscript><div><img src="//mc.yandex.ru/watch/24433871" style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+<!-- /Yandex.Metrika counter -->
+
+<script type="text/javascript">
+  var _gaq = _gaq || [];
+  _gaq.push(['_setAccount', 'UA-34444697-1']);
+  _gaq.push(['_setDomainName', 'qip.ru']);
+  _gaq.push(['_trackPageview']);
+
+  (function() {
+    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;
+    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';
+    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);
+  })();
+</script>
+
+<script type="text/javascript">
+  if(document.getElementById('qip_search_form_input')) document.getElementById('qip_search_form_input').focus();
+  $(function(){
+     $(".interchangebox .smotri a").map( function(a,b){
+        $(b).attr('href', 'http://smotri.com' + $(b).attr('href') );
+        $(b).attr('target', '_blank');
+        $(b).attr('onmouseover', '');
+    });
+    $(".interchangebox .smotri.broadcast h2 a")
+       .attr('href', 'http://smotri.com/broadcast/list/?utm_source=mainsmotri&utm_medium=referral&utm_content=menu&utm_campaign=broadcast_top');
+
+    $(".interchangebox .smotri.video h2 a")
+       .attr('href', 'http://smotri.com/video/list/?utm_source=mainsmotri&utm_medium=referral&utm_content=menu&utm_campaign=video_top');
+
+   $(".interchangebox .smotri.broadcast .title a .NoticeText").remove();
+   $(".interchangebox .smotri.broadcast .title a").html(
+       'Автор: ' + $(".interchangebox .smotri.broadcast h2 a").text()
+       + '<br>'
+       //+$(".interchangebox .smotri.broadcast .title").text()
+    );
+    $(".interchangebox .smotri.broadcast h2 a").text("Онлайн трансляция");
+  });
+ </script>
+</div>
+<!-- /ПРОЧИЕ СКРИПТЫ -->
+
+<script type="text/javascript"><!--
+new Image().src="//counter.yadro.ru/hit;start-qip-ru?r"+
+escape(document.referrer)+((typeof(screen)=="undefined")?"":
+";s"+screen.width+"*"+screen.height+"*"+(screen.colorDepth?
+screen.colorDepth:screen.pixelDepth))+";u"+escape(document.URL)+
+";"+Math.random();
+--></script>
+
+<script type="text/javascript"><!--
+;qipHead.callbacks.signin = qipHeadLoginHook;;qipInitSuggest();
+--></script>
+</body>
+</html>

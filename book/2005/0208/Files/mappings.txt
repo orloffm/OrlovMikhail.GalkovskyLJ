@@ -1,0 +1,5 @@
+http://www.samisdat.com/picture/LJ/101.jpg	101.jpg
+http://www.samisdat.com/picture/LJ/102.jpg	102.jpg
+http://www.samisdat.com/picture/LJ/103.jpg	103.jpg
+http://www.samisdat.com/picture/LJ/104.jpg	104.jpg
+http://www.samisdat.com/picture/LJ/105.jpg	105.jpg
