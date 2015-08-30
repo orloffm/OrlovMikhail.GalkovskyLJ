@@ -15,8 +15,8 @@ namespace OrlovMikhail.LJ.BookWriter
     {
         static readonly ILog log = LogManager.GetLogger(typeof(PostPartsMaker));
 
-        private const string lineStartRegexString = @"^[*\da-z]*\.";
-        private const string artificialLineRegexString = @"^\s*(?:((?:-|_|\*|\+|\.){5,})|(?:-|_|\*|\+|\.){1})\s*$";
+        private const string lineStartRegexString = @"^[*\da-zА-ЯA-Zа-я]*\.";
+        private const string artificialLineRegexString = @"^\s*(?:-|_|\*|\+|\.)+\s*$";
         private readonly Regex _lineStartRegex;
         private readonly Regex _artificialLineRegex;
 
@@ -38,6 +38,8 @@ namespace OrlovMikhail.LJ.BookWriter
             // Consecutive texts into singles.
             MergeText(ret);
 
+            // Some people quote with -- <text> --. We try to convert
+            // them to paired italics and remove if we can't.
             // Remove artificial separators.
             RemoveArtificialLines(ret);
 
@@ -47,33 +49,83 @@ namespace OrlovMikhail.LJ.BookWriter
             // Multiple line breaks into paragraphs.
             MergeLineBreaksIntoParagraphs(ret);
 
+            RemoveLineBreaksBeforeAndAfterFormatting(ret);
 
             return ret.ToArray();
         }
 
-        private void RemoveArtificialLines(List<PostPartBase> items)
+        private void RemoveLineBreaksBeforeAndAfterFormatting(List<PostPartBase> items)
         {
             for (int i = 0; i < items.Count; i++)
             {
-                PostPartBase previous = (i > 0 ? items[i - 1] : null);
-                PostPartBase next = (i < items.Count - 1 ? items[i + 1] : null);
-
-                if (items[i] is RawTextPostPart)
+                // Try remove line break after formatting start.
+                bool isBegin = items[i] is ItalicStartPart || items[i] is BoldStartPart;
+                if (isBegin)
                 {
-                    RawTextPostPart rtpp = items[i] as RawTextPostPart;
+                    PostPartBase next = (i < items.Count - 1 ? items[i + 1] : null);
+                    bool nextIsBreak = next != null && (next is LineBreakPart);
 
+                    if (nextIsBreak)
+                        items.RemoveAt(i + 1);
+                    continue;
+                }
+
+                // Try remove line break before formatting end.
+                bool isEnd = items[i] is ItalicEndPart || items[i] is BoldEndPart;
+                if (isEnd)
+                {
+                    PostPartBase previous = (i > 0 ? items[i - 1] : null);
+                    bool previousIsBreak = previous != null && (previous is LineBreakPart);
+
+                    if (previousIsBreak)
+                    {
+                        items.RemoveAt(i - 1);
+                        i--;
+                    }
+                }
+            }
+        }
+
+        private void RemoveArtificialLines(List<PostPartBase> items)
+        {
+            // At these indeces are the artificial lines.
+            int[] artificialIndeces = Enumerable.Range(0, items.Count)
+                .Where(z =>
+                {
+                    RawTextPostPart r = items[z] as RawTextPostPart;
+                    if (r == null)
+                        return false;
+
+                    // Is it actually a line?
+                    PostPartBase previous = (z > 0 ? items[z - 1] : null);
+                    PostPartBase next = (z < items.Count - 1 ? items[z + 1] : null);
                     bool previousIsBreak = previous == null || (previous is LineBreakPart || previous is ParagraphStartPart);
                     bool nextIsBreak = next == null || (next is LineBreakPart || next is ParagraphStartPart);
 
-                    if (previousIsBreak && nextIsBreak)
-                    {
-                        bool isArtificialLine = _artificialLineRegex.IsMatch(rtpp.Text);
-                        if (isArtificialLine)
-                        {
-                            items.RemoveAt(i);
-                            i--;
-                        }
-                    }
+                    if (!(previousIsBreak && nextIsBreak))
+                        return false;
+
+                    bool isArtificialLine = _artificialLineRegex.IsMatch(r.Text);
+                    return isArtificialLine;
+                })
+                .ToArray();
+
+            for (int p = 0; p < artificialIndeces.Length - 1; p += 2)
+            {
+                int a = artificialIndeces[p];
+                int b = artificialIndeces[p + 1];
+                items[a] = new ItalicStartPart();
+                items[b] = new ItalicEndPart();
+            }
+
+            if (artificialIndeces.Length % 2 != 0)
+            {
+                // Last unmatched, remove it.
+                int i = artificialIndeces.Last();
+                if (items[i] is RawTextPostPart)
+                {
+                    items.RemoveAt(i);
+                    i--;
                 }
             }
         }
