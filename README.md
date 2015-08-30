@@ -18,17 +18,45 @@
 в файл `book\YYYY\NNNN\fragment.asc`. Эти файлы совместно составляют
 целую книгу.
 
-## Как скачивать и готовить очередной пост
+## Как собрать книгу
 
 ### Подготовка
 
-1. Собрать солюшен [meta/LiveJournal/LiveJournalGrabber.sln](meta/LiveJournal/LiveJournalGrabber.sln).
-    1. Для этого требуется Visual Studio, можно
-    скачать [бесплатную 2015 Community Edition](https://www.visualstudio.com/en-us/downloads/download-visual-studio-vs.aspx).
-    2. При установке потребуется минимальная конфигурация, только C#-компоненты.
-    3. После установки можно попробовать запустить файл [meta/LiveJournal/build.bat](meta/LiveJournal/build.bat).
-         1. Если он не заработает, то нужно открыть .sln-файл, выбрать Release-конфигурацию и затем Build -> Build Solution.
-    4. В результате сборки появится папка `bin` с файлами.
+Потребуются Visual Studio и Ruby.
+
+1. Visual Studio.
+	1. Скачать установщик Community Edition 2015: https://www.visualstudio.com/en-us/downloads/download-visual-studio-vs.aspx.
+	2. Запустить его. Выбрать кастомную установку, снять все галочки. (Т.е. Web-компоненты не нужны, нужен только C#.)
+1. Сборка проекта.
+	1. Зайти в папку `meta/LiveJournal` проекта и запустить `build_VS2015.bat`.
+2. Ruby.
+	1. Скачать Ruby, версию >= 2.2 с http://rubyinstaller.org/downloads/. Возможно, рабочая ссылка --- http://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-2.2.2.exe.
+	2. Запустить установщик. При установке нужно отметить добавление программ в переменную PATH.
+	3. Скачать Ruby Dev Kit оттуда же. Опять же, возможно рабочая ссылка --- http://dl.bintray.com/oneclick/rubyinstaller/DevKit-mingw64-32-4.7.2-20130224-1151-sfx.exe.
+	4. Запустить скачанное, распаковать в произвольную папку, например, `C:\RubyDevKit`.
+3. Настройка Ruby.
+	1. Открыть командную строку.
+	1. Перейти в эту папку (`cd C:\RubyDevKit`).
+	1. Выполнить `ruby dk.rb init`.
+	1. Выполнить `ruby dk.rb install`.
+	1. Перейти в папку `book` проекта.
+	1. Установить bundler: `gem install bundle`.
+	1. Установить всё нужное для сбора книг: `bundle install`.
+	
+### Сборка книги
+
+1. Открыть консоль. Перейти в папку `book` проекта.
+2. Собрать фрагменты: `bookmaker.bat`.
+3. Запустить сборку: `build.bat`.
+4. Взять готовые файлы в папке `book\output`.
+
+## Как скачивать очередной пост
+
+Информационно, это не требуется для сборки книги из исходников.
+
+### Подготовка
+
+1. Собрать проект, как указано выше.
 2. Купить платный аккаунт в ЖЖ: http://www.livejournal.com/shop/paidaccount.bml.
 3. Переключить на страницу выбора стиля журнала,
 http://www.livejournal.com/customize/,
@@ -73,47 +101,3 @@ http://www.livejournal.com/customize/,
 
 1. Вернуться на страницу http://www.livejournal.com/customize/ и переключить
 журнал обратно в обычную тему.
-
-### Как делать фрагменты книг.
-
-Под "фрагментом" подразумевается один `.asc`-файл с одним постом и комментариями к нему.
-
-1. Открыть консоль.
-2. Зайти в `bin\`.
-3. Выполнить `bookmaker /source=<путь к dump.xml> /root=<путь к папке book>`.
-Здесь:
-    * Путь к dump.xml - например, `C:\galkovsky lj\book\2014\0869\dump.xml`.
-    * Путь к папке book - например, `C:\galkovsky lj\book`.
-    
-Пример.
-
-`bookmaker /root="C:\galkovsky lj\book" /source="C:\galkovsky lj\book\2014\0869\dump.xml"`
-
-#### Примечания
-
-1. В результате на основании `dump.xml` будет создан `fragment.asc`.
-3. Аналогично программе `dumper`, значение `root` запоминается
-   до следующего раза и его можно не повторять.
-2. Если создан новый фрагмент (для нового поста), нужно:
-    1. Зайти в папку `book`.
-    2. Запустить оттуда `fillbyyear.bat`. Это обновит ссылки в файлах `book\YYYY\fullyear.asc`.
-
-## Как собирать книги
-
-### Windows
-
-#### Подготовка
-1. Установить Ruby, версию >= 2.2 с http://rubyinstaller.org/downloads/. Возможно, рабочая ссылка --- http://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-2.2.2.exe. При установке нужно отметить добавление программ в переменную PATH.
-1. Скачать Ruby Dev Kit оттуда же. Опять же, возможно рабочая ссылка --- http://dl.bintray.com/oneclick/rubyinstaller/DevKit-mingw64-32-4.7.2-20130224-1151-sfx.exe. Распаковать в произвольную папку, например, `C:\RubyDevKit`.
-1. Открыть командную строку.
-1. Перейти в эту папку (`cd C:\RubyDevKit`).
-1. `ruby dk.rb init`.
-1. `ruby dk.rb install`.
-1. Перейти в папку `book` проекта.
-1. Установить bundler: `gem install bundle`.
-1. Установить всё нужное для сбора книг: `bundle install`.
-
-#### Собственно сборка
-1. Перейти в папку `book\` проекта.
-1. Собрать книги: `build.bat`.
-1. Готовые файлы будут помещены в папку `book\output\`.

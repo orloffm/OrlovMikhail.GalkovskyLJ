@@ -1,5 +1,5 @@
  param (
-    [string]$source =  ""
+    [string]$source =  "."
  )
 
 # This script makes fragment files from sump files.

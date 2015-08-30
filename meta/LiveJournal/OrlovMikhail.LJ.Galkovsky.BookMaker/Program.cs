@@ -31,6 +31,8 @@ namespace OrlovMikhail.LJ.Galkovsky.BookMaker
                 return;
             Settings.Default.Save();
 
+            bool overWrite = argsDic.ContainsKey("overwrite");
+
             ContainerBuilder builder = new ContainerBuilder();
             GrabberContainerHelper.RegisterDefaultClasses(builder);
             BookWriterContainerHelper.RegisterDefaultClasses(builder);
@@ -45,6 +47,13 @@ namespace OrlovMikhail.LJ.Galkovsky.BookMaker
             DirectoryInfoBase root = fs.DirectoryInfo.FromDirectoryName(Settings.Default.RootFolder);
             FileInfoBase sourceFI = fs.FileInfo.FromFileName(Settings.Default.Source);
             FileInfoBase targetFI = fs.FileInfo.FromFileName(fs.Path.Combine(sourceFI.Directory.FullName, "fragment.asc"));
+
+            if (targetFI.Exists && !overWrite)
+            {
+                // We won't overwrite files if not specifically asked to.
+                log.InfoFormat("File {0} already exists, no /overwrite parameter specified, won't overwrite.", targetFI.Name);
+                return;
+            }
 
             bm.Make(root, sourceFI, targetFI);
         }
