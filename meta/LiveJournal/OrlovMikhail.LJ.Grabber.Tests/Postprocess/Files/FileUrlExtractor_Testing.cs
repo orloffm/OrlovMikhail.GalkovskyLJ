@@ -29,7 +29,7 @@ namespace OrlovMikhail.LJ.Grabber.Tests
         [Test]
         public void ParsesFromContent()
         {
-            string[] urls = _ex.GetFileUrls(_html);
+            string[] urls = _ex.GetImagesURLs(_html);
 
             Assert.IsTrue(urls.Length > 5);
             CollectionAssert.Contains(urls, URL1);

@@ -98,7 +98,7 @@ namespace OrlovMikhail.LJ.Grabber
         {
             string[] urls;
 
-            urls = _fileExtractor.GetFileUrls(e.Text);
+            urls = _fileExtractor.GetImagesURLs(e.Text);
             foreach(string url in urls)
                 yield return url;
         }

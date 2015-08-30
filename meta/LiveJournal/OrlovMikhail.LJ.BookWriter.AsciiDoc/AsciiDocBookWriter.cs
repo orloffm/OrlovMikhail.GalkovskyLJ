@@ -44,7 +44,7 @@ namespace OrlovMikhail.LJ.BookWriter.AsciiDoc
             PL("''''");
         }
 
-        public override void EntryEnd(){PL("");}
+        public override void EntryEnd() { PL(""); }
         public override void CommentEnd() { PL(""); }
 
         public override void EntryHeader(DateTime dateTime, long id, string subject, UserLite user, string posterUserpicRelativeLocation)
@@ -52,12 +52,13 @@ namespace OrlovMikhail.LJ.BookWriter.AsciiDoc
             if (subject.Length == 0)
                 subject = id.ToString();
 
-                subject = subject.Trim();
-                if (subject.EndsWith("."))
-                    subject = subject.Substring(0, subject.Length - 1);
+            subject = subject.Trim();
+            if (subject.EndsWith("."))
+                subject = subject.Substring(0, subject.Length - 1);
 
-                PL(String.Format("== {0}", subject));
-            
+            PL(String.Format("== {0}", subject));
+            PL("");
+
             if (posterUserpicRelativeLocation != null)
                 PL(String.Format("image:{0}[userpic, 40, 40]", posterUserpicRelativeLocation));
             PL(String.Format("{0:dd-MM-yyy HH:mm}", dateTime));
@@ -69,7 +70,7 @@ namespace OrlovMikhail.LJ.BookWriter.AsciiDoc
             PL("");
             if (commentUserpicRelativeLocation != null)
                 PL(String.Format("image:{0}[userpic, 40, 40]", commentUserpicRelativeLocation));
-            
+
             PL(String.Format("*{0}, {1:dd-MM-yyy HH:mm}*", user.Username, dateTime));
             if (!String.IsNullOrWhiteSpace(subject))
                 PL(String.Format("{0}", subject));
@@ -118,7 +119,7 @@ namespace OrlovMikhail.LJ.BookWriter.AsciiDoc
                     // We can't skip after 
                     bool canSkipHere = previous != ';';
 
-                    if (canSkipHere&&Char.IsWhiteSpace(c))
+                    if (canSkipHere && Char.IsWhiteSpace(c))
                     {
                         ret.Add(sb.ToString());
                         sb.Clear();

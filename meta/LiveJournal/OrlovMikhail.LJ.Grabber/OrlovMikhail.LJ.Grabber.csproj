@@ -111,7 +111,7 @@
     <Compile Include="Postprocess\IStorage.cs" />
     <Compile Include="Postprocess\StorageBase.cs" />
     <Compile Include="Postprocess\Userpics\IUserpicStorageFactory.cs" />
-    <Compile Include="Postprocess\Userpics\PNGHelper.cs" />
+    <Compile Include="Postprocess\Userpics\ImageHelper.cs" />
     <Compile Include="Postprocess\Userpics\UserpicStorage.cs" />
     <Compile Include="Postprocess\Userpics\IUserpicStorage.cs" />
     <Compile Include="Postprocess\RelatedDataSaver.cs" />

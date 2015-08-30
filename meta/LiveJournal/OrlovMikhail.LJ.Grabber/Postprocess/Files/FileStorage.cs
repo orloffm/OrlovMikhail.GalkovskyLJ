@@ -37,17 +37,17 @@ namespace OrlovMikhail.LJ.Grabber
             _files.Clear();
 
             string path = MakeFullPath(MappingsFilename);
-            if(_fs.File.Exists(path))
+            if (_fs.File.Exists(path))
             {
                 string[] lines = _fs.File.ReadAllLines(path);
-                foreach(string line in lines)
+                foreach (string line in lines)
                 {
                     string[] kvp = line.Split('\t');
                     string originalUrl = kvp[0];
                     string actualFilename = kvp[1];
 
                     string fullActualFilePath = MakeFullPath(actualFilename);
-                    if(_fs.File.Exists(fullActualFilePath))
+                    if (_fs.File.Exists(fullActualFilePath))
                     {
                         // File exists, add it.
                         _files[originalUrl] = actualFilename;
@@ -59,7 +59,7 @@ namespace OrlovMikhail.LJ.Grabber
         private void SaveMappings()
         {
             StringBuilder w = new StringBuilder();
-            foreach(var kvp in _files)
+            foreach (var kvp in _files)
                 w.AppendFormat("{0}\t{1}\r\n", kvp.Key, kvp.Value);
 
             string content = w.ToString();
@@ -76,53 +76,54 @@ namespace OrlovMikhail.LJ.Grabber
             return fullActualFilePath;
         }
 
-        static readonly string[] imageExtensions = new string[] { "jpg", "jpeg", "gif", "png" };
-
-        private bool IsAnImage(string url)
-        {
-            int dotIndex = url.LastIndexOf('.');
-            if(dotIndex < 0 || url.Length == dotIndex + 1)
-                return false;
-            string ext = url.Substring(dotIndex + 1);
-            return imageExtensions.Any(e => String.Equals(e, ext, StringComparison.OrdinalIgnoreCase));
-        }
-
         public override FileInfoBase EnsureStored(Uri url, byte[] data)
         {
             string path = System.Net.WebUtility.UrlDecode(url.AbsolutePath);
 
             bool isImage = Tools.IsAnImage(path);
-            if(isImage)
+            if (!isImage)
             {
-                Image m = null;
-                try
-                {
-                    m = PNGHelper.LoadImageFromBytes(data);
-                }
-                catch
-                {
-                    m = null;
-                }
-
-                if(m == null)
-                {
-                    log.Error("The data from " + url.ToString() + " is not an image.");
-                    return null;
-                }
+                log.Error("File storage is meant only for images, won't store " + url.ToString() + ".");
+                return null;
             }
 
+            // Try load image from bytes.
+            Image m;
+            try
+            {
+                m = ImageHelper.LoadImageFromBytes(data);
+            }
+            catch
+            {
+                m = null;
+            }
+
+            if (m == null)
+            {
+                log.Error("The data from " + url.ToString() + " is not an image.");
+                return null;
+            }
+
+            // How it should be saved?
+            string bestName = _fs.Path.GetFileName(path);
+            string newExtension;
+
+            // Let's avoid gifs/bmps and resize huge images.
+            byte[] dataToSave = ImageHelper.EnsureNotHugePNGOrJPEG(m, data, out newExtension);
+            if (newExtension != null)
+                bestName = _fs.Path.ChangeExtension(bestName, newExtension);
+            
             string actualFilename;
-            string fullPath;
-            if(!_files.TryGetValue(url.AbsoluteUri, out actualFilename))
+            if (!_files.TryGetValue(url.AbsoluteUri, out actualFilename))
             {
                 // File does not exist, create a name for it.
-                actualFilename = InventNewFileNameFor(path);
+                actualFilename = InventNewFileNameFor(bestName);
             }
-
-            fullPath = MakeFullPath(actualFilename);
+            
+            string fullPath = MakeFullPath(actualFilename);
             FileInfoBase fi = _fs.FileInfo.FromFileName(fullPath);
             _fs.Directory.CreateDirectory(fi.DirectoryName);
-            _fs.File.WriteAllBytes(fullPath, data);
+            _fs.File.WriteAllBytes(fullPath, dataToSave);
 
             // OK, save.
             _files[url.AbsoluteUri] = actualFilename;
@@ -134,13 +135,11 @@ namespace OrlovMikhail.LJ.Grabber
 
         /// <summary>Creates a new non-existing filename that will be used
         /// for storing the file from a given URL.</summary>
-        private string InventNewFileNameFor(string path)
+        private string InventNewFileNameFor(string bestName )
         {
-            string bestName = _fs.Path.GetFileName(path);
-
             int counter = 0;
             string ret = bestName;
-            while(_files.Values.Contains(ret, StringComparer.OrdinalIgnoreCase))
+            while (_files.Values.Contains(ret, StringComparer.OrdinalIgnoreCase))
             {
                 counter++;
                 ret = _fs.Path.GetFileNameWithoutExtension(bestName) + "_" + counter + _fs.Path.GetExtension(bestName);
@@ -152,7 +151,7 @@ namespace OrlovMikhail.LJ.Grabber
         public override FileInfoBase TryGet(Uri url)
         {
             string actualFilename;
-            if(_files.TryGetValue(url.AbsoluteUri, out actualFilename))
+            if (_files.TryGetValue(url.AbsoluteUri, out actualFilename))
             {
                 string fullPath = MakeFullPath(actualFilename);
                 return _fs.FileInfo.FromFileName(fullPath);

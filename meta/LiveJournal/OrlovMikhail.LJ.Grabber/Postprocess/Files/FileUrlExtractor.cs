@@ -9,7 +9,7 @@ namespace OrlovMikhail.LJ.Grabber
 {
     public class FileUrlExtractor : IFileUrlExtractor
     {
-        private const string Pattern = @"(?<=\s*(?i)(?:href|src)\s*=\s*[""']?)([^'"">\s]+)(?=[""']?)";
+        private const string Pattern = @"(?<=\s*(?i)(?:src)\s*=\s*[""']?)([^'"">\s]+)(?=[""']?)";
         private Regex _regex;
 
         public FileUrlExtractor()
@@ -17,7 +17,7 @@ namespace OrlovMikhail.LJ.Grabber
             _regex = new Regex(Pattern);
         }
 
-        public string[] GetFileUrls(string html)
+        public string[] GetImagesURLs(string html)
         {
             HashSet<string> ret = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
 
@@ -25,8 +25,8 @@ namespace OrlovMikhail.LJ.Grabber
             foreach(Match m in mc)
             {
                 string url = m.Groups[0].Value;
-                bool urlIsToAFile = Tools.IsFileWorthDownloading(url);
-                if(urlIsToAFile)
+                bool isAnImage = Tools.IsAnImage(url);
+                if(isAnImage)
                     ret.Add(url);
             }
 

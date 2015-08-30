@@ -8,7 +8,7 @@ namespace OrlovMikhail.LJ.Grabber
 {
     public static class Tools
     {
-        static readonly string[] imageExtensions = new string[] { "jpg", "jpeg", "gif", "png" };
+        static readonly string[] imageExtensions = new string[] { "jpg", "jpeg", "gif", "png", "bmp" };
         static readonly string[] extensions = new string[] { "mp3", "pdf" };
 
         static string GetExtension(string url)
@@ -27,15 +27,6 @@ namespace OrlovMikhail.LJ.Grabber
                 return false;
 
             return imageExtensions.Any(e => String.Equals(e, ext, StringComparison.OrdinalIgnoreCase));
-        }
-
-        public static bool IsFileWorthDownloading(string url)
-        {
-            string ext = GetExtension(url);
-            if(String.IsNullOrWhiteSpace(ext))
-                return false;
-
-            return imageExtensions.Concat(extensions).Any(e => String.Equals(e, ext, StringComparison.OrdinalIgnoreCase));
         }
     }
 }

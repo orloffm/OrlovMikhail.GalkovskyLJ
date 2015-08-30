@@ -30,7 +30,7 @@ namespace OrlovMikhail.LJ.Grabber
         public override FileInfoBase EnsureStored(Uri url, byte[] data)
         {
             // Convert it to PNG.
-            data = PNGHelper.ConvertToPNG(data);
+            data = ImageHelper.ConvertToPNG(data);
 
             // TryGet path.
             string getPath = MakeActualPNGPath(url);

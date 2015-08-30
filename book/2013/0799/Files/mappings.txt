@@ -12,5 +12,3 @@ http://www.samisdat.com/picture/LJ2/2110.jpg	2110.jpg
 http://www.samisdat.com/picture/LJ2/2113.jpg	2113.jpg
 http://www.igolkin.net/pictures/b3293.jpg	b3293.jpg
 http://www.archidesignfrom.ru/uploads/posts/1220790589_aleksandro-nevskijj-sobor-1839-1864-gg.jpg	1220790589_aleksandro-nevskijj-sobor-1839-1864-gg.jpg
-http://upload.wikimedia.org/wikipedia/commons/9/93/1867_Moscow_panorama_megapanorama.jpg	1867_Moscow_panorama_megapanorama.jpg
-http://www.oldmos.ru/bigpics/panorama_kudrinskaya.jpg	panorama_kudrinskaya.jpg
