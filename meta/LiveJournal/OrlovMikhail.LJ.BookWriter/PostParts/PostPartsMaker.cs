@@ -116,12 +116,18 @@ namespace OrlovMikhail.LJ.BookWriter
                             break;
 
                         case HTMLElementKind.Image:
-                            string src = tagToken.Attributes["src"];
-                            FileInfoBase local = fs.TryGet(src);
-                            if (local != null)
-                                yield return new ImagePart(local);
+                            string src;
+                            if (tagToken.Attributes.TryGetValue("src", out src))
+                            {
+                                FileInfoBase local = fs.TryGet(src);
+                                if (local != null)
+                                    yield return new ImagePart(local);
+                                else
+                                    log.WarnFormat("Encountered image {0} not local.", src);
+                            }
                             else
-                                log.WarnFormat("Encountered image {0} not local.", src);
+                                log.Warn("Encountered image tag without source.");
+
                             break;
                     }
                 }
