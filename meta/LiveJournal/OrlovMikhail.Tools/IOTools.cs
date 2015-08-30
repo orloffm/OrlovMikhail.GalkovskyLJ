@@ -15,7 +15,12 @@ namespace OrlovMikhail.Tools
             if (fromPath == null) throw new ArgumentNullException("fromPath");
             if (toPath == null) throw new ArgumentNullException("toPath");
 
-            Uri fromUri = new Uri(fromPath.FullName + "\\a.txt");
+            string root = fromPath.FullName;
+            if (!(root.EndsWith("\\") || root.EndsWith("/")))
+                root += "\\";
+            root += "a.txt";
+
+            Uri fromUri = new Uri(root);
             Uri toUri = new Uri(toPath.FullName);
 
             if (fromUri.Scheme != toUri.Scheme) { return toPath.FullName; } // path can't be made relative.

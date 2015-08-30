@@ -13,5 +13,5 @@ Write-Host ("" + $dumps.Length + " found.")
 ForEach($dump in $dumps){
     $dumpPath = $dump.FullName
     Write-Host $dumpPath
-    Start-Process -Wait -NoNewWindow -FilePath "..\bin\bookmaker.exe" -ArgumentList "/root=`"$scriptPath`" /source=`"$dumpPath`""
+    Start-Process -Wait -NoNewWindow -FilePath "$scriptPath\..\bin\bookmaker.exe" -ArgumentList "/root=`"$scriptPath`" /source=`"$dumpPath`""
 }

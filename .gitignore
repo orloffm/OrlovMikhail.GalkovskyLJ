@@ -1,4 +1,6 @@
 fragment.asc
+gal*.asc
+Gal*.asc
 
 ## Core latex/pdflatex auxiliary files:
 *.aux
