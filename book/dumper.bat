@@ -1,1 +1,1 @@
-..\bin\dumper.exe /root="%~dp0" %*
+..\bin\dumper.exe /root=%~dp0 %*
