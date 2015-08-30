@@ -123,7 +123,13 @@ namespace OrlovMikhail.LJ.BookWriter
                                 if (local != null)
                                     yield return new ImagePart(local);
                                 else
+                                {
                                     log.WarnFormat("Encountered image {0} not local.", src);
+
+                                    // No image saved, so we will just write the URL.
+                                    string replaceString = String.Format("({0})", src);
+                                    yield return new RawTextPostPart(replaceString);
+                                }
                             }
                             else
                                 log.Warn("Encountered image tag without source.");
