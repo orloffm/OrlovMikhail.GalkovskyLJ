@@ -15,10 +15,17 @@ namespace OrlovMikhail.LJ.Grabber
 
         public FileInfoBase TryGet(string url)
         {
-            if(String.IsNullOrEmpty(url))
+            if (String.IsNullOrEmpty(url))
                 return null;
 
-            return TryGet(new Uri(url));
+            try
+            {
+                return TryGet(new Uri(url));
+            }
+            catch
+            {
+                return null;
+            }
         }
 
         public virtual void Dispose()

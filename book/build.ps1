@@ -1,5 +1,5 @@
 ﻿ param (
-    [string]$filter = "Galkovsky_LJ_????.asc"
+    [string]$filter = "Galkovsky_?.asc"
  )
  
  # This script builds all years.

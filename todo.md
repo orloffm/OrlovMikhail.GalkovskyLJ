@@ -11,6 +11,7 @@
 [ ] Ability to use only missing fragments.
 [ ] Resize images
 [ ] 2004/0059/fragment.asc: line 17: list item index: expected 1, got 2
+[ ] Bookmaker: don't call .exe if target exists.
 
 # Apps
 [ ] Galkovsky-independent set of apps to grab and save LiveJournal page.
