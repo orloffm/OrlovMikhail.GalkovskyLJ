@@ -14,4 +14,3 @@ http://www.samisdat.com/picture/LJ/603.JPG	603.JPG
 http://www.samisdat.com/picture/LJ/604.JPG	604.JPG
 http://www.samisdat.com/picture/LJ/605.JPG	605.JPG
 http://www.samisdat.com/picture/LJ/606.JPG	606.JPG
-http://www.bls.gov/news.release/pdf/volun.pdf	volun.pdf
