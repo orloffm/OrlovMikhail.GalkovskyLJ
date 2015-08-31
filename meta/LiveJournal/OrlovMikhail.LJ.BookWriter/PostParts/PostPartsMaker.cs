@@ -211,6 +211,8 @@ namespace OrlovMikhail.LJ.BookWriter
                         bool startsWithNumberAndDot = _lineStartRegex.IsMatch(rtpp.Text);
                         if (startsWithNumberAndDot)
                             rtpp.Text = "{empty}" + rtpp.Text;
+                        else if (rtpp.Text.StartsWith(">"))
+                            rtpp.Text = InsertSpacesAfterChevrons(rtpp.Text);
                     }
                 }
                 else if (items[i] is ParagraphStartPart || items[i] is LineBreakPart)
@@ -229,6 +231,25 @@ namespace OrlovMikhail.LJ.BookWriter
                     }
                 }
             }
+        }
+
+        private string InsertSpacesAfterChevrons(string text)
+        {
+            for (int i = 0; i < text.Length-1; i+=2)
+            {
+                if (text[i] == '>' && !Char.IsWhiteSpace(text[i + 1]))
+                {
+                    // Insert space.
+                    text = text.Substring(0, i + 1) + " " + text.Substring(i + 1);
+                }
+                else
+                {
+                    // Do nothing more.
+                    break;
+                }
+            }
+
+            return text;
         }
 
         IEnumerable<PostPartBase> CreatePartsFirstPass(HTMLTokenBase[] tokens, IFileStorage fs)
