@@ -79,7 +79,8 @@ namespace OrlovMikhail.LJ.BookWriter
 
             // остальные кавычки
             add(" \"", " " + laquo);
-            add("“", laquo);
+            add("“ ", raquo);
+            add(" „", laquo);
             add("«", laquo);
             add("” ", raquo + " ");
             add("\" ", raquo + " ");

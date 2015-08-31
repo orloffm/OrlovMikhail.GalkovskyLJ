@@ -26,7 +26,7 @@ ForEach($year in $years){
     # & bundle exec asciidoctor-epub3 -a ebook-format=kf8 $bookFile
 
     Write-Host "Converting to PDF..."
-    & bundle exec asciidoctor-pdf $bookFile -a pdf-style=resources/themes/galkovsky-theme.yml
+    & bundle exec asciidoctor-pdf $bookFile -a pdf-style=resources/themes/galkovsky-theme.yml --trace
 }
 
 $outputPath = Join-Path $scriptPath "output"
