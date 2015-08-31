@@ -112,6 +112,9 @@ namespace OrlovMikhail.LJ.BookWriter
             add("^— ", emdash + " ");
             add("^-- ", emdash + " ");
             add("^--- ", emdash + " ");
+
+            // Single space.
+            add("  ", " ");
         }
 
         string ReplaceByRegeces(string work)

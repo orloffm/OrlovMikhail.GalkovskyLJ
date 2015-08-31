@@ -16,7 +16,7 @@ namespace OrlovMikhail.LJ.BookWriter
         static readonly ILog log = LogManager.GetLogger(typeof(PostPartsMaker));
 
         private const string lineStartRegexString = @"^[*\da-zА-ЯA-Zа-я]*\.";
-        private const string artificialLineRegexString = @"^\s*(?:-|_|\*|\+|\.)+\s*$";
+        private const string artificialLineRegexString = @"^\s*(?:-|_|=|\*|\+|\.|\\|\/)+\s*$";
         private readonly Regex _lineStartRegex;
         private readonly Regex _artificialLineRegex;
 

@@ -1,3 +1,5 @@
+@ECHO OFF
+
 SET man1=%1
 
 IF "%1"=="" (
