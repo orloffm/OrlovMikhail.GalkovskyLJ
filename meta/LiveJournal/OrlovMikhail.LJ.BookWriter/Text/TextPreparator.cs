@@ -90,8 +90,13 @@ namespace OrlovMikhail.LJ.BookWriter
             add(@"""\?", raquo + "?");
             add(@"""\!", raquo + "!");
             add("\",", raquo + ",");
+
             add(@"""\)", raquo + ")");
             add(@"\(""", "(" + raquo);
+
+            add(@"\)""", ")" + laquo);
+            add(@"""\(", raquo + "(");
+
             add("!\"", @"!" + raquo);
             add(@"\.\.\.""", @"..." + raquo);
 

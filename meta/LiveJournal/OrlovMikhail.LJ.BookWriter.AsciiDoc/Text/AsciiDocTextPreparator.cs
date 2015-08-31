@@ -19,6 +19,7 @@ namespace OrlovMikhail.LJ.BookWriter.AsciiDoc
         protected override void AddPreRegeces(Action<string, string> add)
         {
             add(@"\+", "_+_");
+            add(@"№", "N");
         }
     }
 }
