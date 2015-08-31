@@ -12,7 +12,7 @@ Write-Host ("" + $dumps.Length + " found.")
 
 ForEach($dump in $dumps){
 	$fragmentPath = Join-Path $dump.Directory.FullName "fragment.asc"
-	if(!(Test-Path -Path $fragmentPath )){
+	if(!(Test-Path -Path $fragmentPath)){
 		$dumpPath = $dump.FullName
 		Write-Host $dumpPath
 		Start-Process -Wait -NoNewWindow -FilePath "$scriptPath\..\bin\bookmaker.exe" -ArgumentList "/root=`"$scriptPath`" /source=`"$dumpPath`""

@@ -1,11 +1,10 @@
 ﻿ param (
-    [string]$filter = "Galkovsky_?.asc"
+    [string]$filter = "GalkovskyLJ_?.asc"
  )
  
  # This script builds all years.
 
 $scriptPath = split-path -parent $MyInvocation.MyCommand.Definition
-cd $scriptPath
 
 $years = dir -path $scriptPath -file -filter "*$filter*"
 
@@ -30,20 +29,20 @@ ForEach($year in $years){
     & bundle exec asciidoctor-pdf $bookFile -a pdf-style=resources/themes/galkovsky-theme.yml
 }
 
-$outputPath = ($scriptPath + "\output")
-if((Test-Path $outputPath) -eq 0) {
-        mkdir $outputPath
+$outputPath = Join-Path $scriptPath "output"
+if(!(Test-Path -Path $outputPath)) {
+	mkdir $outputPath
 }
 else{
-    Remove-Item ($outputPath + "\*") -Recurse
+    #Remv ($outputPath + "\*") -Recurse
 }
 
 
 Write-Host "Moving files to output folder..."
-Move-Item -Path ($scriptPath + "\*.html") -Destination $outputPath
-Move-Item -Path ($scriptPath + "\*.epub") -Destination $outputPath
-Move-Item -Path ($scriptPath + "\*.mobi") -Destination $outputPath
-Remove-Item ($scriptPath + "\*.pdfmarks")
-Move-Item -Path ($scriptPath + "\*.pdf") -Destination $outputPath
+mv -Path ($scriptPath + "\*.html") -Destination $outputPath -Force
+mv -Path ($scriptPath + "\*.epub") -Destination $outputPath -Force
+mv -Path ($scriptPath + "\*.mobi") -Destination $outputPath -Force
+rm ($scriptPath + "\*.pdfmarks")
+mv -Path ($scriptPath + "\*.pdf") -Destination $outputPath -Force
 
 Write-Host "Finished!"
