@@ -27,5 +27,5 @@ http://www.ljplus.ru/img4/a/n/andreistp/th_0006cg85.jpeg	th_0006cg85.jpeg
 http://www.ljplus.ru/img4/a/n/andreistp/0006drb5.jpeg	0006drb5.jpeg
 http://www.ljplus.ru/img4/a/n/andreistp/th_0006drb5.jpeg	th_0006drb5.jpeg
 http://vlasti.net/news/news072010/96962/data/f4947a0bca18cb7256e6312fa8eb2c34.jpg	f4947a0bca18cb7256e6312fa8eb2c34.jpg
-http://www.iot-ekb.ru/KARTY/ukrain.gif	ukrain.gif
+http://www.iot-ekb.ru/KARTY/ukrain.gif	ukrain.png
 http://www.vestnik.com/issues/2004/0707/images/bajmuhametov_aleksandr_nevsky.jpg	bajmuhametov_aleksandr_nevsky.jpg

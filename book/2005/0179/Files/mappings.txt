@@ -1,2 +1,1 @@
-http://www.testecvw.com/carl/images/american_Flag.gif	american_Flag.gif
-http://www.gwmemorial.org/Tour/Memorial/Exter01.jpg	Exter01.jpg
+http://www.testecvw.com/carl/images/american_Flag.gif	american_Flag.png

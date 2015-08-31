@@ -1,10 +1,3 @@
-http://www.samisdat.com/picture/LJ3/3426.jpg	3426.jpg
-http://www.samisdat.com/picture/LJ3/3427.jpg	3427.jpg
-http://www.samisdat.com/picture/LJ3/3428.jpg	3428.jpg
-http://www.samisdat.com/picture/LJ3/3429.jpg	3429.jpg
-http://www.samisdat.com/picture/LJ3/3430.jpg	3430.jpg
-http://www.samisdat.com/picture/LJ3/3431.jpg	3431.jpg
-http://www.samisdat.com/picture/LJ3/3432.jpg	3432.jpg
-http://www.samisdat.com/picture/LJ3/3433.jpg	3433.jpg
-http://www.samisdat.com/picture/LJ3/3434.jpg	3434.jpg
-http://www.samisdat.com/picture/LJ3/3435.jpg	3435.jpg
+http://www.samisdat.com/picture/LJ/010.jpg	010.jpg
+http://www.samisdat.com/picture/LJ/011.jpg	011.jpg
+http://www.samisdat.com/picture/LJ/012.jpg	012.jpg

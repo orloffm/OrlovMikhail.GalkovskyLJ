@@ -8,4 +8,4 @@ http://www.samisdat.com/picture/LJ/1351.jpg	1351.jpg
 http://www.samisdat.com/picture/LJ/1352.jpg	1352.jpg
 http://www.samisdat.com/picture/LJ/1353.jpg	1353.jpg
 http://www.samisdat.com/picture/LJ/1354.jpg	1354.jpg
-http://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/HRR.gif/270px-HRR.gif	270px-HRR.gif
+http://upload.wikimedia.org/wikipedia/commons/thumb/c/c2/HRR.gif/270px-HRR.gif	270px-HRR.png
