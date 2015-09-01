@@ -51,7 +51,41 @@ namespace OrlovMikhail.LJ.BookWriter
 
             RemoveLineBreaksBeforeAndAfterFormatting(ret);
 
+            // Images must be on separate lines.
+            EnsureImagesSurroundedWithNewParagraphs(ret);
+
             return ret.ToArray();
+        }
+
+        private void EnsureImagesSurroundedWithNewParagraphs(List<PostPartBase> items)
+        {
+            for (int i = 0; i < items.Count; i++)
+            {
+                ImagePart ip = items[i] as ImagePart;
+                if (ip == null)
+                    continue;
+
+                PostPartBase previous = (i > 0 ? items[i - 1] : null);
+                PostPartBase next = (i < items.Count - 1 ? items[i + 1] : null);
+
+                if (previous is LineBreakPart)
+                    items[i - 1] = new ParagraphStartPart();
+                else if (previous != null && !(previous is ParagraphStartPart))
+                {
+                    items.Insert(i, new ParagraphStartPart());
+                    i++;
+                }
+
+                if (next is LineBreakPart)
+                    items[i + 1] = new ParagraphStartPart();
+                else if (next != null && !(next is ParagraphStartPart))
+                {
+                    items.Insert(i + 1, new ParagraphStartPart());
+
+                    // Can skip, whatever.
+                    i++;
+                }
+            }
         }
 
         private void RemoveLineBreaksBeforeAndAfterFormatting(List<PostPartBase> items)
@@ -235,7 +269,7 @@ namespace OrlovMikhail.LJ.BookWriter
 
         private string InsertSpacesAfterChevrons(string text)
         {
-            for (int i = 0; i < text.Length-1; i+=2)
+            for (int i = 0; i < text.Length - 1; i += 2)
             {
                 if (text[i] == '>' && !Char.IsWhiteSpace(text[i + 1]))
                 {
