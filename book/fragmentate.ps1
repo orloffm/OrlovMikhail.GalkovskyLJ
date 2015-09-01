@@ -7,7 +7,7 @@ Write-Host ("Looking for all dumps in " + $source + "...")
 
 $scriptPath = split-path -parent $MyInvocation.MyCommand.Definition
 
-$dumps = dir -recurse -path $source -file -filter dump.xml
+$dumps = dir -recurse -path $source -filter dump.xml
 Write-Host ("" + $dumps.Length + " found.")
 
 ForEach($dump in $dumps){

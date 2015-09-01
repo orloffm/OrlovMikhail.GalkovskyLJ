@@ -6,7 +6,7 @@
 
 $scriptPath = split-path -parent $MyInvocation.MyCommand.Definition
 
-$years = dir -path $scriptPath -file -filter "*$filter*"
+$years = dir -path $scriptPath -filter "*$filter*"
 
 ForEach($year in $years){
     Write-Host "===================="

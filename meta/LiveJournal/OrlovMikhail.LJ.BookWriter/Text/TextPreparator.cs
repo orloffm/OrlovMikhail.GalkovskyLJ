@@ -93,7 +93,7 @@ namespace OrlovMikhail.LJ.BookWriter
             add("\",", raquo + ",");
 
             add(@"""\)", raquo + ")");
-            add(@"\(""", "(" + raquo);
+            add(@"\(""", "(" + laquo);
 
             add(@"\)""", ")" + laquo);
             add(@"""\(", raquo + "(");
