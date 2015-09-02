@@ -33,7 +33,35 @@ namespace OrlovMikhail.LJ.BookWriter.Tests
             PostPartBase[] result = _m.CreateTextParts(tokens.ToArray(), null).ToArray();
             Assert.AreEqual(1, result.Length);
             Assert.IsInstanceOf<UserLinkPart>(result[0]);
-            Assert.AreEqual("orloffm", ((UserLinkPart) result[0]).Username);
+            Assert.AreEqual("orloffm", ((UserLinkPart)result[0]).Username);
+        }
+
+
+        [Test]
+        public void DoesntAddFinishingFormattingIfNotNeeded()
+        {
+            List<HTMLTokenBase> tokens = new List<HTMLTokenBase>();
+
+            tokens.Add(new TextHTMLToken("A"));
+            tokens.Add(TagHTMLToken.FromTag("<br/>"));
+            tokens.Add(TagHTMLToken.FromTag("<br/>"));
+            tokens.Add(TagHTMLToken.FromTag("<i>"));
+            tokens.Add(new TextHTMLToken("B"));
+            tokens.Add(TagHTMLToken.FromTag("</i>"));
+            tokens.Add(new TextHTMLToken(" "));
+            tokens.Add(TagHTMLToken.FromTag("<br/>"));
+            tokens.Add(TagHTMLToken.FromTag("<br/>"));
+            tokens.Add(new TextHTMLToken("C"));
+
+            PostPartBase[] result = _m.CreateTextParts(tokens.ToArray(), null).ToArray();
+            Assert.AreEqual(7, result.Length);
+            Assert.IsInstanceOf<TextHTMLToken>(result[0]);
+            Assert.IsInstanceOf<ParagraphStartPart>(result[1]);
+            Assert.IsInstanceOf<ItalicStartPart>(result[2]);
+            Assert.IsInstanceOf<TextHTMLToken>(result[3]);
+            Assert.IsInstanceOf<ItalicEndPart>(result[4]);
+            Assert.IsInstanceOf<ParagraphStartPart>(result[5]);
+            Assert.IsInstanceOf<TextHTMLToken>(result[6]);
         }
     }
 }

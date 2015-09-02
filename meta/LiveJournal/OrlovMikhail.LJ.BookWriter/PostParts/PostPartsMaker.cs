@@ -64,31 +64,31 @@ namespace OrlovMikhail.LJ.BookWriter
         /// one paragraph.</summary>
         private void SpanFormattingOverParagraphs(List<PostPartBase> items)
         {
-            for (int i = 0; i < items.Count; i++)
+            for(int i = 0; i < items.Count; i++)
             {
                 ParagraphStartPart p1 = items[i] as ParagraphStartPart;
-                if (p1 == null)
+                if(p1 == null)
                     continue;
 
                 PostPartBase formattingStarter = (i < items.Count - 1 ? items[i + 1] : null);
-                if (formattingStarter == null)
+                if(formattingStarter == null)
                     return;
 
                 PostPartBase needsToEndWith = null;
-                if (formattingStarter is ItalicStartPart)
+                if(formattingStarter is ItalicStartPart)
                     needsToEndWith = new ItalicEndPart();
-                else if (formattingStarter is BoldStartPart)
+                else if(formattingStarter is BoldStartPart)
                     needsToEndWith = new BoldEndPart();
                 else
                     continue;
 
                 int p2Index = FindNextPart<ParagraphStartPart>(items, i);
-                if (p2Index <= i)
+                if(p2Index <= i)
                     return;
 
                 int precedingPartIndex = p2Index - 1;
                 PostPartBase precedingPart = items[precedingPartIndex];
-                if (precedingPart.GetType() == needsToEndWith.GetType())
+                if(precedingPart.GetType() == needsToEndWith.GetType())
                 {
                     i = p2Index - 1;
                     continue;
@@ -101,22 +101,22 @@ namespace OrlovMikhail.LJ.BookWriter
                 do
                 {
                     // Now let's make sure next is the same starting.
-                    if (items[p2Index + 1] is ImagePart)
+                    if(items[p2Index + 1] is ImagePart)
                     {
                         // Don't work with images. Go to next paragraph.
                         p2Index = FindNextPart<ParagraphStartPart>(items, p2Index);
-                        if (p2Index < 0)
+                        if(p2Index < 0)
                             return;
 
                         continue;
                     }
 
                     break;
-                } while (true);
+                } while(true);
 
                 // Item after the next paragraph.
                 PostPartBase following = items[p2Index + 1];
-                if (following.GetType() != formattingStarter.GetType())
+                if(following.GetType() != formattingStarter.GetType())
                 {
                     // Formatting starter there.
                     items.Insert(p2Index + 1, formattingStarter);
@@ -131,8 +131,8 @@ namespace OrlovMikhail.LJ.BookWriter
         {
             int add = reverse ? -1 : +1;
 
-            for (int p = start + add; p < items.Count && p >= 0; p += add)
-                if (items[p] is T)
+            for(int p = start + add; p < items.Count && p >= 0; p += add)
+                if(items[p] is T)
                     return p;
 
             return -1;
@@ -140,26 +140,26 @@ namespace OrlovMikhail.LJ.BookWriter
 
         private void EnsureImagesSurroundedWithNewParagraphs(List<PostPartBase> items)
         {
-            for (int i = 0; i < items.Count; i++)
+            for(int i = 0; i < items.Count; i++)
             {
                 ImagePart ip = items[i] as ImagePart;
-                if (ip == null)
+                if(ip == null)
                     continue;
 
                 PostPartBase previous = (i > 0 ? items[i - 1] : null);
                 PostPartBase next = (i < items.Count - 1 ? items[i + 1] : null);
 
-                if (previous is LineBreakPart)
+                if(previous is LineBreakPart)
                     items[i - 1] = new ParagraphStartPart();
-                else if (previous != null && !(previous is ParagraphStartPart))
+                else if(previous != null && !(previous is ParagraphStartPart))
                 {
                     items.Insert(i, new ParagraphStartPart());
                     i++;
                 }
 
-                if (next is LineBreakPart)
+                if(next is LineBreakPart)
                     items[i + 1] = new ParagraphStartPart();
-                else if (next != null && !(next is ParagraphStartPart))
+                else if(next != null && !(next is ParagraphStartPart))
                 {
                     items.Insert(i + 1, new ParagraphStartPart());
 
@@ -171,28 +171,28 @@ namespace OrlovMikhail.LJ.BookWriter
 
         private void RemoveLineBreaksBeforeAndAfterFormatting(List<PostPartBase> items)
         {
-            for (int i = 0; i < items.Count; i++)
+            for(int i = 0; i < items.Count; i++)
             {
                 // Try remove line break after formatting start.
                 bool isBegin = items[i] is ItalicStartPart || items[i] is BoldStartPart;
-                if (isBegin)
+                if(isBegin)
                 {
                     PostPartBase next = (i < items.Count - 1 ? items[i + 1] : null);
                     bool nextIsBreak = next != null && (next is LineBreakPart);
 
-                    if (nextIsBreak)
+                    if(nextIsBreak)
                         items.RemoveAt(i + 1);
                     continue;
                 }
 
                 // Try remove line break before formatting end.
                 bool isEnd = items[i] is ItalicEndPart || items[i] is BoldEndPart;
-                if (isEnd)
+                if(isEnd)
                 {
                     PostPartBase previous = (i > 0 ? items[i - 1] : null);
                     bool previousIsBreak = previous != null && (previous is LineBreakPart);
 
-                    if (previousIsBreak)
+                    if(previousIsBreak)
                     {
                         items.RemoveAt(i - 1);
                         i--;
@@ -208,7 +208,7 @@ namespace OrlovMikhail.LJ.BookWriter
                 .Where(z =>
                 {
                     RawTextPostPart r = items[z] as RawTextPostPart;
-                    if (r == null)
+                    if(r == null)
                         return false;
 
                     // Is it actually a line?
@@ -217,7 +217,7 @@ namespace OrlovMikhail.LJ.BookWriter
                     bool previousIsBreak = previous == null || (previous is LineBreakPart || previous is ParagraphStartPart);
                     bool nextIsBreak = next == null || (next is LineBreakPart || next is ParagraphStartPart);
 
-                    if (!(previousIsBreak && nextIsBreak))
+                    if(!(previousIsBreak && nextIsBreak))
                         return false;
 
                     bool isArtificialLine = _artificialLineRegex.IsMatch(r.Text);
@@ -225,7 +225,7 @@ namespace OrlovMikhail.LJ.BookWriter
                 })
                 .ToArray();
 
-            for (int p = 0; p < artificialIndeces.Length - 1; p += 2)
+            for(int p = 0; p < artificialIndeces.Length - 1; p += 2)
             {
                 int a = artificialIndeces[p];
                 int b = artificialIndeces[p + 1];
@@ -233,11 +233,11 @@ namespace OrlovMikhail.LJ.BookWriter
                 items[b] = new ItalicEndPart();
             }
 
-            if (artificialIndeces.Length % 2 != 0)
+            if(artificialIndeces.Length % 2 != 0)
             {
                 // Last unmatched, remove it.
                 int i = artificialIndeces.Last();
-                if (items[i] is RawTextPostPart)
+                if(items[i] is RawTextPostPart)
                 {
                     items.RemoveAt(i);
                     i--;
@@ -247,27 +247,27 @@ namespace OrlovMikhail.LJ.BookWriter
 
         private void MergeLineBreaksIntoParagraphs(List<PostPartBase> items)
         {
-            for (int i = 0; i < items.Count; i++)
+            for(int i = 0; i < items.Count; i++)
             {
                 // Is it a line break?
                 LineBreakPart rtpp = items[i] as LineBreakPart;
-                if (rtpp == null)
+                if(rtpp == null)
                     continue;
 
                 // Are there line breaks later?
                 int max = -1;
-                for (int p = i + 1; p < items.Count; p++)
+                for(int p = i + 1; p < items.Count; p++)
                 {
-                    if (items[p] is LineBreakPart)
+                    if(items[p] is LineBreakPart)
                         max = p;
                     else
                         break;
                 }
 
                 // Delete those.
-                if (max > i)
+                if(max > i)
                 {
-                    for (int p = max; p > i; p--)
+                    for(int p = max; p > i; p--)
                         items.RemoveAt(p);
 
                     // Replace the original line break part.
@@ -278,16 +278,16 @@ namespace OrlovMikhail.LJ.BookWriter
 
         private void MergeText(List<PostPartBase> items)
         {
-            for (int i = 0; i < items.Count; i++)
+            for(int i = 0; i < items.Count; i++)
             {
                 RawTextPostPart rtpp = items[i] as RawTextPostPart;
-                if (rtpp == null)
+                if(rtpp == null)
                     continue;
 
-                while (i < items.Count - 1)
+                while(i < items.Count - 1)
                 {
                     RawTextPostPart next = items[i + 1] as RawTextPostPart;
-                    if (next == null)
+                    if(next == null)
                         break;
 
                     // Join text, remove next item.
@@ -299,12 +299,12 @@ namespace OrlovMikhail.LJ.BookWriter
 
         private void SecondPassTextProcess(List<PostPartBase> items)
         {
-            for (int i = 0; i < items.Count; i++)
+            for(int i = 0; i < items.Count; i++)
             {
                 PostPartBase previous = (i > 0 ? items[i - 1] : null);
                 PostPartBase next = (i < items.Count - 1 ? items[i + 1] : null);
 
-                if (items[i] is RawTextPostPart)
+                if(items[i] is RawTextPostPart)
                 {
                     RawTextPostPart rtpp = items[i] as RawTextPostPart;
 
@@ -313,32 +313,39 @@ namespace OrlovMikhail.LJ.BookWriter
                     bool nextIsBreak = next == null || (next is LineBreakPart || next is ParagraphStartPart);
 
                     // Trim accordingly.
-                    if (previousIsBreak && nextIsBreak)
+                    if(previousIsBreak && nextIsBreak)
                         rtpp.Text = rtpp.Text.Trim();
-                    else if (previousIsBreak)
+                    else if(previousIsBreak)
                         rtpp.Text = rtpp.Text.TrimStart();
-                    else if (nextIsBreak)
+                    else if(nextIsBreak)
                         rtpp.Text = rtpp.Text.TrimEnd();
 
                     // Prepend numbers with {empty} to disable lists.
-                    if (previousIsBreak)
+                    if(previousIsBreak)
                     {
                         bool startsWithNumberAndDot = _lineStartRegex.IsMatch(rtpp.Text);
-                        if (startsWithNumberAndDot)
+                        if(startsWithNumberAndDot)
                             rtpp.Text = "{empty}" + rtpp.Text;
-                        else if (rtpp.Text.StartsWith(">"))
+                        else if(rtpp.Text.StartsWith(">"))
                             rtpp.Text = InsertSpacesAfterChevrons(rtpp.Text);
                     }
+
+                    // Remove empty text.
+                    if(rtpp.Text == String.Empty)
+                    {
+                        items.RemoveAt(i);
+                        i--;
+                    }
                 }
-                else if (items[i] is ParagraphStartPart || items[i] is LineBreakPart)
+                else if(items[i] is ParagraphStartPart || items[i] is LineBreakPart)
                 {
-                    if (previous == null)
+                    if(previous == null)
                     {
                         // This is the first. Stay on it.
                         items.RemoveAt(i);
                         i--;
                     }
-                    else if (next == null)
+                    else if(next == null)
                     {
                         // This is the last. Go to previous item.
                         items.RemoveAt(i);
@@ -350,9 +357,9 @@ namespace OrlovMikhail.LJ.BookWriter
 
         private string InsertSpacesAfterChevrons(string text)
         {
-            for (int i = 0; i < text.Length - 1; i += 2)
+            for(int i = 0; i < text.Length - 1; i += 2)
             {
-                if (text[i] == '>' && !Char.IsWhiteSpace(text[i + 1]))
+                if(text[i] == '>' && !Char.IsWhiteSpace(text[i + 1]))
                 {
                     // Insert space.
                     text = text.Substring(0, i + 1) + " " + text.Substring(i + 1);
@@ -369,10 +376,10 @@ namespace OrlovMikhail.LJ.BookWriter
 
         IEnumerable<PostPartBase> CreatePartsFirstPass(HTMLTokenBase[] tokens, IFileStorage fs)
         {
-            for (int i = 0; i < tokens.Length; i++)
+            for(int i = 0; i < tokens.Length; i++)
             {
                 HTMLTokenBase t = tokens[i];
-                if (t is TextHTMLToken)
+                if(t is TextHTMLToken)
                 {
                     TextHTMLToken textToken = t as TextHTMLToken;
                     yield return new RawTextPostPart(textToken.Text);
@@ -385,21 +392,21 @@ namespace OrlovMikhail.LJ.BookWriter
                                   && (tagToken.IsOpening && !tagToken.IsClosing)
                                   && (next.IsClosing && !next.IsOpening);
 
-                    switch (tagToken.Kind)
+                    switch(tagToken.Kind)
                     {
                         default:
                         case HTMLElementKind.Other:
                             break;
 
                         case HTMLElementKind.Anchor:
-                            if (!tagToken.IsOpening)
+                            if(!tagToken.IsOpening)
                                 break;
 
                             int closingA = FindClosingTag(tokens, i, HTMLElementKind.Anchor);
                             string href = tagToken.Attributes.GetExistingOrDefault("href");
 
                             // Is it a real link?
-                            if (closingA < i + 2 || String.IsNullOrWhiteSpace(href))
+                            if(closingA < i + 2 || String.IsNullOrWhiteSpace(href))
                                 break;
 
                             string[] textsInside = Enumerable.Range(i + 1, closingA - i - 1)
@@ -408,7 +415,7 @@ namespace OrlovMikhail.LJ.BookWriter
                                                                 .Select(z => z.Text).ToArray();
 
                             string result = String.Join("", textsInside);
-                            if (result != href)
+                            if(result != href)
                             {
                                 // Href differs from text inside.
                                 // Write out the href explicitly.
@@ -422,14 +429,14 @@ namespace OrlovMikhail.LJ.BookWriter
                             break;
 
                         case HTMLElementKind.Bold:
-                            if (isPair)
+                            if(isPair)
                             {
                                 // Skip both.
                                 i++;
                             }
                             else
                             {
-                                if (tagToken.IsOpening)
+                                if(tagToken.IsOpening)
                                     yield return new BoldStartPart();
                                 else
                                     yield return new BoldEndPart();
@@ -440,7 +447,7 @@ namespace OrlovMikhail.LJ.BookWriter
                             // If it has lj:user attribute, we consider it
                             // a username link.
                             string username;
-                            if (tagToken.IsOpening && tagToken.Attributes.TryGetValue("lj:user", out username))
+                            if(tagToken.IsOpening && tagToken.Attributes.TryGetValue("lj:user", out username))
                             {
                                 yield return new UserLinkPart(username);
                                 int closingIndex = FindClosingTag(tokens, i, HTMLElementKind.Span);
@@ -450,14 +457,14 @@ namespace OrlovMikhail.LJ.BookWriter
 
                         case HTMLElementKind.Underline:
                         case HTMLElementKind.Italic:
-                            if (isPair)
+                            if(isPair)
                             {
                                 // Skip both.
                                 i++;
                             }
                             else
                             {
-                                if (tagToken.IsOpening)
+                                if(tagToken.IsOpening)
                                     yield return new ItalicStartPart();
                                 else
                                     yield return new ItalicEndPart();
@@ -465,20 +472,20 @@ namespace OrlovMikhail.LJ.BookWriter
                             break;
 
                         case HTMLElementKind.Center:
-                            if (tagToken.IsClosing)
+                            if(tagToken.IsClosing)
                             {
                                 // All <br/>'sboth 1 or 2 after it should
                                 // be treated as a new paragraph.
                                 int brsFound = 0;
-                                for (int p = i + 1; p < tokens.Length && p < i + 3; p++)
+                                for(int p = i + 1; p < tokens.Length && p < i + 3; p++)
                                 {
                                     TagHTMLToken someToken = tokens[p] as TagHTMLToken;
-                                    if (someToken != null && someToken.Kind == HTMLElementKind.LineBreak)
+                                    if(someToken != null && someToken.Kind == HTMLElementKind.LineBreak)
                                         brsFound++;
                                     else
                                         break;
                                 }
-                                if (brsFound > 0)
+                                if(brsFound > 0)
                                 {
                                     // If we've found some <br/>s, step over them.
                                     yield return new ParagraphStartPart();
@@ -489,10 +496,10 @@ namespace OrlovMikhail.LJ.BookWriter
 
                         case HTMLElementKind.Image:
                             string src;
-                            if (tagToken.Attributes.TryGetValue("src", out src))
+                            if(tagToken.Attributes.TryGetValue("src", out src))
                             {
                                 FileInfoBase local = fs.TryGet(src);
-                                if (local != null)
+                                if(local != null)
                                     yield return new ImagePart(local);
                                 else
                                 {
@@ -518,23 +525,23 @@ namespace OrlovMikhail.LJ.BookWriter
         static int FindClosingTag(HTMLTokenBase[] tokens, int startIndex, HTMLElementKind kind)
         {
             int count = 1;
-            for (int i = startIndex + 1; i < tokens.Length; i++)
+            for(int i = startIndex + 1; i < tokens.Length; i++)
             {
                 TagHTMLToken t = tokens[i] as TagHTMLToken;
-                if (t == null)
+                if(t == null)
                     continue;
 
                 bool isThisKind = t.Kind == kind;
-                if (!isThisKind)
+                if(!isThisKind)
                     continue;
 
-                if (t.IsOpening)
+                if(t.IsOpening)
                     count++;
-                if (t.IsClosing)
+                if(t.IsClosing)
                     count--;
 
                 // This is the closing tag.
-                if (count == 0)
+                if(count == 0)
                     return i;
             }
 
