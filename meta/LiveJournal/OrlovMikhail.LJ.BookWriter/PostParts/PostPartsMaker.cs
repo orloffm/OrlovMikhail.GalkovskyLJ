@@ -39,7 +39,8 @@ namespace OrlovMikhail.LJ.BookWriter
         {
            List<IProcessor> ret = new List<IProcessor>();
             
-                   // Consecutive texts into singles.
+            // Consecutive texts into singles - we removed
+            // some unused tags, so this can be useful.
             ret.Add(new TextMerger());
 
             // Some people quote with -- <text> --. We try to convert
@@ -49,6 +50,9 @@ namespace OrlovMikhail.LJ.BookWriter
 
             // Trim text near breaks.
             ret.Add(new SecondPassTextProcessor());
+
+            // Spaces after chevrons.
+            ret.Add(new ChevronsProcessor());
 
             // Multiple line breaks into paragraphs.
             ret.Add(new LineBreaksMerger());

@@ -66,6 +66,7 @@
     <Compile Include="IBookWriterFactory.cs" />
     <Compile Include="PostParts\Parts\UserLinkPart.cs" />
     <Compile Include="PostParts\Processors\ArtificialLinesRemover.cs" />
+    <Compile Include="PostParts\Processors\ChevronsProcessor.cs" />
     <Compile Include="PostParts\Processors\LineBreakAroundFormattingRemover.cs" />
     <Compile Include="PostParts\Processors\ImagesExtraliner.cs" />
     <Compile Include="PostParts\Processors\LineBreaksMerger.cs" />
