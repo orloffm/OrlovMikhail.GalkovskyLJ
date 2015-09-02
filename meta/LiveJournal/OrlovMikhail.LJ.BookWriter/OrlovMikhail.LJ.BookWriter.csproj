@@ -65,6 +65,15 @@
     <Compile Include="IBookWriter.cs" />
     <Compile Include="IBookWriterFactory.cs" />
     <Compile Include="PostParts\Parts\UserLinkPart.cs" />
+    <Compile Include="PostParts\Processors\ArtificialLinesRemover.cs" />
+    <Compile Include="PostParts\Processors\LineBreakAroundFormattingRemover.cs" />
+    <Compile Include="PostParts\Processors\ImagesExtraliner.cs" />
+    <Compile Include="PostParts\Processors\LineBreaksMerger.cs" />
+    <Compile Include="PostParts\Processors\FormattingSpanner.cs" />
+    <Compile Include="PostParts\Processors\SecondPassTextProcessor.cs" />
+    <Compile Include="PostParts\Processors\IProcessor.cs" />
+    <Compile Include="PostParts\Processors\ProcessorBase.cs" />
+    <Compile Include="PostParts\Processors\TextMerger.cs" />
     <Compile Include="Text\ITextPreparator.cs" />
     <Compile Include="PostParts\IPostPartsMaker.cs" />
     <Compile Include="PostParts\Parts\BoldEndPart.cs" />

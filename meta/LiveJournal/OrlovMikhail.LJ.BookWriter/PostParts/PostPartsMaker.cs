@@ -15,365 +15,56 @@ namespace OrlovMikhail.LJ.BookWriter
     {
         static readonly ILog log = LogManager.GetLogger(typeof(PostPartsMaker));
 
-        private const string lineStartRegexString = @"^[*\da-zА-ЯA-Zа-я]*\.";
-        private const string artificialLineRegexString = @"^\s*(?:-|_|=|\*|\+|\.|\\|\/)+\s*$";
-        private readonly Regex _lineStartRegex;
-        private readonly Regex _artificialLineRegex;
-
-        public PostPartsMaker()
-        {
-            _lineStartRegex = new Regex(lineStartRegexString, RegexOptions.Compiled);
-            _artificialLineRegex = new Regex(artificialLineRegexString, RegexOptions.Compiled);
-        }
-
         public PostPartBase[] CreateTextParts(HTMLTokenBase[] tokens, IFileStorage fs)
         {
+            IProcessor[] processors = CreateProcessorsList();
+            List<PostPartBase>[] results = new List<PostPartBase>[processors.Length+1];
+       
             // Convert as is, with minor merges.
-            List<PostPartBase> ret = CreatePartsFirstPass(tokens, fs).ToList();
+            results[0] =  CreatePartsFirstPass(tokens, fs).ToList();
+        
+            for(int i = 0; i < processors.Length; i++)
+            {
+                IProcessor p = processors[i];
+                List<PostPartBase> source = results[i];
+                List<PostPartBase> result = p.Process(source);
 
-            // Now we have to remove artificial separators because
-            // we can live without them, merge line breaks into paragraphs,
-            // and merge text entries together.
+                results[i + 1] = result;
+            }
 
-            // Consecutive texts into singles.
-            MergeText(ret);
+            return results[processors.Length].ToArray();
+        }
+
+        private IProcessor[] CreateProcessorsList()
+        {
+           List<IProcessor> ret = new List<IProcessor>();
+            
+                   // Consecutive texts into singles.
+            ret.Add(new TextMerger());
 
             // Some people quote with -- <text> --. We try to convert
             // them to paired italics and remove if we can't.
             // Remove artificial separators.
-            RemoveArtificialLines(ret);
+            ret.Add(new ArtificialLinesRemover());
 
             // Trim text near breaks.
-            SecondPassTextProcess(ret);
+            ret.Add(new SecondPassTextProcessor());
 
             // Multiple line breaks into paragraphs.
-            MergeLineBreaksIntoParagraphs(ret);
+            ret.Add(new LineBreaksMerger());
 
-            RemoveLineBreaksBeforeAndAfterFormatting(ret);
+            // Remove line breaks if formatting starts before or ends after it.
+            ret.Add(new LineBreakAroundFormattingRemover());
 
             // Span formatting over paragraphs.
-            SpanFormattingOverParagraphs(ret);
+            ret.Add(new FormattingSpanner());
 
             // Images must be on separate lines.
-            EnsureImagesSurroundedWithNewParagraphs(ret);
+            ret.Add(new ImagesExtraliner());
 
             return ret.ToArray();
         }
-
-        /// <summary>Makes sure formatting starts and ends inside
-        /// one paragraph.</summary>
-        private void SpanFormattingOverParagraphs(List<PostPartBase> items)
-        {
-            for(int i = 0; i < items.Count; i++)
-            {
-                ParagraphStartPart p1 = items[i] as ParagraphStartPart;
-                if(p1 == null)
-                    continue;
-
-                PostPartBase formattingStarter = (i < items.Count - 1 ? items[i + 1] : null);
-                if(formattingStarter == null)
-                    return;
-
-                PostPartBase needsToEndWith = null;
-                if(formattingStarter is ItalicStartPart)
-                    needsToEndWith = new ItalicEndPart();
-                else if(formattingStarter is BoldStartPart)
-                    needsToEndWith = new BoldEndPart();
-                else
-                    continue;
-
-                int p2Index = FindNextPart<ParagraphStartPart>(items, i);
-                if(p2Index <= i)
-                    return;
-
-                int precedingPartIndex = p2Index - 1;
-                PostPartBase precedingPart = items[precedingPartIndex];
-                if(precedingPart.GetType() == needsToEndWith.GetType())
-                {
-                    i = p2Index - 1;
-                    continue;
-                }
-
-                // Insert formatting ending part.
-                items.Insert(precedingPartIndex + 1, needsToEndWith);
-                p2Index++;
-
-                do
-                {
-                    // Now let's make sure next is the same starting.
-                    if(items[p2Index + 1] is ImagePart)
-                    {
-                        // Don't work with images. Go to next paragraph.
-                        p2Index = FindNextPart<ParagraphStartPart>(items, p2Index);
-                        if(p2Index < 0)
-                            return;
-
-                        continue;
-                    }
-
-                    break;
-                } while(true);
-
-                // Item after the next paragraph.
-                PostPartBase following = items[p2Index + 1];
-                if(following.GetType() != formattingStarter.GetType())
-                {
-                    // Formatting starter there.
-                    items.Insert(p2Index + 1, formattingStarter);
-                }
-
-                // Go to that paragraph next time.
-                i = p2Index - 1;
-            }
-        }
-
-        int FindNextPart<T>(List<PostPartBase> items, int start, bool reverse = false) where T : PostPartBase
-        {
-            int add = reverse ? -1 : +1;
-
-            for(int p = start + add; p < items.Count && p >= 0; p += add)
-                if(items[p] is T)
-                    return p;
-
-            return -1;
-        }
-
-        private void EnsureImagesSurroundedWithNewParagraphs(List<PostPartBase> items)
-        {
-            for(int i = 0; i < items.Count; i++)
-            {
-                ImagePart ip = items[i] as ImagePart;
-                if(ip == null)
-                    continue;
-
-                PostPartBase previous = (i > 0 ? items[i - 1] : null);
-                PostPartBase next = (i < items.Count - 1 ? items[i + 1] : null);
-
-                if(previous is LineBreakPart)
-                    items[i - 1] = new ParagraphStartPart();
-                else if(previous != null && !(previous is ParagraphStartPart))
-                {
-                    items.Insert(i, new ParagraphStartPart());
-                    i++;
-                }
-
-                if(next is LineBreakPart)
-                    items[i + 1] = new ParagraphStartPart();
-                else if(next != null && !(next is ParagraphStartPart))
-                {
-                    items.Insert(i + 1, new ParagraphStartPart());
-
-                    // Can skip, whatever.
-                    i++;
-                }
-            }
-        }
-
-        private void RemoveLineBreaksBeforeAndAfterFormatting(List<PostPartBase> items)
-        {
-            for(int i = 0; i < items.Count; i++)
-            {
-                // Try remove line break after formatting start.
-                bool isBegin = items[i] is ItalicStartPart || items[i] is BoldStartPart;
-                if(isBegin)
-                {
-                    PostPartBase next = (i < items.Count - 1 ? items[i + 1] : null);
-                    bool nextIsBreak = next != null && (next is LineBreakPart);
-
-                    if(nextIsBreak)
-                        items.RemoveAt(i + 1);
-                    continue;
-                }
-
-                // Try remove line break before formatting end.
-                bool isEnd = items[i] is ItalicEndPart || items[i] is BoldEndPart;
-                if(isEnd)
-                {
-                    PostPartBase previous = (i > 0 ? items[i - 1] : null);
-                    bool previousIsBreak = previous != null && (previous is LineBreakPart);
-
-                    if(previousIsBreak)
-                    {
-                        items.RemoveAt(i - 1);
-                        i--;
-                    }
-                }
-            }
-        }
-
-        private void RemoveArtificialLines(List<PostPartBase> items)
-        {
-            // At these indeces are the artificial lines.
-            int[] artificialIndeces = Enumerable.Range(0, items.Count)
-                .Where(z =>
-                {
-                    RawTextPostPart r = items[z] as RawTextPostPart;
-                    if(r == null)
-                        return false;
-
-                    // Is it actually a line?
-                    PostPartBase previous = (z > 0 ? items[z - 1] : null);
-                    PostPartBase next = (z < items.Count - 1 ? items[z + 1] : null);
-                    bool previousIsBreak = previous == null || (previous is LineBreakPart || previous is ParagraphStartPart);
-                    bool nextIsBreak = next == null || (next is LineBreakPart || next is ParagraphStartPart);
-
-                    if(!(previousIsBreak && nextIsBreak))
-                        return false;
-
-                    bool isArtificialLine = _artificialLineRegex.IsMatch(r.Text);
-                    return isArtificialLine;
-                })
-                .ToArray();
-
-            for(int p = 0; p < artificialIndeces.Length - 1; p += 2)
-            {
-                int a = artificialIndeces[p];
-                int b = artificialIndeces[p + 1];
-                items[a] = new ItalicStartPart();
-                items[b] = new ItalicEndPart();
-            }
-
-            if(artificialIndeces.Length % 2 != 0)
-            {
-                // Last unmatched, remove it.
-                int i = artificialIndeces.Last();
-                if(items[i] is RawTextPostPart)
-                {
-                    items.RemoveAt(i);
-                    i--;
-                }
-            }
-        }
-
-        private void MergeLineBreaksIntoParagraphs(List<PostPartBase> items)
-        {
-            for(int i = 0; i < items.Count; i++)
-            {
-                // Is it a line break?
-                LineBreakPart rtpp = items[i] as LineBreakPart;
-                if(rtpp == null)
-                    continue;
-
-                // Are there line breaks later?
-                int max = -1;
-                for(int p = i + 1; p < items.Count; p++)
-                {
-                    if(items[p] is LineBreakPart)
-                        max = p;
-                    else
-                        break;
-                }
-
-                // Delete those.
-                if(max > i)
-                {
-                    for(int p = max; p > i; p--)
-                        items.RemoveAt(p);
-
-                    // Replace the original line break part.
-                    items[i] = new ParagraphStartPart();
-                }
-            }
-        }
-
-        private void MergeText(List<PostPartBase> items)
-        {
-            for(int i = 0; i < items.Count; i++)
-            {
-                RawTextPostPart rtpp = items[i] as RawTextPostPart;
-                if(rtpp == null)
-                    continue;
-
-                while(i < items.Count - 1)
-                {
-                    RawTextPostPart next = items[i + 1] as RawTextPostPart;
-                    if(next == null)
-                        break;
-
-                    // Join text, remove next item.
-                    rtpp.Text = rtpp.Text + next.Text;
-                    items.RemoveAt(i + 1);
-                }
-            }
-        }
-
-        private void SecondPassTextProcess(List<PostPartBase> items)
-        {
-            for(int i = 0; i < items.Count; i++)
-            {
-                PostPartBase previous = (i > 0 ? items[i - 1] : null);
-                PostPartBase next = (i < items.Count - 1 ? items[i + 1] : null);
-
-                if(items[i] is RawTextPostPart)
-                {
-                    RawTextPostPart rtpp = items[i] as RawTextPostPart;
-
-                    // What should be trimmed?
-                    bool previousIsBreak = previous == null || (previous is LineBreakPart || previous is ParagraphStartPart);
-                    bool nextIsBreak = next == null || (next is LineBreakPart || next is ParagraphStartPart);
-
-                    // Trim accordingly.
-                    if(previousIsBreak && nextIsBreak)
-                        rtpp.Text = rtpp.Text.Trim();
-                    else if(previousIsBreak)
-                        rtpp.Text = rtpp.Text.TrimStart();
-                    else if(nextIsBreak)
-                        rtpp.Text = rtpp.Text.TrimEnd();
-
-                    // Prepend numbers with {empty} to disable lists.
-                    if(previousIsBreak)
-                    {
-                        bool startsWithNumberAndDot = _lineStartRegex.IsMatch(rtpp.Text);
-                        if(startsWithNumberAndDot)
-                            rtpp.Text = "{empty}" + rtpp.Text;
-                        else if(rtpp.Text.StartsWith(">"))
-                            rtpp.Text = InsertSpacesAfterChevrons(rtpp.Text);
-                    }
-
-                    // Remove empty text.
-                    if(rtpp.Text == String.Empty)
-                    {
-                        items.RemoveAt(i);
-                        i--;
-                    }
-                }
-                else if(items[i] is ParagraphStartPart || items[i] is LineBreakPart)
-                {
-                    if(previous == null)
-                    {
-                        // This is the first. Stay on it.
-                        items.RemoveAt(i);
-                        i--;
-                    }
-                    else if(next == null)
-                    {
-                        // This is the last. Go to previous item.
-                        items.RemoveAt(i);
-                        i -= 2;
-                    }
-                }
-            }
-        }
-
-        private string InsertSpacesAfterChevrons(string text)
-        {
-            for(int i = 0; i < text.Length - 1; i += 2)
-            {
-                if(text[i] == '>' && !Char.IsWhiteSpace(text[i + 1]))
-                {
-                    // Insert space.
-                    text = text.Substring(0, i + 1) + " " + text.Substring(i + 1);
-                }
-                else
-                {
-                    // Do nothing more.
-                    break;
-                }
-            }
-
-            return text;
-        }
-
+        
         IEnumerable<PostPartBase> CreatePartsFirstPass(HTMLTokenBase[] tokens, IFileStorage fs)
         {
             for(int i = 0; i < tokens.Length; i++)
@@ -387,15 +78,19 @@ namespace OrlovMikhail.LJ.BookWriter
                 else
                 {
                     TagHTMLToken tagToken = t as TagHTMLToken;
-                    TagHTMLToken next = (i != tokens.Length - 1) ? tokens[i + 1] as TagHTMLToken : null;
-                    bool isPair = next != null && next.Kind == tagToken.Kind
+                    TagHTMLToken nextTagToken = (i != tokens.Length - 1) ? tokens[i + 1] as TagHTMLToken : null;
+                    bool isPairWithNext = nextTagToken != null && nextTagToken.Kind == tagToken.Kind
                                   && (tagToken.IsOpening && !tagToken.IsClosing)
-                                  && (next.IsClosing && !next.IsOpening);
+                                  && (nextTagToken.IsClosing && !nextTagToken.IsOpening);
 
                     switch(tagToken.Kind)
                     {
                         default:
                         case HTMLElementKind.Other:
+                            break;
+
+                        case HTMLElementKind.LineBreak:
+                            yield return LineBreakPart.Instance;
                             break;
 
                         case HTMLElementKind.Anchor:
@@ -406,16 +101,19 @@ namespace OrlovMikhail.LJ.BookWriter
                             string href = tagToken.Attributes.GetExistingOrDefault("href");
 
                             // Is it a real link?
-                            if(closingA < i + 2 || String.IsNullOrWhiteSpace(href))
+                            bool isFake = closingA < i + 2 || String.IsNullOrWhiteSpace(href);
+                            if(isFake)
                                 break;
 
+                            // What is the content?
                             string[] textsInside = Enumerable.Range(i + 1, closingA - i - 1)
                                                                 .Select(z => tokens[z])
                                                                 .OfType<TextHTMLToken>()
                                                                 .Select(z => z.Text).ToArray();
-
                             string result = String.Join("", textsInside);
-                            if(result != href)
+
+                            bool hrefIsAutomatedFromURL = (result == href);
+                            if(!hrefIsAutomatedFromURL)
                             {
                                 // Href differs from text inside.
                                 // Write out the href explicitly.
@@ -424,12 +122,8 @@ namespace OrlovMikhail.LJ.BookWriter
                             }
                             break;
 
-                        case HTMLElementKind.LineBreak:
-                            yield return new LineBreakPart();
-                            break;
-
                         case HTMLElementKind.Bold:
-                            if(isPair)
+                            if(isPairWithNext)
                             {
                                 // Skip both.
                                 i++;
@@ -437,9 +131,9 @@ namespace OrlovMikhail.LJ.BookWriter
                             else
                             {
                                 if(tagToken.IsOpening)
-                                    yield return new BoldStartPart();
+                                    yield return BoldStartPart.Instance;
                                 else
-                                    yield return new BoldEndPart();
+                                    yield return BoldEndPart.Instance;
                             }
                             break;
 
@@ -457,7 +151,7 @@ namespace OrlovMikhail.LJ.BookWriter
 
                         case HTMLElementKind.Underline:
                         case HTMLElementKind.Italic:
-                            if(isPair)
+                            if(isPairWithNext)
                             {
                                 // Skip both.
                                 i++;
@@ -465,9 +159,9 @@ namespace OrlovMikhail.LJ.BookWriter
                             else
                             {
                                 if(tagToken.IsOpening)
-                                    yield return new ItalicStartPart();
+                                    yield return ItalicStartPart.Instance;
                                 else
-                                    yield return new ItalicEndPart();
+                                    yield return ItalicEndPart.Instance;
                             }
                             break;
 
@@ -488,7 +182,7 @@ namespace OrlovMikhail.LJ.BookWriter
                                 if(brsFound > 0)
                                 {
                                     // If we've found some <br/>s, step over them.
-                                    yield return new ParagraphStartPart();
+                                    yield return ParagraphStartPart.Instance;
                                     i += brsFound;
                                 }
                             }
@@ -500,7 +194,12 @@ namespace OrlovMikhail.LJ.BookWriter
                             {
                                 FileInfoBase local = fs.TryGet(src);
                                 if(local != null)
-                                    yield return new ImagePart(local);
+                                {
+                                    if(!local.Exists)
+                                        log.WarnFormat("Encountered image {0} does not exist.", src);
+                                    else
+                                        yield return new ImagePart(local);
+                                }
                                 else
                                 {
                                     log.WarnFormat("Encountered image {0} not local.", src);

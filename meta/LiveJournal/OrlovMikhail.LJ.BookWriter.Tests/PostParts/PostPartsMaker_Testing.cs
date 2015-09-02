@@ -55,13 +55,13 @@ namespace OrlovMikhail.LJ.BookWriter.Tests
 
             PostPartBase[] result = _m.CreateTextParts(tokens.ToArray(), null).ToArray();
             Assert.AreEqual(7, result.Length);
-            Assert.IsInstanceOf<TextHTMLToken>(result[0]);
+            Assert.IsInstanceOf<RawTextPostPart>(result[0]);
             Assert.IsInstanceOf<ParagraphStartPart>(result[1]);
             Assert.IsInstanceOf<ItalicStartPart>(result[2]);
-            Assert.IsInstanceOf<TextHTMLToken>(result[3]);
+            Assert.IsInstanceOf<RawTextPostPart>(result[3]);
             Assert.IsInstanceOf<ItalicEndPart>(result[4]);
             Assert.IsInstanceOf<ParagraphStartPart>(result[5]);
-            Assert.IsInstanceOf<TextHTMLToken>(result[6]);
+            Assert.IsInstanceOf<RawTextPostPart>(result[6]);
         }
     }
 }

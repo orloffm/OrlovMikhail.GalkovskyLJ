@@ -2,7 +2,7 @@
 
 namespace OrlovMikhail.LJ.BookWriter
 {
-    public class TextHTMLToken : HTMLTokenBase
+    public sealed class TextHTMLToken : HTMLTokenBase
     {
         public TextHTMLToken(string rawText)
         {

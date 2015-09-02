@@ -6,11 +6,9 @@ using System.Threading.Tasks;
 
 namespace OrlovMikhail.LJ.BookWriter
 {
-    public abstract class PostPartBase
+    /// <summary>Converts the list of post parts.</summary>
+    public interface IProcessor
     {
-        public virtual PostPartBase FullClone()
-        {
-            return (PostPartBase)this.MemberwiseClone();
-        }
+        List<PostPartBase> Process(IList<PostPartBase> items);
     }
 }
