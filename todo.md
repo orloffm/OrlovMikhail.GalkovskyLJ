@@ -1,4 +1,5 @@
 # General
+[ ] VS build: general one
 [ ] Replace XMLSerializer with DataContract one.
 [ ] Everything to portable libraries.
 [ ] Dumper: don't save cookies inside. Get them from configuration.
