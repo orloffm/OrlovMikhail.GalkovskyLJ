@@ -21,11 +21,8 @@ namespace OrlovMikhail.LJ.BookWriter.Tests
                 LineBreakPart.Instance,
                 new RawTextPostPart(">>C"),
                 LineBreakPart.Instance,
-                new RawTextPostPart(">A"),
+                new RawTextPostPart(">D"),
             };
-
-            ChevronsProcessor cp = new ChevronsProcessor();
-            List<PostPartBase> processed = cp.Process(parts);
 
             PostPartBase[] expected =
             {
@@ -35,9 +32,16 @@ namespace OrlovMikhail.LJ.BookWriter.Tests
                 ParagraphStartPart.Instance,
                 new RawTextPostPart("> > C"),
                 ParagraphStartPart.Instance,
-                new RawTextPostPart("> A"),
+                new RawTextPostPart("> D"),
             };
 
+            Check(parts, expected);
+        }
+
+        private void Check(PostPartBase[] parts, PostPartBase[] expected)
+        {
+            ChevronsProcessor cp = new ChevronsProcessor();
+            List<PostPartBase> processed = cp.Process(parts);
             CollectionAssert.AreEqual(expected, processed);
         }
     }
