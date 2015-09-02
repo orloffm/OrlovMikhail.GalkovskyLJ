@@ -12,6 +12,7 @@
 [ ] 2004/0059/fragment.asc: line 17: list item index: expected 1, got 2
 [ ] Post parts: processors to separate classes
 [ ] Formatting preserver processor: test, test for image case
+[ ] VS build: include .bat path into commandline
 
 # Apps
 [ ] Galkovsky-independent set of apps to grab and save LiveJournal page.

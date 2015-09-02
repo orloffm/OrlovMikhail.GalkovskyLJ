@@ -18,10 +18,10 @@ namespace OrlovMikhail.LJ.BookWriter.AsciiDoc
 
         protected override void AddPreRegeces(Action<string, string> add)
         {
-            add(@"\+", "\\+");
+            add(@"\+$", "\\+$");
 
             // Prevent headers.
-            add(@"=", "\\=");
+            add(@"^==", "{empty}==");
             add(@"№", "N");
         }
     }
