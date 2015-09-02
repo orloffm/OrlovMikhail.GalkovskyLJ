@@ -76,6 +76,7 @@
   </Choose>
   <ItemGroup>
     <Compile Include="PostParts\PostPartsMaker_Testing.cs" />
+    <Compile Include="PostParts\Processors\ChevronsProcessor_Testing.cs" />
     <Compile Include="Replacer_Testing.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

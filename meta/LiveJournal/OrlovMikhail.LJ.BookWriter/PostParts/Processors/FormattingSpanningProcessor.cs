@@ -8,7 +8,7 @@ namespace OrlovMikhail.LJ.BookWriter
 {
     /// <summary>Makes sure formatting starts and ends inside
     /// one paragraph.</summary>
-    public class FormattingSpanner : ProcessorBase
+    public class FormattingSpanningProcessor : ProcessorBase
     {
         protected internal override void ProcessInternal(List<PostPartBase> items)
         {

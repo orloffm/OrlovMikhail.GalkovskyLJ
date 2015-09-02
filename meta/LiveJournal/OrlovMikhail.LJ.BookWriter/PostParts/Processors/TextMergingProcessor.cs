@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OrlovMikhail.LJ.BookWriter
 {
-    public class TextMerger : ProcessorBase
+    public class TextMergingProcessor : ProcessorBase
     {
         protected internal override void ProcessInternal(List<PostPartBase> items)
         {

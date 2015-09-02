@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OrlovMikhail.LJ.BookWriter
 {
-    public class LineBreakAroundFormattingRemover : ProcessorBase
+    public class LineBreakAdjacentFormattingRemovingProcessor : ProcessorBase
     {
         protected internal override void ProcessInternal(List<PostPartBase> items)
         {

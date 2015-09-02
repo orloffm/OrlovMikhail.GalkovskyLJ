@@ -7,12 +7,12 @@ using System.Threading.Tasks;
 
 namespace OrlovMikhail.LJ.BookWriter
 {
-    public class ArtificialLinesRemover : ProcessorBase
+    public class ArtificialLinesRemoverProcessor : ProcessorBase
     {
         private const string artificialLineRegexString = @"^\s*(?:-|_|=|\*|\+|\.|\\|\/)+\s*$";
         private readonly Regex _artificialLineRegex;
 
-        public ArtificialLinesRemover()
+        public ArtificialLinesRemoverProcessor()
         {
             _artificialLineRegex = new Regex(artificialLineRegexString, RegexOptions.Compiled);
         }

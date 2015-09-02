@@ -41,30 +41,30 @@ namespace OrlovMikhail.LJ.BookWriter
             
             // Consecutive texts into singles - we removed
             // some unused tags, so this can be useful.
-            ret.Add(new TextMerger());
+            ret.Add(new TextMergingProcessor());
 
             // Some people quote with -- <text> --. We try to convert
             // them to paired italics and remove if we can't.
             // Remove artificial separators.
-            ret.Add(new ArtificialLinesRemover());
+            ret.Add(new ArtificialLinesRemoverProcessor());
 
             // Trim text near breaks.
             ret.Add(new SecondPassTextProcessor());
 
+            // Multiple line breaks into paragraphs.
+            ret.Add(new LineBreaksMergingProcessor());
+
             // Spaces after chevrons.
             ret.Add(new ChevronsProcessor());
 
-            // Multiple line breaks into paragraphs.
-            ret.Add(new LineBreaksMerger());
-
             // Remove line breaks if formatting starts before or ends after it.
-            ret.Add(new LineBreakAroundFormattingRemover());
+            ret.Add(new LineBreakAdjacentFormattingRemovingProcessor());
 
             // Span formatting over paragraphs.
-            ret.Add(new FormattingSpanner());
+            ret.Add(new FormattingSpanningProcessor());
 
             // Images must be on separate lines.
-            ret.Add(new ImagesExtraliner());
+            ret.Add(new ImagesExtralineProcessor());
 
             return ret.ToArray();
         }
