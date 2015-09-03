@@ -1,12 +1,12 @@
 # General
-[ ] VS build: general one
+[ ] Put userpics.
 [ ] Replace XMLSerializer with DataContract one.
 [ ] Everything to portable libraries.
 [ ] Dumper: don't save cookies inside. Get them from configuration.
 [ ] Userpics: find the path automatically.
 [ ] Tests for all projects.
-[ ] Гостевая книга - скачать страницу 9.
-[ ] bookmaker: параметр.
+[ ] Д‚Г®Е„Е€ДєГўЕ•Л™ Д™Г­ДЌДѓЕ• - Е„Д™Е•Г·Е•Е€Гј Е„Е€Д‘Е•Г­ДЌГ¶Гі 9.
+[ ] bookmaker: ДЏЕ•Д‘Е•Д›ДєЕ€Д‘.
 [ ] Write if image is missing.
 [ ] Ability to use only missing fragments.
 [ ] 2004/0059/fragment.asc: line 17: list item index: expected 1, got 2

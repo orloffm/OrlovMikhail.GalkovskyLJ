@@ -6,10 +6,12 @@ namespace OrlovMikhail.LJ.BookWriter
     public class UserLinkPart : PostPartBase
     {
         public string Username { get; set; }
+        public bool IsCommunity { get; set; }
 
-        public UserLinkPart(string username)
+        public UserLinkPart(string username, bool isCommunity = false)
         {
             Username = username;
+            IsCommunity = isCommunity;
         }
     }
 }

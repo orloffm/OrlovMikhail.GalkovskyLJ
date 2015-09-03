@@ -18,11 +18,11 @@ namespace OrlovMikhail.LJ.BookWriter
         public PostPartBase[] CreateTextParts(HTMLTokenBase[] tokens, IFileStorage fs)
         {
             IProcessor[] processors = CreateProcessorsList();
-            List<PostPartBase>[] results = new List<PostPartBase>[processors.Length+1];
-       
+            List<PostPartBase>[] results = new List<PostPartBase>[processors.Length + 1];
+
             // Convert as is, with minor merges.
-            results[0] =  CreatePartsFirstPass(tokens, fs).ToList();
-        
+            results[0] = CreatePartsFirstPass(tokens, fs).ToList();
+
             for(int i = 0; i < processors.Length; i++)
             {
                 IProcessor p = processors[i];
@@ -37,12 +37,15 @@ namespace OrlovMikhail.LJ.BookWriter
 
         private IProcessor[] CreateProcessorsList()
         {
-           List<IProcessor> ret = new List<IProcessor>();
-            
+            List<IProcessor> ret = new List<IProcessor>();
+
             // Some people quote with -- <text> --. We try to convert
             // them to paired italics and remove if we can't.
             // Remove artificial separators.
             ret.Add(new ArtificialLinesRemoverProcessor());
+
+            // Remove line breaks if formatting starts before or ends after it.
+            ret.Add(new LineBreakAdjacentFormattingRemovingProcessor());
 
             // Trim text near breaks.
             ret.Add(new SecondPassTextProcessor());
@@ -50,7 +53,7 @@ namespace OrlovMikhail.LJ.BookWriter
             ret.Add(new LineBreaksMergingProcessor());
             // Images must be on separate lines.
             ret.Add(new ImagesExtralineProcessor());
-                   
+
             // Consecutive texts into singles - we removed
             // some unused tags, so this can be useful.
             ret.Add(new TextMergingProcessor());
@@ -60,16 +63,12 @@ namespace OrlovMikhail.LJ.BookWriter
             // Spaces after chevrons.
             ret.Add(new ChevronsProcessor());
 
-            // Remove line breaks if formatting starts before or ends after it.
-            ret.Add(new LineBreakAdjacentFormattingRemovingProcessor());
-
             // Span formatting over paragraphs.
             ret.Add(new FormattingSpanningProcessor());
 
-
             return ret.ToArray();
         }
-        
+
         IEnumerable<PostPartBase> CreatePartsFirstPass(HTMLTokenBase[] tokens, IFileStorage fs)
         {
             for(int i = 0; i < tokens.Length; i++)
@@ -148,7 +147,10 @@ namespace OrlovMikhail.LJ.BookWriter
                             string username;
                             if(tagToken.IsOpening && tagToken.Attributes.TryGetValue("lj:user", out username))
                             {
-                                yield return new UserLinkPart(username);
+                                string classValue = tagToken.Attributes.GetExistingOrDefault("class") ?? String.Empty;
+                                bool isCommunity = classValue.Contains("i-ljuser-type-C");
+
+                                yield return new UserLinkPart(username, isCommunity);
                                 int closingIndex = FindClosingTag(tokens, i, HTMLElementKind.Span);
                                 i = closingIndex;
                             }

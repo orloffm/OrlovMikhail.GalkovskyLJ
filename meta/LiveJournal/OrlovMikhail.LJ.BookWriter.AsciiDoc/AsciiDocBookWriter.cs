@@ -47,7 +47,7 @@ namespace OrlovMikhail.LJ.BookWriter.AsciiDoc
             PL("''''");
         }
 
-        public override void EntryEnd() { PL("");  }
+        public override void EntryEnd() { PL(""); }
         public override void CommentEnd() { PL(""); }
 
         public override void EntryHeader(DateTime dateTime, long id, string subject, UserLite user, string posterUserpicRelativeLocation)
@@ -79,7 +79,8 @@ namespace OrlovMikhail.LJ.BookWriter.AsciiDoc
             if(commentUserpicRelativeLocation != null)
                 PL(String.Format("image:{0}[userpic, 40, 40]", commentUserpicRelativeLocation));
 
-            PL(String.Format("*{0}, {1:dd-MM-yyy HH:mm}*", user.Username, dateTime));
+            WriteUsernameInternal(user.Username, user.UserType == UserLiteType.C);
+            PL(String.Format("* {0:dd-MM-yyy HH:mm}*",  dateTime));
             if(!String.IsNullOrWhiteSpace(subject))
             {
                 subject = Tp.Prepare(subject);
@@ -108,8 +109,13 @@ namespace OrlovMikhail.LJ.BookWriter.AsciiDoc
             }
         }
 
-        protected override void WriteUsernameInternal(string username)
+        protected override void WriteUsernameInternal(string username, bool isCommunity = false)
         {
+            PL("");
+            if(!isCommunity)
+                PL("image::resources/userinfo.gif[userinfo, 17, 17]");
+            else
+                PL("image::resources/userinfo.gif[community, 17, 17]");
             P(String.Format("*{0}*", username));
         }
 
