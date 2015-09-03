@@ -30,7 +30,7 @@ namespace OrlovMikhail.LJ.BookWriter
                 else
                     continue;
 
-                int p2Index = FindNextPart<ParagraphStartPart>(items, i);
+                int p2Index = FindNextPartIndex<ParagraphStartPart>(items, i);
                 if(p2Index <= i)
                     return;
 
@@ -52,7 +52,7 @@ namespace OrlovMikhail.LJ.BookWriter
                     if(items[p2Index + 1] is ImagePart)
                     {
                         // Don't work with images. Go to next paragraph.
-                        p2Index = FindNextPart<ParagraphStartPart>(items, p2Index);
+                        p2Index = FindNextPartIndex<ParagraphStartPart>(items, p2Index);
                         if(p2Index < 0)
                             return;
 

@@ -16,6 +16,7 @@ namespace OrlovMikhail.LJ.BookWriter
                 if(rtpp == null)
                     continue;
 
+                // Merge into single one.
                 while(i < items.Count - 2)
                 {
                     RawTextPostPart next = items[i + 1] as RawTextPostPart;
@@ -26,6 +27,9 @@ namespace OrlovMikhail.LJ.BookWriter
                     rtpp.Text = rtpp.Text + next.Text;
                     items.RemoveAt(i + 1);
                 }
+
+                // Double spaces.
+                rtpp.Text = rtpp.Text.Replace("  ", " ");
             }
         }
     }

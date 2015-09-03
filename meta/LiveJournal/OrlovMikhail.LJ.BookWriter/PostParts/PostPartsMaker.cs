@@ -53,11 +53,7 @@ namespace OrlovMikhail.LJ.BookWriter
             ret.Add(new LineBreaksMergingProcessor());
             // Images must be on separate lines.
             ret.Add(new ImagesExtralineProcessor());
-
-            // Consecutive texts into singles - we removed
-            // some unused tags, so this can be useful.
-            ret.Add(new TextMergingProcessor());
-
+            
             // Now we can extract quotations.
 
             // Spaces after chevrons.
@@ -65,6 +61,11 @@ namespace OrlovMikhail.LJ.BookWriter
 
             // Span formatting over paragraphs.
             ret.Add(new FormattingSpanningProcessor());
+
+            // Consecutive texts into singles - we removed
+            // some unused tags, so this can be useful.
+            // Also remove double spaces.
+            ret.Add(new TextMergingProcessor());
 
             return ret.ToArray();
         }

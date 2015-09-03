@@ -3,7 +3,7 @@ using System.Diagnostics;
 
 namespace OrlovMikhail.LJ.BookWriter
 {
-    [DebuggerDisplay("[Paragraph]")]
+    [DebuggerDisplay("[Paragraph, {QuotationLevel} quote level]")]
     public class ParagraphStartPart : NewBlockStartBasePart, IEquatable<ParagraphStartPart>
     {
         public ParagraphStartPart(int quotationLevel = 0)

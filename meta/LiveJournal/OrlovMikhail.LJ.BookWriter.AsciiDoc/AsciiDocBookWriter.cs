@@ -15,6 +15,7 @@ namespace OrlovMikhail.LJ.BookWriter.AsciiDoc
     {
         StreamWriter _sr;
         int currentQuotationLevel;
+        bool wroteAfterItemBegin;
 
         #region ctor and write
 
@@ -25,6 +26,7 @@ namespace OrlovMikhail.LJ.BookWriter.AsciiDoc
             _sr.AutoFlush = true;
 
             currentQuotationLevel = 0;
+            wroteAfterItemBegin = false;
         }
 
         public override void Dispose()
@@ -37,8 +39,8 @@ namespace OrlovMikhail.LJ.BookWriter.AsciiDoc
             }
         }
 
-        void P(string s) { _sr.Write(s); }
-        void PL(string s) { _sr.WriteLine(s); }
+        void P(string s) { _sr.Write(s); wroteAfterItemBegin |= !String.IsNullOrEmpty(s); }
+        void PL(string s) { _sr.WriteLine(s); wroteAfterItemBegin = true; }
         #endregion
 
         public override void ThreadBegin()
@@ -69,6 +71,8 @@ namespace OrlovMikhail.LJ.BookWriter.AsciiDoc
                 PL(String.Format("image:{0}[userpic, 40, 40]", posterUserpicRelativeLocation));
             PL(String.Format("{0:dd-MM-yyy HH:mm}", dateTime));
             PL("");
+
+            wroteAfterItemBegin = false;
         }
 
         public override void CommentHeader(DateTime dateTime, long id, string subject, UserLite user, string commentUserpicRelativeLocation)
@@ -80,7 +84,7 @@ namespace OrlovMikhail.LJ.BookWriter.AsciiDoc
                 PL(String.Format("image:{0}[userpic, 40, 40]", commentUserpicRelativeLocation));
 
             WriteUsernameInternal(user.Username, user.UserType == UserLiteType.C);
-            PL(String.Format("* {0:dd-MM-yyy HH:mm}*",  dateTime));
+            PL(String.Format(" {0:dd-MM-yyy HH:mm}", dateTime));
             if(!String.IsNullOrWhiteSpace(subject))
             {
                 subject = Tp.Prepare(subject);
@@ -88,6 +92,8 @@ namespace OrlovMikhail.LJ.BookWriter.AsciiDoc
             }
 
             PL("");
+
+            wroteAfterItemBegin = false;
         }
 
         protected override void WriteImageInternal(string relativePath)
@@ -111,7 +117,12 @@ namespace OrlovMikhail.LJ.BookWriter.AsciiDoc
 
         protected override void WriteUsernameInternal(string username, bool isCommunity = false)
         {
-            PL("");
+            if(wroteAfterItemBegin)
+            {
+                // End previous line.
+                PL("");
+            }
+
             if(!isCommunity)
                 PL("image::resources/userinfo.gif[userinfo, 17, 17]");
             else
@@ -135,8 +146,11 @@ namespace OrlovMikhail.LJ.BookWriter.AsciiDoc
 
         private void StartNewLine(int chevrons)
         {
-            // End previous line.
-            PL("");
+            if(wroteAfterItemBegin)
+            {
+                // End previous line.
+                PL("");
+            }
 
             for(int i = 0; i < chevrons; i++)
                 P("> ");
