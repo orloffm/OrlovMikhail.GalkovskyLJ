@@ -62,8 +62,7 @@ namespace OrlovMikhail.LJ.Galkovsky.Preparator
 
                 relativePaths.Add(Tuple.Create(number, relativePath));
             }
-
-
+            
             foreach (Split s in splits)
             {
                 string lead = MakeLead(splits, s, relativePaths.Max(z => z.Item1));

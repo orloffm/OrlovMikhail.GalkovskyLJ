@@ -107,6 +107,29 @@ namespace OrlovMikhail.LJ.BookWriter.Tests
         }
 
         [Test]
+        public void NoSuddenPlus_124()
+        {
+            string source = @"A. <br /><br /> <br />B:<br /><i>&gt;C</i><br />D";
+
+            HTMLParser p = new HTMLParser();
+            HTMLTokenBase[] tokens = p.Parse(source).ToArray();
+
+            PostPartBase[] result = _m.CreateTextParts(tokens, null).ToArray();
+
+            PostPartBase[] expected = new PostPartBase[]{
+                new RawTextPostPart("{empty}A."),
+                new ParagraphStartPart(),
+                new RawTextPostPart("B:"),
+                new ParagraphStartPart(1),
+                new RawTextPostPart("C"),
+                new ParagraphStartPart(),
+                new RawTextPostPart("D"),
+            };
+
+            CollectionAssert.AreEqual(expected, result);
+        }
+
+        [Test]
         public void ParsesQuotedQuestion()
         {
             string source = @"<span  class=""ljuser  i-ljuser  i-ljuser-deleted  i-ljuser-type-P     ""  lj:user=""pitirim_sas"" >" +

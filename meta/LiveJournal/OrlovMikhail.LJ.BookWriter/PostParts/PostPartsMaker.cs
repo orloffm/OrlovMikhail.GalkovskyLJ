@@ -51,6 +51,8 @@ namespace OrlovMikhail.LJ.BookWriter
             // Requires merged text.
             ret.Add(new LineBreakAdjacentFormattingSwapProcessor());
 
+            // Trim text near breaks.
+            ret.Add(new SecondPassTextProcessor());
             // Multiple line breaks into paragraphs.
             ret.Add(new LineBreaksMergingProcessor());
             // Images must be on separate lines.
@@ -69,6 +71,7 @@ namespace OrlovMikhail.LJ.BookWriter
 
             // Trim text near breaks.
             ret.Add(new SecondPassTextProcessor());
+            ret.Add(new ListsDisablerProcessor());
 
             // Double spaces.
             ret.Add(new DoubleSpacesRemovalProcessor());

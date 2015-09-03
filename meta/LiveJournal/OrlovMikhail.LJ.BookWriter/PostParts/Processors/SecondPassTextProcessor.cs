@@ -9,14 +9,6 @@ namespace OrlovMikhail.LJ.BookWriter
 {
     public class SecondPassTextProcessor : ProcessorBase
     {
-        private const string lineStartRegexString = @"^[*\da-zА-ЯA-Zа-я]*\.";
-        private readonly Regex _lineStartRegex;
-
-        public SecondPassTextProcessor()
-        {
-            _lineStartRegex = new Regex(lineStartRegexString, RegexOptions.Compiled);
-        }
-
         protected internal override void ProcessInternal(List<PostPartBase> items)
         {
             for(int i = 0; i < items.Count; i++)
@@ -29,8 +21,8 @@ namespace OrlovMikhail.LJ.BookWriter
                     RawTextPostPart rtpp = items[i] as RawTextPostPart;
 
                     // What should be trimmed?
-                    bool previousIsBreak = previous == null || (previous is LineBreakPart || previous is ParagraphStartPart);
-                    bool nextIsBreak = next == null || (next is LineBreakPart || next is ParagraphStartPart);
+                    bool previousIsBreak = previous == null || (previous is NewBlockStartBasePart);
+                    bool nextIsBreak = next == null || (next is NewBlockStartBasePart);
 
                     // Trim accordingly.
                     if(previousIsBreak && nextIsBreak)
@@ -40,14 +32,6 @@ namespace OrlovMikhail.LJ.BookWriter
                     else if(nextIsBreak)
                         rtpp.Text = rtpp.Text.TrimEnd();
 
-                    // Prepend numbers with {empty} to disable lists.
-                    if(previousIsBreak)
-                    {
-                        bool startsWithNumberAndDot = _lineStartRegex.IsMatch(rtpp.Text);
-                        if(startsWithNumberAndDot)
-                            rtpp.Text = "{empty}" + rtpp.Text;
-                    }
-
                     // Remove empty text.
                     if(rtpp.Text == String.Empty)
                     {
@@ -55,7 +39,7 @@ namespace OrlovMikhail.LJ.BookWriter
                         i--;
                     }
                 }
-                else if(items[i] is ParagraphStartPart || items[i] is LineBreakPart)
+                else if(items[i] is NewBlockStartBasePart)
                 {
                     if(previous == null)
                     {
