@@ -124,7 +124,7 @@ namespace OrlovMikhail.LJ.BookWriter.AsciiDoc
                 P(String.Format("image:{0}[userinfo, 17, 17]", userInfoIconRelativePath));
             else
                 P(String.Format("image:{0}[community, 17, 17]", communityIconRelativePath));
-            P("{nbsp}");
+            P("{empty}");
             WriteBoldStartInternal();
             P(username);
             WriteBoldEndInternal();

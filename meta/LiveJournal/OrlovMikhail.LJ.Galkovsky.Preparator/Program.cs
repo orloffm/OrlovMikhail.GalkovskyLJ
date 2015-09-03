@@ -25,11 +25,16 @@ namespace OrlovMikhail.LJ.Galkovsky.Preparator
 
             Dictionary<string, string> argsDic = ConsoleTools.ArgumentsToDictionary(args);
             string root = argsDic.GetExistingOrDefault("root");
-            if (String.IsNullOrEmpty(root))
+            if(String.IsNullOrEmpty(root))
             {
                 log.Error("No \root specified.");
                 return;
             }
+
+            // Delete existing.
+            string[] existingFiles = Directory.GetFiles(root, String.Format(galkovskyFormat, "*"));
+            foreach(string existingFile in existingFiles)
+                File.Delete(existingFile);
 
             // Splits.
             string[] lines = fs.File.ReadAllLines(fs.Path.Combine(root, splitFileName));
@@ -40,14 +45,14 @@ namespace OrlovMikhail.LJ.Galkovsky.Preparator
                     From = int.Parse(z[1]),
                     Description = z[2]
                 }).ToArray();
-            for (int i = 0; i < splits.Length - 1; i++)
+            for(int i = 0; i < splits.Length - 1; i++)
                 splits[i].To = splits[i + 1].From - 1;
 
             // All available files.
             DirectoryInfoBase rootInfo = fs.DirectoryInfo.FromDirectoryName(root);
             FileInfoBase[] fragments = rootInfo.EnumerateFiles("fragment.asc", SearchOption.AllDirectories).ToArray();
             List<Tuple<int, string>> relativePaths = new List<Tuple<int, string>>();
-            foreach (FileInfoBase fragment in fragments)
+            foreach(FileInfoBase fragment in fragments)
             {
                 int number = int.Parse(fragment.Directory.Name);
                 log.Info(rootInfo.FullName);
@@ -57,8 +62,16 @@ namespace OrlovMikhail.LJ.Galkovsky.Preparator
                 relativePaths.Add(Tuple.Create(number, relativePath));
             }
 
-            foreach (Split s in splits)
+            foreach(Split s in splits)
             {
+                string[] matchingPaths = relativePaths
+                    .Where(z => z.Item1 >= s.From && (!s.To.HasValue || z.Item1 <= s.To.Value))
+                    .OrderBy(z => z.Item1)
+                    .Select(z => z.Item2).ToArray();
+
+                if(matchingPaths.Length == 0)
+                    continue;
+
                 log.InfoFormat("Writing {0}...", s.Name);
 
                 StringBuilder sb = new StringBuilder();
@@ -70,12 +83,7 @@ namespace OrlovMikhail.LJ.Galkovsky.Preparator
                 sb.AppendLine(":toc:");
                 sb.AppendLine(":toclevels: 2");
 
-                string[] matchingPaths = relativePaths
-                    .Where(z => z.Item1 >= s.From && (!s.To.HasValue || z.Item1 <= s.To.Value))
-                    .OrderBy(z => z.Item1)
-                    .Select(z => z.Item2).ToArray();
-
-                foreach (string matchingPath in matchingPaths)
+                foreach(string matchingPath in matchingPaths)
                 {
                     sb.AppendLine();
                     sb.AppendFormat("include::{0}[]", matchingPath);
