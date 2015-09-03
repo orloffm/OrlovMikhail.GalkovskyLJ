@@ -19,12 +19,12 @@ namespace OrlovMikhail.LJ.BookWriter
                     continue;
 
                 // This is what the block starts with.
-                FormattingBasePart formattingStarter = (i < items.Count - 1 ? items[i + 1] : null) as FormattingBasePart;
+                FormattingStartBasePart formattingStarter = (i < items.Count - 1 ? items[i + 1] : null) as FormattingStartBasePart;
                 if(formattingStarter == null)
-                    return;
+                    continue;
 
                 // Block needs to end with this.
-                FormattingBasePart needsToEndWith = null;
+                FormattingEndBasePart needsToEndWith = null;
                 if(formattingStarter is ItalicStartPart)
                     needsToEndWith = ItalicEndPart.Instance;
                 else if(formattingStarter is BoldStartPart)
@@ -33,8 +33,11 @@ namespace OrlovMikhail.LJ.BookWriter
                     continue;
 
                 int p2Index = FindNextPartIndex<ParagraphStartPart>(items, i);
-                if(p2Index == -1)
+                if (p2Index == -1)
+                {
+                    // This is the end.
                     return;
+                }
 
                 bool blockEndsWithIt = CheckIfBlockHasClosing(items, i + 1, p2Index, needsToEndWith.GetType());
 

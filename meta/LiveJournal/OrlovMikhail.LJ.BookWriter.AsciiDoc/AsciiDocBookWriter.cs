@@ -26,7 +26,6 @@ namespace OrlovMikhail.LJ.BookWriter.AsciiDoc
             : base(root, path, new AsciiDocTextPreparator())
         {
             _sr = new StreamWriter(path.FullName, append: false, encoding: new UTF8Encoding(encoderShouldEmitUTF8Identifier: true));
-            _sr.AutoFlush = true;
 
             currentQuotationLevel = 0;
             wroteAfterItemBegin = false;

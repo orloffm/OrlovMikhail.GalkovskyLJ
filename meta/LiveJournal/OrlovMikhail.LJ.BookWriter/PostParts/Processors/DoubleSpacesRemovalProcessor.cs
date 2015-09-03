@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace OrlovMikhail.LJ.BookWriter
 {
-    public class TextMergingProcessor : ProcessorBase
+    public class DoubleSpacesRemovalProcessor : ProcessorBase
     {
         protected internal override void ProcessInternal(List<PostPartBase> items)
         {
@@ -16,17 +16,8 @@ namespace OrlovMikhail.LJ.BookWriter
                 if(rtpp == null)
                     continue;
 
-                // Merge into single one.
-                while(i < items.Count - 2)
-                {
-                    RawTextPostPart next = items[i + 1] as RawTextPostPart;
-                    if(next == null)
-                        break;
-
-                    // Join text, remove next item.
-                    rtpp.Text = rtpp.Text + next.Text;
-                    items.RemoveAt(i + 1);
-                }
+                // Double spaces.
+                rtpp.Text = rtpp.Text.Replace("  ", " ");
             }
         }
     }

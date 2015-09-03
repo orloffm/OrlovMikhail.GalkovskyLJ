@@ -48,9 +48,8 @@ namespace OrlovMikhail.LJ.Galkovsky.BookMaker
             Entry e = ep.Entry;
             List<Comment[]> comments = _scp.Pick(ep);
 
-            EntryBase[] all = comments.SelectMany(a => a).Concat(new EntryBase[] { e }).ToArray();
-
-
+            EntryBase[] all = (new EntryBase[] { e }).Concat(comments.SelectMany(a => a)).ToArray();
+            
             // Target book.
             using(IBookWriter w = _f.Create(bookRootLocation, targetFile))
             using(IFileStorage fs = _fsf.CreateOn(sourceFile.Directory.FullName))
@@ -58,7 +57,10 @@ namespace OrlovMikhail.LJ.Galkovsky.BookMaker
             {
                 // Parallelize conversion to text parts.
                 Dictionary<long, PostPartBase[]> converted = all
+#if !DEBUG
+                    // Make it parallel in Release for speed increase.
                     .AsParallel()
+#endif
                     .Select(z => new
                 {
                     Id = (z is Comment) ? z.Id : 0,

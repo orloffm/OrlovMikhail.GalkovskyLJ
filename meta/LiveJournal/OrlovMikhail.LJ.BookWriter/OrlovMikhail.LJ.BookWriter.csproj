@@ -76,6 +76,7 @@
     <Compile Include="PostParts\Processors\SecondPassTextProcessor.cs" />
     <Compile Include="PostParts\Processors\IProcessor.cs" />
     <Compile Include="PostParts\Processors\ProcessorBase.cs" />
+    <Compile Include="PostParts\Processors\DoubleSpacesRemovalProcessor.cs" />
     <Compile Include="PostParts\Processors\TextMergingProcessor.cs" />
     <Compile Include="Text\ITextPreparator.cs" />
     <Compile Include="PostParts\IPostPartsMaker.cs" />
