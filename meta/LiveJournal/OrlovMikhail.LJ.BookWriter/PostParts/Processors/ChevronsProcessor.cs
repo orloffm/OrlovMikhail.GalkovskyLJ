@@ -13,18 +13,18 @@ namespace OrlovMikhail.LJ.BookWriter
         {
             int previousDepth = 0;
 
-            for(int i = -1; i < items.Count; i++)
+            for (int i = -1; i < items.Count; i++)
             {
-                if(i >= 0)
+                if (i >= 0)
                 {
                     // On a break;
                     bool isBreak = items[i] is NewBlockStartBasePart;
-                    if(!isBreak)
+                    if (!isBreak)
                         continue;
                 }
 
                 int nextBreak = FindNextPartIndex<NewBlockStartBasePart>(items, i);
-                if(nextBreak == 0)
+                if (nextBreak == 0)
                 {
                     // We start from i==-1 to catch line begin.
                     // But if the items start from a new block, skip to it.
@@ -37,10 +37,10 @@ namespace OrlovMikhail.LJ.BookWriter
                 int chevronsFound = RemoveChevrons(textPartsBetween);
 
                 // Is depth the same as it was?
-                if(chevronsFound == previousDepth)
+                if (chevronsFound == previousDepth)
                 {
                     // It's the same depth.
-                    if(chevronsFound == 0)
+                    if (chevronsFound == 0)
                     {
                         // Not a quote at all.
                         // New block can as well be a line break.
@@ -48,7 +48,7 @@ namespace OrlovMikhail.LJ.BookWriter
                     else
                     {
                         // Make sure the new block is the proper paragraph start.
-                        if(i >= 0 && items[i] is LineBreakPart)
+                        if (i >= 0 && items[i] is LineBreakPart)
                         {
                             // We remove line breaks between quotations of the same depth.
                             items[i] = new RawTextPostPart(" ");
@@ -58,7 +58,7 @@ namespace OrlovMikhail.LJ.BookWriter
                 else
                 {
                     // Quotation depth changed.
-                    if(i >= 0)
+                    if (i >= 0)
                     {
                         // Thus the break must be a paragraph start.
                         items[i] = new ParagraphStartPart(chevronsFound);
@@ -74,7 +74,7 @@ namespace OrlovMikhail.LJ.BookWriter
                     previousDepth = chevronsFound;
                 }
 
-                if(chevronsFound != 0)
+                if (chevronsFound != 0)
                 {
                     // Remove all formatting from the block.
                     RemoveFormatters(items, i, nextBreak);
@@ -85,38 +85,44 @@ namespace OrlovMikhail.LJ.BookWriter
         /// <summary>Removes formatters.</summary>
         private void RemoveFormatters(List<PostPartBase> items, int before, int after)
         {
-            for(int i = after - 1; i > before; i--)
+            for (int i = after - 1; i > before; i--)
             {
-                if(items[i] is FormattingBasePart)
+                if (items[i] is FormattingBasePart)
                     items.RemoveAt(i);
             }
         }
 
-        private int RemoveChevrons(RawTextPostPart[] textPartsBetween)
+        public static int RemoveChevrons(RawTextPostPart[] textPartsBetween)
         {
             int chevronCount = 0;
             bool reachedBody = false;
 
-            foreach(RawTextPostPart rtpp in textPartsBetween)
+            for (int p = 0; p < textPartsBetween.Length; p++)
             {
-                for(int i = 0; i < rtpp.Text.Length; i++)
+                RawTextPostPart rtpp = textPartsBetween[p];
+                for (int i = 0; i < rtpp.Text.Length; i++)
                 {
                     char c = rtpp.Text[i];
 
-                    if(c == '>')
+                    if (c == '>')
                         chevronCount++;
-                    else if(Char.IsWhiteSpace(c))
+                    else if (Char.IsWhiteSpace(c))
                         continue;
                     else
                     {
                         // OK, not a chevron.
                         rtpp.Text = rtpp.Text.Substring(i);
                         reachedBody = true;
+
+                        // Clear text in previous items.
+                        for (int q = 0; q < p; q++)
+                            textPartsBetween[q].Text = String.Empty;
+
                         break;
                     }
                 }
 
-                if(reachedBody)
+                if (reachedBody)
                     break;
             }
 

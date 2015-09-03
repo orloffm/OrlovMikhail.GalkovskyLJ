@@ -20,9 +20,9 @@ namespace OrlovMikhail.LJ.BookWriter
 
         void CommentEnd();
 
-        void EntryHeader(DateTime dateTime, long id, string subject, UserLite user, string posterUserpicRelativeLocation);
+        void EntryHeader(Entry e, string posterUserpicRelativeLocation);
 
-        void CommentHeader(DateTime dateTime, long id, string subject, UserLite user, string commentUserpicRelativeLocation);
+        void CommentHeader(Comment c, string commentUserpicRelativeLocation);
 
         void WritePart(PostPartBase ppb);
     }

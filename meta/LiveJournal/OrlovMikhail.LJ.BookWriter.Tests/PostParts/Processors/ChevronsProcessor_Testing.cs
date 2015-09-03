@@ -11,6 +11,16 @@ namespace OrlovMikhail.LJ.BookWriter.Tests
     public class ChevronsProcessor_Testing
     {
         [Test]
+        public void RemovesChevrons()
+        {
+            RawTextPostPart[] rtpps = new[] { new RawTextPostPart(">>"), new RawTextPostPart("A") };
+            int count = ChevronsProcessor.RemoveChevrons(rtpps);
+            Assert.AreEqual(2, count);
+            Assert.IsEmpty(rtpps[0].Text);
+            Assert.AreEqual("A", rtpps[1].Text);
+        }
+
+        [Test]
         public void DoubleQuotation()
         {
             PostPartBase[] parts =
@@ -24,9 +34,9 @@ namespace OrlovMikhail.LJ.BookWriter.Tests
             PostPartBase[] expected =
             {
                 new ParagraphStartPart(1),
-                new RawTextPostPart("A"),  
-                new RawTextPostPart(" "),  
-                new RawTextPostPart("B"),  
+                new RawTextPostPart("A"),
+                new RawTextPostPart(" "),
+                new RawTextPostPart("B"),
                 new ParagraphStartPart(2),
                 new RawTextPostPart("C"),
                 new ParagraphStartPart(1),
@@ -118,14 +128,14 @@ namespace OrlovMikhail.LJ.BookWriter.Tests
                 ItalicStartPart.Instance,
                 new RawTextPostPart(">B"),  LineBreakPart.Instance,
                 new RawTextPostPart(">C"),  LineBreakPart.Instance,
-                new RawTextPostPart(">>D"), 
+                new RawTextPostPart(">>D"),
                 ItalicEndPart.Instance,
                 LineBreakPart.Instance,
             };
 
             PostPartBase[] expected =
             {
-                new ParagraphStartPart(1),   
+                new ParagraphStartPart(1),
                 new RawTextPostPart("B"),
                 new RawTextPostPart(" "),
                 new RawTextPostPart("C"),

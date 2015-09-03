@@ -49,11 +49,11 @@ namespace OrlovMikhail.LJ.Galkovsky.BookMaker
             List<Comment[]> comments = _scp.Pick(ep);
 
             EntryBase[] all = (new EntryBase[] { e }).Concat(comments.SelectMany(a => a)).ToArray();
-            
+
             // Target book.
-            using(IBookWriter w = _f.Create(bookRootLocation, targetFile))
-            using(IFileStorage fs = _fsf.CreateOn(sourceFile.Directory.FullName))
-            using(IUserpicStorage us = _usf.CreateOn(bookRootLocation.FullName))
+            using (IBookWriter w = _f.Create(bookRootLocation, targetFile))
+            using (IFileStorage fs = _fsf.CreateOn(sourceFile.Directory.FullName))
+            using (IUserpicStorage us = _usf.CreateOn(bookRootLocation.FullName))
             {
                 // Parallelize conversion to text parts.
                 Dictionary<long, PostPartBase[]> converted = all
@@ -62,34 +62,31 @@ namespace OrlovMikhail.LJ.Galkovsky.BookMaker
                     .AsParallel()
 #endif
                     .Select(z => new
-                {
-                    Id = (z is Comment) ? z.Id : 0,
-                    C = HTMLToParts(z.Text, fs, w)
-                })
+                    {
+                        Id = (z is Comment) ? z.Id : 0,
+                        C = HTMLToParts(z.Text, fs, w)
+                    })
                 .ToDictionary(p => p.Id, p => p.C);
-     
+
                 w.EntryPageBegin();
 
                 string userpicRelative = GetUserpicRelativeLocation(e, us, bookRootLocation);
-                w.EntryHeader(e.Date.Value, e.Id, e.Subject, e.Poster, userpicRelative);
+                w.EntryHeader(e, userpicRelative);
                 WriteText(converted[0], w);
                 w.EntryEnd();
 
-                if(comments.Count > 0)
+                if (comments.Count > 0)
                 {
                     w.CommentsBegin();
 
-                    foreach(Comment[] thread in comments)
+                    foreach (Comment[] thread in comments)
                     {
                         w.ThreadBegin();
 
-                        foreach(Comment c in thread)
+                        foreach (Comment c in thread)
                         {
-                            if(string.IsNullOrWhiteSpace(c.Text) && string.IsNullOrWhiteSpace(c.Subject))
-                                continue;
-
                             userpicRelative = GetUserpicRelativeLocation(c, us, bookRootLocation);
-                            w.CommentHeader(c.Date.Value, c.Id, c.Subject, c.Poster, userpicRelative);
+                            w.CommentHeader(c, userpicRelative);
                             WriteText(converted[c.Id], w);
                             w.CommentEnd();
                         }
@@ -113,7 +110,7 @@ namespace OrlovMikhail.LJ.Galkovsky.BookMaker
 
         protected internal virtual void WriteText(PostPartBase[] parts, IBookWriter w)
         {
-            for(int i = 0; i < parts.Length; i++)
+            for (int i = 0; i < parts.Length; i++)
             {
                 PostPartBase ppb = parts[i];
                 w.WritePart(ppb);
@@ -122,7 +119,7 @@ namespace OrlovMikhail.LJ.Galkovsky.BookMaker
 
         PostPartBase[] HTMLToParts(string html, IFileStorage fs, IBookWriter w)
         {
-            if(string.IsNullOrWhiteSpace(html))
+            if (string.IsNullOrWhiteSpace(html))
                 return new PostPartBase[0];
 
             // Explicit tokens as they are in the file.

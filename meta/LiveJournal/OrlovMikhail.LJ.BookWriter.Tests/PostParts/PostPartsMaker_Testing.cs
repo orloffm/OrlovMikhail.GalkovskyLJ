@@ -95,6 +95,17 @@ namespace OrlovMikhail.LJ.BookWriter.Tests
 
             CollectionAssert.AreEqual(expected, result);
         }
+
+        [Test]
+        public void ParsesEmptyAsEmpty()
+        {
+            HTMLParser p = new HTMLParser();
+            HTMLTokenBase[] tokens = p.Parse("").ToArray();
+
+            PostPartBase[] result = _m.CreateTextParts(tokens, null).ToArray();
+            CollectionAssert.IsEmpty(result);
+        }
+
         [Test]
         public void ParsesQuotedQuestion()
         {

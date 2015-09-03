@@ -33,7 +33,7 @@ namespace OrlovMikhail.LJ.BookWriter.AsciiDoc
 
         public override void Dispose()
         {
-            if(_sr != null)
+            if (_sr != null)
             {
                 _sr.Flush();
                 _sr.Dispose();
@@ -54,48 +54,58 @@ namespace OrlovMikhail.LJ.BookWriter.AsciiDoc
         public override void EntryEnd() { PL(""); }
         public override void CommentEnd() { PL(""); }
 
-        public override void EntryHeader(DateTime dateTime, long id, string subject, UserLite user, string posterUserpicRelativeLocation)
+        public override void EntryHeader(Entry e, string posterUserpicRelativeLocation)
         {
             currentQuotationLevel = 0;
 
-            if(subject.Length == 0)
-                subject = id.ToString();
+            string subject = e.Subject;
+            if (subject.Length == 0)
+                subject = e.Id.ToString();
 
             subject = subject.Trim();
-            if(subject.EndsWith("."))
+            if (subject.EndsWith("."))
                 subject = subject.Substring(0, subject.Length - 1);
             subject = Tp.Prepare(subject);
 
             PL(String.Format("== {0}", subject));
             PL("");
 
-            if(posterUserpicRelativeLocation != null)
+            if (posterUserpicRelativeLocation != null)
                 PL(String.Format("image:{0}[userpic, 40, 40]", posterUserpicRelativeLocation));
-            PL(String.Format("{0:dd-MM-yyy HH:mm}", dateTime));
+            PL(String.Format("{0:dd-MM-yyy HH:mm} +", e.Date.Value));
+            PL("++" + e.Url + "++");
             PL("");
 
             wroteAfterItemBegin = false;
         }
 
-        public override void CommentHeader(DateTime dateTime, long id, string subject, UserLite user, string commentUserpicRelativeLocation)
+        public override void CommentHeader(Comment c, string commentUserpicRelativeLocation)
         {
             currentQuotationLevel = 0;
 
             PL("");
-            if(commentUserpicRelativeLocation != null)
+            if (commentUserpicRelativeLocation != null)
                 PL(String.Format("image:{0}[userpic, 40, 40]", commentUserpicRelativeLocation));
 
-            WriteUsernameInternal(user.Username, user.UserType == UserLiteType.C);
-            PL(String.Format(" {0:dd-MM-yyy HH:mm}", dateTime));
-            if(!String.IsNullOrWhiteSpace(subject))
+            WriteUsernameInternal(c.Poster.Username, c.Poster.UserType == UserLiteType.C);
+            PL(String.Format(" {0:dd-MM-yyy HH:mm}", c.Date.Value));
+
+            string subject = c.Subject;
+            if (!String.IsNullOrWhiteSpace(subject))
             {
                 subject = Tp.Prepare(subject);
                 PL(String.Format("{0}", subject));
             }
 
             PL("");
-
             wroteAfterItemBegin = false;
+
+            if (c.IsDeleted)
+                P("(комментарий удалён)");
+            else if (c.IsScreened)
+                P("(комментарий скрыт)");
+            else if (c.IsSuspendedUser)
+                P("(пользователь заблокирован)");
         }
 
         protected override void WriteImageInternal(string relativePath)
@@ -106,10 +116,10 @@ namespace OrlovMikhail.LJ.BookWriter.AsciiDoc
         protected override void WritePreparedTextInternal(string preparedText)
         {
             string[] lines = SplitToLines(preparedText);
-            for(int i = 0; i < lines.Length; i++)
+            for (int i = 0; i < lines.Length; i++)
             {
                 P(lines[i]);
-                if(i < lines.Length - 1)
+                if (i < lines.Length - 1)
                 {
                     // Ends line and starts the next one.
                     StartNewLine(currentQuotationLevel);
@@ -119,7 +129,7 @@ namespace OrlovMikhail.LJ.BookWriter.AsciiDoc
 
         protected override void WriteUsernameInternal(string username, bool isCommunity = false)
         {
-            if(!isCommunity)
+            if (!isCommunity)
                 P(String.Format("image:{0}[userinfo, 17, 17]", userInfoIconRelativePath));
             else
                 P(String.Format("image:{0}[community, 17, 17]", communityIconRelativePath));
@@ -145,13 +155,13 @@ namespace OrlovMikhail.LJ.BookWriter.AsciiDoc
 
         private void StartNewLine(int chevrons)
         {
-            if(wroteAfterItemBegin)
+            if (wroteAfterItemBegin)
             {
                 // End previous line.
                 PL("");
             }
 
-            for(int i = 0; i < chevrons; i++)
+            for (int i = 0; i < chevrons; i++)
                 P("> ");
         }
 
@@ -165,16 +175,16 @@ namespace OrlovMikhail.LJ.BookWriter.AsciiDoc
         {
             List<string> ret = new List<string>();
             StringBuilder sb = new StringBuilder();
-            for(int i = 0; i < text.Length; i++)
+            for (int i = 0; i < text.Length; i++)
             {
                 char c = text[i];
-                if(sb.Length >= lineWidth)
+                if (sb.Length >= lineWidth)
                 {
                     char previous = sb[sb.Length - 1];
                     // We can't skip after 
                     bool canSkipHere = previous != ';';
 
-                    if(canSkipHere && Char.IsWhiteSpace(c))
+                    if (canSkipHere && Char.IsWhiteSpace(c))
                     {
                         ret.Add(sb.ToString());
                         sb.Clear();
@@ -184,7 +194,7 @@ namespace OrlovMikhail.LJ.BookWriter.AsciiDoc
                 sb.Append(c);
             }
 
-            if(sb.Length > 0)
+            if (sb.Length > 0)
                 ret.Add(sb.ToString());
 
             return ret.ToArray();

@@ -69,13 +69,14 @@
     <Compile Include="PostParts\Parts\UserLinkPart.cs" />
     <Compile Include="PostParts\Processors\ArtificialLinesRemoverProcessor.cs" />
     <Compile Include="PostParts\Processors\ChevronsProcessor.cs" />
+    <Compile Include="PostParts\Processors\OpenCloseRemovalProcessor.cs" />
     <Compile Include="PostParts\Processors\LineBreakAdjacentFormattingSwapProcessor.cs" />
     <Compile Include="PostParts\Processors\ImagesExtralineProcessor.cs" />
     <Compile Include="PostParts\Processors\LineBreaksMergingProcessor.cs" />
     <Compile Include="PostParts\Processors\FormattingSpanningProcessor.cs" />
     <Compile Include="PostParts\Processors\SecondPassTextProcessor.cs" />
-    <Compile Include="PostParts\Processors\IProcessor.cs" />
-    <Compile Include="PostParts\Processors\ProcessorBase.cs" />
+    <Compile Include="PostParts\Processors\Base\IProcessor.cs" />
+    <Compile Include="PostParts\Processors\Base\ProcessorBase.cs" />
     <Compile Include="PostParts\Processors\DoubleSpacesRemovalProcessor.cs" />
     <Compile Include="PostParts\Processors\TextMergingProcessor.cs" />
     <Compile Include="Text\ITextPreparator.cs" />
