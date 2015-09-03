@@ -121,9 +121,10 @@ namespace OrlovMikhail.LJ.BookWriter.AsciiDoc
         protected override void WriteUsernameInternal(string username, bool isCommunity = false)
         {
             if(!isCommunity)
-                PL(String.Format("image:{0}[userinfo, 17, 17]", userInfoIconRelativePath));
+                P(String.Format("image:{0}[userinfo, 17, 17]", userInfoIconRelativePath));
             else
-                PL(String.Format("image:{0}[community, 17, 17]", communityIconRelativePath));
+                P(String.Format("image:{0}[community, 17, 17]", communityIconRelativePath));
+            P("{nbsp}");
             P(String.Format("*{0}*", username));
         }
 
