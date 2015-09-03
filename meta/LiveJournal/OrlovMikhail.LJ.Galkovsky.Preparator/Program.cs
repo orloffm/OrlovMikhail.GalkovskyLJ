@@ -25,7 +25,7 @@ namespace OrlovMikhail.LJ.Galkovsky.Preparator
 
             Dictionary<string, string> argsDic = ConsoleTools.ArgumentsToDictionary(args);
             string root = argsDic.GetExistingOrDefault("root");
-            if(String.IsNullOrEmpty(root))
+            if (String.IsNullOrEmpty(root))
             {
                 log.Error("No \root specified.");
                 return;
@@ -33,7 +33,7 @@ namespace OrlovMikhail.LJ.Galkovsky.Preparator
 
             // Delete existing.
             string[] existingFiles = Directory.GetFiles(root, String.Format(galkovskyFormat, "*"));
-            foreach(string existingFile in existingFiles)
+            foreach (string existingFile in existingFiles)
                 File.Delete(existingFile);
 
             // Splits.
@@ -45,37 +45,41 @@ namespace OrlovMikhail.LJ.Galkovsky.Preparator
                     From = int.Parse(z[1]),
                     Description = z[2]
                 }).ToArray();
-            for(int i = 0; i < splits.Length - 1; i++)
+            for (int i = 0; i < splits.Length - 1; i++)
                 splits[i].To = splits[i + 1].From - 1;
+
 
             // All available files.
             DirectoryInfoBase rootInfo = fs.DirectoryInfo.FromDirectoryName(root);
             FileInfoBase[] fragments = rootInfo.EnumerateFiles("fragment.asc", SearchOption.AllDirectories).ToArray();
             List<Tuple<int, string>> relativePaths = new List<Tuple<int, string>>();
-            foreach(FileInfoBase fragment in fragments)
+            foreach (FileInfoBase fragment in fragments)
             {
                 int number = int.Parse(fragment.Directory.Name);
-                log.Info(rootInfo.FullName);
-                log.Info(fragment.FullName);
+                //   log.Info(rootInfo.FullName);
+                //   log.Info(fragment.FullName);
                 string relativePath = IOTools.MakeRelativePath(rootInfo, fragment);
 
                 relativePaths.Add(Tuple.Create(number, relativePath));
             }
 
-            foreach(Split s in splits)
+
+            foreach (Split s in splits)
             {
+                string lead = MakeLead(splits, s, relativePaths.Max(z => z.Item1));
+
                 string[] matchingPaths = relativePaths
                     .Where(z => z.Item1 >= s.From && (!s.To.HasValue || z.Item1 <= s.To.Value))
                     .OrderBy(z => z.Item1)
                     .Select(z => z.Item2).ToArray();
 
-                if(matchingPaths.Length == 0)
+                if (matchingPaths.Length == 0)
                     continue;
 
                 log.InfoFormat("Writing {0}...", s.Name);
 
                 StringBuilder sb = new StringBuilder();
-                string title = "ЖЖ Галковского. " + s.Description;
+                string title = String.Format("ЖЖ Галковского. Часть {0}. {1}", s.Name, s.Description);
                 sb.AppendLine(title);
                 sb.AppendLine(new string('=', title.Length));
                 sb.AppendLine(":doctype: book");
@@ -83,7 +87,11 @@ namespace OrlovMikhail.LJ.Galkovsky.Preparator
                 sb.AppendLine(":toc:");
                 sb.AppendLine(":toclevels: 2");
 
-                foreach(string matchingPath in matchingPaths)
+                // Shared lead.
+                sb.AppendLine();
+                sb.AppendLine(lead);
+
+                foreach (string matchingPath in matchingPaths)
                 {
                     sb.AppendLine();
                     sb.AppendFormat("include::{0}[]", matchingPath);
@@ -95,6 +103,28 @@ namespace OrlovMikhail.LJ.Galkovsky.Preparator
                 string fileLocation = fs.Path.Combine(root, fileName);
                 fs.File.WriteAllText(fileLocation, content, new UTF8Encoding(true));
             }
+        }
+
+        private static string MakeLead(Split[] splits, Split current, int max)
+        {
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("Записи разбиты по книгам следующим образом:");
+            sb.AppendLine();
+
+            sb.AppendLine("[grid=\"none\",cols=\"^1,^2,<10\"]");
+            sb.AppendLine("|====");
+
+            for (int i = 0; i < splits.Length; i++)
+            {
+                Split s = splits[i];
+                bool isCurrent = s.Name == current.Name;
+                string formatter = isCurrent ? "**" : "";
+                sb.AppendLine(String.Format("|{4}{0}{4}|{4}{1}&#8211;{2}{4}|{4}{3}{4}", s.Name, s.From, s.To ?? max, s.Description, formatter));
+            }
+
+            sb.Append("|====");
+
+            return sb.ToString();
         }
     }
 
