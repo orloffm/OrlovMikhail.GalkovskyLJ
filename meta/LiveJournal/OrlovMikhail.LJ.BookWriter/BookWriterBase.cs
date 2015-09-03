@@ -39,43 +39,43 @@ namespace OrlovMikhail.LJ.BookWriter
 
         public void WritePart(PostPartBase ppb)
         {
-            if (ppb is RawTextPostPart)
+            if(ppb is RawTextPostPart)
             {
                 // Text.
                 RawTextPostPart rtpp = ppb as RawTextPostPart;
                 string preparedText = Tp.Prepare(rtpp.Text);
                 WritePreparedTextInternal(preparedText);
             }
-            else if (ppb is ImagePart)
+            else if(ppb is ImagePart)
             {
                 // Image
                 ImagePart ip = ppb as ImagePart;
                 string relativePath = IOTools.MakeRelativePath(Root, ip.Src);
                 WriteImageInternal(relativePath);
             }
-            else if (ppb is UserLinkPart)
+            else if(ppb is UserLinkPart)
             {
                 UserLinkPart ip = ppb as UserLinkPart;
                 WriteUsernameInternal(ip.Username);
             }
-            else if (ppb is BoldStartPart)
+            else if(ppb is BoldStartPart)
                 WriteBoldStartInternal();
-            else if (ppb is BoldEndPart)
+            else if(ppb is BoldEndPart)
                 WriteBoldEndInternal();
-            else if (ppb is ItalicStartPart)
+            else if(ppb is ItalicStartPart)
                 WriteItalicStartInternal();
-            else if (ppb is ItalicEndPart)
+            else if(ppb is ItalicEndPart)
                 WriteItalicEndInternal();
-            else if (ppb is LineBreakPart)
+            else if(ppb is LineBreakPart)
                 WriteLineBreakInternal();
-            else if (ppb is ParagraphStartPart)
-                WriteParagraphStartInternal();
+            else if(ppb is ParagraphStartPart)
+                WriteParagraphStartInternal((ppb as ParagraphStartPart).QuotationLevel);
             else
                 log.WarnFormat("Post part of type {0} is not supported.", ppb.GetType().Name);
         }
 
         protected abstract void WriteUsernameInternal(string username);
-        protected abstract void WriteParagraphStartInternal();
+        protected abstract void WriteParagraphStartInternal(int quotationLevel);
         protected abstract void WriteLineBreakInternal();
         protected abstract void WriteItalicEndInternal();
         protected abstract void WriteItalicStartInternal();

@@ -3,7 +3,7 @@ using System.Diagnostics;
 namespace OrlovMikhail.LJ.BookWriter
 {
     [DebuggerDisplay("[Paragraph]")]
-    public class ParagraphStartPart : PostPartBase
+    public class ParagraphStartPart : NewBlockStartBasePart
     {
         static ParagraphStartPart _instance = new ParagraphStartPart();
 
@@ -14,6 +14,6 @@ namespace OrlovMikhail.LJ.BookWriter
 
         }
 
-        public override PostPartBase FullClone() { return this; }
+        public int QuotationLevel { get; set; }
     }
 }

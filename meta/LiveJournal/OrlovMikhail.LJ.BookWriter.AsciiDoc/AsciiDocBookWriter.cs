@@ -14,6 +14,7 @@ namespace OrlovMikhail.LJ.BookWriter.AsciiDoc
     public class AsciiDocBookWriter : BookWriterBase, IBookWriter
     {
         StreamWriter _sr;
+        int currentQuotationLevel;
 
         #region ctor and write
 
@@ -22,11 +23,13 @@ namespace OrlovMikhail.LJ.BookWriter.AsciiDoc
         {
             _sr = new StreamWriter(path.FullName, append: false, encoding: new UTF8Encoding(encoderShouldEmitUTF8Identifier: true));
             _sr.AutoFlush = true;
+
+            currentQuotationLevel = 0;
         }
 
         public override void Dispose()
         {
-            if (_sr != null)
+            if(_sr != null)
             {
                 _sr.Flush();
                 _sr.Dispose();
@@ -49,18 +52,18 @@ namespace OrlovMikhail.LJ.BookWriter.AsciiDoc
 
         public override void EntryHeader(DateTime dateTime, long id, string subject, UserLite user, string posterUserpicRelativeLocation)
         {
-            if (subject.Length == 0)
+            if(subject.Length == 0)
                 subject = id.ToString();
 
             subject = subject.Trim();
-            if (subject.EndsWith("."))
+            if(subject.EndsWith("."))
                 subject = subject.Substring(0, subject.Length - 1);
             subject = Tp.Prepare(subject);
 
             PL(String.Format("== {0}", subject));
             PL("");
 
-            if (posterUserpicRelativeLocation != null)
+            if(posterUserpicRelativeLocation != null)
                 PL(String.Format("image:{0}[userpic, 40, 40]", posterUserpicRelativeLocation));
             PL(String.Format("{0:dd-MM-yyy HH:mm}", dateTime));
             PL("");
@@ -69,11 +72,11 @@ namespace OrlovMikhail.LJ.BookWriter.AsciiDoc
         public override void CommentHeader(DateTime dateTime, long id, string subject, UserLite user, string commentUserpicRelativeLocation)
         {
             PL("");
-            if (commentUserpicRelativeLocation != null)
+            if(commentUserpicRelativeLocation != null)
                 PL(String.Format("image:{0}[userpic, 40, 40]", commentUserpicRelativeLocation));
 
             PL(String.Format("*{0}, {1:dd-MM-yyy HH:mm}*", user.Username, dateTime));
-            if (!String.IsNullOrWhiteSpace(subject))
+            if(!String.IsNullOrWhiteSpace(subject))
             {
                 subject = Tp.Prepare(subject);
                 PL(String.Format("{0}", subject));
@@ -90,11 +93,14 @@ namespace OrlovMikhail.LJ.BookWriter.AsciiDoc
         protected override void WritePreparedTextInternal(string preparedText)
         {
             string[] lines = SplitToLines(preparedText);
-            for (int i = 0; i < lines.Length; i++)
+            for(int i = 0; i < lines.Length; i++)
             {
                 P(lines[i]);
-                if (i < lines.Length - 1)
-                    PL("");
+                if(i < lines.Length - 1)
+                {
+                    // Ends line and starts the next one.
+                    StartNewLine(currentQuotationLevel);
+                }
             }
         }
 
@@ -103,7 +109,29 @@ namespace OrlovMikhail.LJ.BookWriter.AsciiDoc
             P(String.Format("*{0}*", username));
         }
 
-        protected override void WriteParagraphStartInternal() { PL(""); PL(""); }
+        protected override void WriteParagraphStartInternal(int quotationLevel)
+        {
+            // End the current line.
+            // Put chevrons on the separating line.
+            int chevronsInSeparatingLine = Math.Min(currentQuotationLevel, quotationLevel);
+            StartNewLine(chevronsInSeparatingLine);
+
+            // End the separating line.
+            // Start new line.
+            StartNewLine(quotationLevel);
+
+            this.currentQuotationLevel = quotationLevel;
+        }
+
+        private void StartNewLine(int chevrons)
+        {
+            // End previous line.
+            PL("");
+
+            for(int i = 0; i < chevrons; i++)
+                P("> ");
+        }
+
         protected override void WriteLineBreakInternal() { PL(" +"); }
         protected override void WriteBoldStartInternal() { P("*"); }
         protected override void WriteBoldEndInternal() { P("*"); }
@@ -114,16 +142,16 @@ namespace OrlovMikhail.LJ.BookWriter.AsciiDoc
         {
             List<string> ret = new List<string>();
             StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < text.Length; i++)
+            for(int i = 0; i < text.Length; i++)
             {
                 char c = text[i];
-                if (sb.Length >= lineWidth)
+                if(sb.Length >= lineWidth)
                 {
                     char previous = sb[sb.Length - 1];
                     // We can't skip after 
                     bool canSkipHere = previous != ';';
 
-                    if (canSkipHere && Char.IsWhiteSpace(c))
+                    if(canSkipHere && Char.IsWhiteSpace(c))
                     {
                         ret.Add(sb.ToString());
                         sb.Clear();
@@ -133,7 +161,7 @@ namespace OrlovMikhail.LJ.BookWriter.AsciiDoc
                 sb.Append(c);
             }
 
-            if (sb.Length > 0)
+            if(sb.Length > 0)
                 ret.Add(sb.ToString());
 
             return ret.ToArray();

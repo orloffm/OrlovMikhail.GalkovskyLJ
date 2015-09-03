@@ -3,9 +3,9 @@ using System.Diagnostics;
 namespace OrlovMikhail.LJ.BookWriter
 {
     [DebuggerDisplay("[Line break]")]
-    public class LineBreakPart : PostPartBase
+    public class LineBreakPart : NewBlockStartBasePart
     {
-         static LineBreakPart _instance = new LineBreakPart();
+        static LineBreakPart _instance = new LineBreakPart();
 
         public static LineBreakPart Instance { get { return _instance; } }
 
@@ -13,7 +13,5 @@ namespace OrlovMikhail.LJ.BookWriter
         {
 
         }
-
-        public override PostPartBase FullClone() { return this; }
     }
 }
