@@ -24,6 +24,12 @@ namespace OrlovMikhail.LJ.BookWriter
                 }
 
                 int nextBreak = FindNextPartIndex<NewBlockStartBasePart>(items, i);
+                if(nextBreak == 0)
+                {
+                    // We start from i==-1 to catch line begin.
+                    // But if the items start from a new block, skip to it.
+                    continue;
+                }
 
                 // All text parts.
                 RawTextPostPart[] textPartsBetween = EnumerateTextPartsBetween(items, i, nextBreak).ToArray();
@@ -62,10 +68,27 @@ namespace OrlovMikhail.LJ.BookWriter
                         // That's the first items. We should start the quotation here.
                         items.Insert(0, new ParagraphStartPart(chevronsFound));
                         i++;
+                        nextBreak++;
                     }
 
                     previousDepth = chevronsFound;
                 }
+
+                if(chevronsFound != 0)
+                {
+                    // Remove all formatting from the block.
+                    RemoveFormatters(items, i, nextBreak);
+                }
+            }
+        }
+
+        /// <summary>Removes formatters.</summary>
+        private void RemoveFormatters(List<PostPartBase> items, int before, int after)
+        {
+            for(int i = after - 1; i > before; i--)
+            {
+                if(items[i] is FormattingBasePart)
+                    items.RemoveAt(i);
             }
         }
 

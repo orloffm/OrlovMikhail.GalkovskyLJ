@@ -67,14 +67,14 @@ namespace OrlovMikhail.LJ.BookWriter
             int startIndex = (a < 0) ? 0 : a + 1;
             int endIndex = (b < 0) ? items.Count - 1 : b - 1;
 
-            if(startIndex > endIndex)
+            if(startIndex > endIndex && (a != -1 && b != -1))
                 throw new ArgumentException();
 
             for(int i = startIndex; i <= endIndex; i++)
             {
                 RawTextPostPart rtpp = items[i] as RawTextPostPart;
                 if(rtpp != null)
-                   yield return rtpp;
+                    yield return rtpp;
             }
         }
 
@@ -84,7 +84,7 @@ namespace OrlovMikhail.LJ.BookWriter
         /// <param name="b">Index before which.</param>
         public static IEnumerable<char> EnumerateCharsBetween(List<PostPartBase> items, int a, int b)
         {
-            var rawTextParts = EnumerateTextPartsBetween(items,a,b);
+            var rawTextParts = EnumerateTextPartsBetween(items, a, b);
 
             foreach(RawTextPostPart rtpp in rawTextParts)
             {

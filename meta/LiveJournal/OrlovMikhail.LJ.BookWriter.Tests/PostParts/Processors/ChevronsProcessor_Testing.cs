@@ -54,32 +54,61 @@ namespace OrlovMikhail.LJ.BookWriter.Tests
         }
 
         [Test]
-        public void ExtractsLineBeginFromPreviousLine()
+        public void PreservesLineBreaks()
         {
             PostPartBase[] parts =
             {
-                new RawTextPostPart("Vasily: >A"),  LineBreakPart.Instance,
-                new RawTextPostPart(">B"),  LineBreakPart.Instance,
-                new RawTextPostPart(">C"),  LineBreakPart.Instance,
-                new RawTextPostPart(">>D"), LineBreakPart.Instance,
+                new RawTextPostPart(">A"),
+                LineBreakPart.Instance,
+                new RawTextPostPart(">B"),
+                LineBreakPart.Instance,
+                new RawTextPostPart("C"),
+                LineBreakPart.Instance,
+                new RawTextPostPart("D"),
             };
 
             PostPartBase[] expected =
             {
-                new RawTextPostPart("Vasily:"),
-                new ParagraphStartPart(1),   
+                new ParagraphStartPart(1),
                 new RawTextPostPart("A"),
                 new RawTextPostPart(" "),
                 new RawTextPostPart("B"),
-                new RawTextPostPart(" "),
+                new ParagraphStartPart(0),
                 new RawTextPostPart("C"),
-                new ParagraphStartPart(2),
+                LineBreakPart.Instance,
                 new RawTextPostPart("D"),
             };
 
             Check(parts, expected);
         }
-        
+
+        //[Test]
+        //public void ExtractsLineBeginFromPreviousLine()
+        //{
+        //    PostPartBase[] parts =
+        //    {
+        //        new RawTextPostPart("Vasily: >A"),  LineBreakPart.Instance,
+        //        new RawTextPostPart(">B"),  LineBreakPart.Instance,
+        //        new RawTextPostPart(">C"),  LineBreakPart.Instance,
+        //        new RawTextPostPart(">>D"), LineBreakPart.Instance,
+        //    };
+
+        //    PostPartBase[] expected =
+        //    {
+        //        new RawTextPostPart("Vasily:"),
+        //        new ParagraphStartPart(1),   
+        //        new RawTextPostPart("A"),
+        //        new RawTextPostPart(" "),
+        //        new RawTextPostPart("B"),
+        //        new RawTextPostPart(" "),
+        //        new RawTextPostPart("C"),
+        //        new ParagraphStartPart(2),
+        //        new RawTextPostPart("D"),
+        //    };
+
+        //    Check(parts, expected);
+        //}
+
         [Test]
         public void RemovesFormatting()
         {
@@ -102,7 +131,7 @@ namespace OrlovMikhail.LJ.BookWriter.Tests
                 new RawTextPostPart("C"),
                 new ParagraphStartPart(2),
                 new RawTextPostPart("D"),
-                LineBreakPart.Instance,
+                new ParagraphStartPart(0),
            };
 
             Check(parts, expected);

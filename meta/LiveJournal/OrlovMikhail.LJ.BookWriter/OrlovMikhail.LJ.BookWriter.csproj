@@ -65,6 +65,7 @@
     <Compile Include="IBookWriter.cs" />
     <Compile Include="IBookWriterFactory.cs" />
     <Compile Include="PostParts\Parts\Blocks\NewBlockStartBasePart.cs" />
+    <Compile Include="PostParts\Parts\Formatting\FormattingBasePart.cs" />
     <Compile Include="PostParts\Parts\UserLinkPart.cs" />
     <Compile Include="PostParts\Processors\ArtificialLinesRemoverProcessor.cs" />
     <Compile Include="PostParts\Processors\ChevronsProcessor.cs" />
@@ -78,10 +79,10 @@
     <Compile Include="PostParts\Processors\TextMergingProcessor.cs" />
     <Compile Include="Text\ITextPreparator.cs" />
     <Compile Include="PostParts\IPostPartsMaker.cs" />
-    <Compile Include="PostParts\Parts\BoldEndPart.cs" />
-    <Compile Include="PostParts\Parts\BoldStartPart.cs" />
-    <Compile Include="PostParts\Parts\ItalicEndPart.cs" />
-    <Compile Include="PostParts\Parts\ItalicStartPart.cs" />
+    <Compile Include="PostParts\Parts\Formatting\BoldEndPart.cs" />
+    <Compile Include="PostParts\Parts\Formatting\BoldStartPart.cs" />
+    <Compile Include="PostParts\Parts\Formatting\ItalicEndPart.cs" />
+    <Compile Include="PostParts\Parts\Formatting\ItalicStartPart.cs" />
     <Compile Include="PostParts\Parts\Blocks\LineBreakPart.cs" />
     <Compile Include="PostParts\Parts\Blocks\ParagraphStartPart.cs" />
     <Compile Include="PostParts\Parts\ImagePart.cs" />

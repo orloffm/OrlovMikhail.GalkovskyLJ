@@ -3,7 +3,7 @@ using System.Diagnostics;
 namespace OrlovMikhail.LJ.BookWriter
 {
     [DebuggerDisplay("Bold \\/")]
-    public class BoldStartPart : PostPartBase
+    public class BoldStartPart : FormattingBasePart
     {
         static BoldStartPart _instance = new BoldStartPart();
 
@@ -13,7 +13,5 @@ namespace OrlovMikhail.LJ.BookWriter
         {
 
         }
-  
-        public override PostPartBase FullClone() { return this; }
     }
 }

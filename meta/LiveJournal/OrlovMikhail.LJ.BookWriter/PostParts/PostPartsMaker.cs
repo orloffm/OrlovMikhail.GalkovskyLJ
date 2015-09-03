@@ -47,8 +47,6 @@ namespace OrlovMikhail.LJ.BookWriter
             // Remove line breaks if formatting starts before or ends after it.
             ret.Add(new LineBreakAdjacentFormattingRemovingProcessor());
 
-            // Trim text near breaks.
-            ret.Add(new SecondPassTextProcessor());
             // Multiple line breaks into paragraphs.
             ret.Add(new LineBreaksMergingProcessor());
             // Images must be on separate lines.
@@ -62,6 +60,8 @@ namespace OrlovMikhail.LJ.BookWriter
             // Span formatting over paragraphs.
             ret.Add(new FormattingSpanningProcessor());
 
+            // Trim text near breaks.
+            ret.Add(new SecondPassTextProcessor());
             // Consecutive texts into singles - we removed
             // some unused tags, so this can be useful.
             // Also remove double spaces.

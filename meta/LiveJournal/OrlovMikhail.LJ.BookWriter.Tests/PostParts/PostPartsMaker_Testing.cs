@@ -65,6 +65,37 @@ namespace OrlovMikhail.LJ.BookWriter.Tests
         }
 
         [Test]
+        public void ParsesDoubleQuotedQuestion()
+        {
+            string source = @"Z: <br /><br />" +
+                            @"<i>&gt;A<br />" +
+                            @"&gt;B<br />" +
+                            @"&gt;C<br /><br />" +
+                            @"&gt;&gt;D<br /><br />" +
+                            @"&gt;E<br />" +
+                            @"&gt;F<br />" +
+                            @"&gt;G </i><br /><br />Z";
+
+            HTMLParser p = new HTMLParser();
+            HTMLTokenBase[] tokens = p.Parse(source).ToArray();
+
+            PostPartBase[] result = _m.CreateTextParts(tokens, null).ToArray();
+
+            PostPartBase[] expected = new PostPartBase[]{
+                new RawTextPostPart("Z:"),
+                new ParagraphStartPart(1),
+                new RawTextPostPart("A B C"),
+                new ParagraphStartPart(2),
+                new RawTextPostPart("D"),
+                new ParagraphStartPart(1),
+                new RawTextPostPart("E F G"),
+                new ParagraphStartPart(0),
+                new RawTextPostPart("Z"),
+            };
+
+            CollectionAssert.AreEqual(expected, result);
+        }
+        [Test]
         public void ParsesQuotedQuestion()
         {
             string source = @"<span  class=""ljuser  i-ljuser  i-ljuser-deleted  i-ljuser-type-P     ""  lj:user=""pitirim_sas"" >" +

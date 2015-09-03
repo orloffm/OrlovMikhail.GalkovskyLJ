@@ -3,7 +3,7 @@ using System.Diagnostics;
 namespace OrlovMikhail.LJ.BookWriter
 {
     [DebuggerDisplay("Italic \\/")]
-    public class ItalicStartPart : PostPartBase
+    public class ItalicStartPart : FormattingBasePart
     {
         static ItalicStartPart _instance = new ItalicStartPart();
 
@@ -13,7 +13,5 @@ namespace OrlovMikhail.LJ.BookWriter
         {
 
         }
-
-        public override PostPartBase FullClone() { return this; }
     }
 }

@@ -17,6 +17,9 @@ namespace OrlovMikhail.LJ.BookWriter.AsciiDoc
         int currentQuotationLevel;
         bool wroteAfterItemBegin;
 
+        const string userInfoIconRelativePath = "resources\\userinfo.png";
+        const string communityIconRelativePath = "resources\\community.png";
+
         #region ctor and write
 
         public AsciiDocBookWriter(DirectoryInfoBase root, FileInfoBase path)
@@ -117,16 +120,10 @@ namespace OrlovMikhail.LJ.BookWriter.AsciiDoc
 
         protected override void WriteUsernameInternal(string username, bool isCommunity = false)
         {
-            if(wroteAfterItemBegin)
-            {
-                // End previous line.
-                PL("");
-            }
-
             if(!isCommunity)
-                PL("image::resources/userinfo.gif[userinfo, 17, 17]");
+                PL(String.Format("image:{0}[userinfo, 17, 17]", userInfoIconRelativePath));
             else
-                PL("image::resources/userinfo.gif[community, 17, 17]");
+                PL(String.Format("image:{0}[community, 17, 17]", communityIconRelativePath));
             P(String.Format("*{0}*", username));
         }
 

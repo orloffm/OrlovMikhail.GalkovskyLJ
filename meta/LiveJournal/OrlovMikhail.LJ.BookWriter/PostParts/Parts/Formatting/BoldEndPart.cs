@@ -3,7 +3,7 @@ using System.Diagnostics;
 namespace OrlovMikhail.LJ.BookWriter
 {
     [DebuggerDisplay("Bold /\\")]
-    public class BoldEndPart : PostPartBase
+    public class BoldEndPart : FormattingBasePart
     {
         static BoldEndPart _instance = new BoldEndPart();
 
@@ -13,7 +13,5 @@ namespace OrlovMikhail.LJ.BookWriter
         {
 
         }
-
-        public override PostPartBase FullClone() { return this; }
     }
 }
