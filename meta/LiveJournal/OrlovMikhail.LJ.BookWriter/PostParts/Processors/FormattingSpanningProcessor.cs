@@ -33,6 +33,9 @@ namespace OrlovMikhail.LJ.BookWriter
                     continue;
 
                 int p2Index = FindNextPartIndex<ParagraphStartPart>(items, i);
+                if(p2Index == -1)
+                    return;
+
                 bool blockEndsWithIt = CheckIfBlockHasClosing(items, i + 1, p2Index, needsToEndWith.GetType());
 
                 if(blockEndsWithIt)

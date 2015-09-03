@@ -125,7 +125,9 @@ namespace OrlovMikhail.LJ.BookWriter.AsciiDoc
             else
                 P(String.Format("image:{0}[community, 17, 17]", communityIconRelativePath));
             P("{nbsp}");
-            P(String.Format("*{0}*", username));
+            WriteBoldStartInternal();
+            P(username);
+            WriteBoldEndInternal();
         }
 
         protected override void WriteParagraphStartInternal(int quotationLevel)
@@ -155,10 +157,10 @@ namespace OrlovMikhail.LJ.BookWriter.AsciiDoc
         }
 
         protected override void WriteLineBreakInternal() { PL(" +"); }
-        protected override void WriteBoldStartInternal() { P("*"); }
-        protected override void WriteBoldEndInternal() { P("*"); }
-        protected override void WriteItalicStartInternal() { P("_"); }
-        protected override void WriteItalicEndInternal() { P("_"); }
+        protected override void WriteBoldStartInternal() { P("**"); }
+        protected override void WriteBoldEndInternal() { P("**"); }
+        protected override void WriteItalicStartInternal() { P("__"); }
+        protected override void WriteItalicEndInternal() { P("__"); }
 
         public static string[] SplitToLines(string text, int lineWidth = 60)
         {

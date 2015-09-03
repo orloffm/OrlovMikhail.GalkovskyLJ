@@ -3,7 +3,7 @@ using System.Diagnostics;
 namespace OrlovMikhail.LJ.BookWriter
 {
     [DebuggerDisplay("Bold /\\")]
-    public class BoldEndPart : FormattingBasePart
+    public class BoldEndPart : FormattingEndBasePart
     {
         static BoldEndPart _instance = new BoldEndPart();
 

@@ -3,7 +3,7 @@ using System.Diagnostics;
 namespace OrlovMikhail.LJ.BookWriter
 {
     [DebuggerDisplay("Italic /\\")]
-    public class ItalicEndPart : FormattingBasePart
+    public class ItalicEndPart : FormattingEndBasePart
     {
         static ItalicEndPart _instance = new ItalicEndPart();
 

@@ -45,36 +45,50 @@ namespace OrlovMikhail.LJ.Galkovsky.BookMaker
             EntryPage ep = _lp.ParseAsAnEntryPage(_fs.File.ReadAllText(sourceFile.FullName));
             string html = ep.Entry.Text;
 
+            Entry e = ep.Entry;
+            List<Comment[]> comments = _scp.Pick(ep);
+
+            EntryBase[] all = comments.SelectMany(a => a).Concat(new EntryBase[] { e }).ToArray();
+
+
             // Target book.
-            using (IBookWriter w = _f.Create(bookRootLocation, targetFile))
-            using (IFileStorage fs = _fsf.CreateOn(sourceFile.Directory.FullName))
-            using (IUserpicStorage us = _usf.CreateOn(bookRootLocation.FullName))
+            using(IBookWriter w = _f.Create(bookRootLocation, targetFile))
+            using(IFileStorage fs = _fsf.CreateOn(sourceFile.Directory.FullName))
+            using(IUserpicStorage us = _usf.CreateOn(bookRootLocation.FullName))
             {
+                // Parallelize conversion to text parts.
+                Dictionary<long, PostPartBase[]> converted = all
+                    .AsParallel()
+                    .Select(z => new
+                {
+                    Id = (z is Comment) ? z.Id : 0,
+                    C = HTMLToParts(z.Text, fs, w)
+                })
+                .ToDictionary(p => p.Id, p => p.C);
+     
                 w.EntryPageBegin();
 
-                Entry e = ep.Entry;
                 string userpicRelative = GetUserpicRelativeLocation(e, us, bookRootLocation);
                 w.EntryHeader(e.Date.Value, e.Id, e.Subject, e.Poster, userpicRelative);
-                WriteText(e.Text, fs, w, true);
+                WriteText(converted[0], w);
                 w.EntryEnd();
 
-                List<Comment[]> comments = _scp.Pick(ep);
-                if (comments.Count > 0)
+                if(comments.Count > 0)
                 {
                     w.CommentsBegin();
 
-                    foreach (Comment[] thread in comments)
+                    foreach(Comment[] thread in comments)
                     {
                         w.ThreadBegin();
 
-                        foreach (Comment c in thread)
+                        foreach(Comment c in thread)
                         {
-                            if (string.IsNullOrWhiteSpace(c.Text) && string.IsNullOrWhiteSpace(c.Subject))
+                            if(string.IsNullOrWhiteSpace(c.Text) && string.IsNullOrWhiteSpace(c.Subject))
                                 continue;
 
                             userpicRelative = GetUserpicRelativeLocation(c, us, bookRootLocation);
                             w.CommentHeader(c.Date.Value, c.Id, c.Subject, c.Poster, userpicRelative);
-                            WriteText(c.Text, fs, w, c.Poster.Equals(e.Poster));
+                            WriteText(converted[c.Id], w);
                             w.CommentEnd();
                         }
 
@@ -95,21 +109,25 @@ namespace OrlovMikhail.LJ.Galkovsky.BookMaker
             return relativeUserpicLocation;
         }
 
-        protected internal virtual void WriteText(string html, IFileStorage fs, IBookWriter w, bool isAuthor)
+        protected internal virtual void WriteText(PostPartBase[] parts, IBookWriter w)
         {
-            if (string.IsNullOrWhiteSpace(html))
-                return;
+            for(int i = 0; i < parts.Length; i++)
+            {
+                PostPartBase ppb = parts[i];
+                w.WritePart(ppb);
+            }
+        }
+
+        PostPartBase[] HTMLToParts(string html, IFileStorage fs, IBookWriter w)
+        {
+            if(string.IsNullOrWhiteSpace(html))
+                return new PostPartBase[0];
 
             // Explicit tokens as they are in the file.
             HTMLTokenBase[] tokens = _htmlParser.Parse(html).ToArray();
 
             PostPartBase[] parts = _ppm.CreateTextParts(tokens, fs).ToArray();
-
-            for (int i = 0; i < parts.Length; i++)
-            {
-                PostPartBase ppb = parts[i];
-                w.WritePart(ppb);
-            }
+            return parts;
         }
     }
 }

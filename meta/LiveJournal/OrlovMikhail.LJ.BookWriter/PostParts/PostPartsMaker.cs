@@ -45,7 +45,7 @@ namespace OrlovMikhail.LJ.BookWriter
             ret.Add(new ArtificialLinesRemoverProcessor());
 
             // Remove line breaks if formatting starts before or ends after it.
-            ret.Add(new LineBreakAdjacentFormattingRemovingProcessor());
+            ret.Add(new LineBreakAdjacentFormattingSwapProcessor());
 
             // Multiple line breaks into paragraphs.
             ret.Add(new LineBreaksMergingProcessor());
