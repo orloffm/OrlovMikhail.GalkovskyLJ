@@ -71,7 +71,7 @@ namespace OrlovMikhail.LJ.Grabber
 
             EntryPage ep = null;
             string dumpFile = _fs.Path.Combine(workLocation, filename);
-            if (_fs.File.Exists(dumpFile))
+            if(_fs.File.Exists(dumpFile))
             {
                 log.Info("File " + filename + " exists, will load it...");
                 ep = _lp.ParseAsAnEntryPage(_fs.File.ReadAllText(dumpFile));
@@ -83,12 +83,14 @@ namespace OrlovMikhail.LJ.Grabber
             bool needsSaving = _ext.AbsorbAllData(freshSource, cookieData, ref ep);
 
             log.Info("Will save changes: " + needsSaving + ".");
-            if (needsSaving)
+            if(needsSaving)
             {
                 // Save the content as is.
                 string content = _lp.Serialize(ep);
                 _fs.Directory.CreateDirectory(workLocation);
-                _fs.File.WriteAllText(dumpFile, content);
+
+                UTF8Encoding enc = new UTF8Encoding(encoderShouldEmitUTF8Identifier: true);
+                _fs.File.WriteAllText(dumpFile, content, enc);
 
                 // Pick usable comments.
                 List<Comment[]> comments = _scp.Pick(ep);

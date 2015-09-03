@@ -19,7 +19,7 @@ namespace OrlovMikhail.LJ.BookWriter.Tests
         }
 
         [Test]
-        public void ExtractsUserNamePart()
+        public void ExtractsUserNamePartSimple()
         {
             List<HTMLTokenBase> tokens = new List<HTMLTokenBase>();
 
@@ -62,6 +62,34 @@ namespace OrlovMikhail.LJ.BookWriter.Tests
             Assert.IsInstanceOf<ItalicEndPart>(result[4]);
             Assert.IsInstanceOf<ParagraphStartPart>(result[5]);
             Assert.IsInstanceOf<RawTextPostPart>(result[6]);
+        }
+
+        [Test]
+        public void ParsesQuotedQuestion()
+        {
+            string source = @"<span  class=""ljuser  i-ljuser  i-ljuser-deleted  i-ljuser-type-P     ""  lj:user=""pitirim_sas"" >" +
+                            @"<a href=""http://pitirim-sas.livejournal.com/profile""  target=""_self""  class=""i-ljuser-profile"" >" +
+                            @"<img  class=""i-ljuser-userhead""  src=""http://l-stat.livejournal.net/img/userinfo.gif?v=17080?v=129.5"" /></a>" +
+                            @"<a href=""http://pitirim-sas.livejournal.com/"" class=""i-ljuser-username""   target=""_self""   ><b>pitirim_sas</b></a></span>: <br />" +
+                            @"<br /><i>&gt;&gt;A<br />&gt;&gt;B<br /><br />&gt;C<br />&gt;Z</i><br /><br />Text";
+
+            HTMLParser p = new HTMLParser();
+            HTMLTokenBase[] tokens = p.Parse(source).ToArray();
+
+            PostPartBase[] result = _m.CreateTextParts(tokens, null).ToArray();
+
+            PostPartBase[] expected = new PostPartBase[]{
+                new UserLinkPart("pitirim_sas"),
+                new RawTextPostPart(":"),
+                new ParagraphStartPart(2),
+                new RawTextPostPart("A B"),
+                new ParagraphStartPart(1),
+                new RawTextPostPart("C Z"),
+                new ParagraphStartPart(),
+                new RawTextPostPart("Text"),
+            };
+
+            CollectionAssert.AreEqual(expected, result);
         }
     }
 }

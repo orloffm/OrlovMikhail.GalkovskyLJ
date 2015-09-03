@@ -21,7 +21,7 @@ namespace OrlovMikhail.LJ.Grabber
 
         public Uri GetUri()
         {
-            if (String.IsNullOrWhiteSpace(Url))
+            if(String.IsNullOrWhiteSpace(Url))
                 return null;
             else
                 return new Uri(Url);
@@ -41,11 +41,12 @@ namespace OrlovMikhail.LJ.Grabber
         [XmlIgnore]
         public bool WidthSpecified { get { return !String.IsNullOrWhiteSpace(Width); } }
 
+        #region equality
         public static bool AreEqual(Userpic a, Userpic b)
         {
-            if (ReferenceEquals(a, b))
+            if(ReferenceEquals(a, b))
                 return true;
-            if (ReferenceEquals(a, null) || ReferenceEquals(b, null))
+            if(ReferenceEquals(a, null) || ReferenceEquals(b, null))
                 return false;
 
             return String.Equals(a.Url, b.Url, StringComparison.OrdinalIgnoreCase);
@@ -63,11 +64,12 @@ namespace OrlovMikhail.LJ.Grabber
 
         public override int GetHashCode()
         {
-            if (Url == null)
+            if(Url == null)
                 return 0;
             else
                 return Url.GetHashCode();
         }
+        #endregion
 
         public override string ToString()
         {

@@ -34,7 +34,7 @@ namespace OrlovMikhail.LJ.Grabber
 
         public string Serialize(EntryPage ep)
         {
-            UTF8Encoding enc = new UTF8Encoding(encoderShouldEmitUTF8Identifier: true);
+            UTF8Encoding enc = new UTF8Encoding(encoderShouldEmitUTF8Identifier: false);
 
             XmlWriterSettings settings = new XmlWriterSettings();
             settings.OmitXmlDeclaration = true;

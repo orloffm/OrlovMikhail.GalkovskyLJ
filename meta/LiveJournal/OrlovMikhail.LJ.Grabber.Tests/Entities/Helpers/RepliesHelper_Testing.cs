@@ -79,7 +79,7 @@ namespace OrlovMikhail.LJ.Grabber.Tests
 
             Assert.AreSame(c, a.Replies.Comments[0], "Should've kept the old comment in the comment tree.");
             Assert.AreSame(e, a.Replies.Comments[2], "Should've kept the old comment in the comment tree.");
-            Assert.AreSame(d, a.Replies.Comments[1], "Should've updated the comment tree with a new comment.");
+            Assert.AreEqual(d, a.Replies.Comments[1], "Should've updated the comment tree with a new comment.");
         }
 
         [Test]
@@ -98,19 +98,9 @@ namespace OrlovMikhail.LJ.Grabber.Tests
             Assert.AreEqual(oldDepth, a.Depth, "Should keep the depth.");
             Assert.AreEqual(b.Text, a.Text);
             Assert.AreEqual(b.Subject, a.Subject);
-            Assert.AreSame(b.PosterUserpic, a.PosterUserpic);
+            Assert.AreEqual(b.PosterUserpic, a.PosterUserpic);
             Assert.AreEqual(oldParentUrl, a.ParentUrl);
             Assert.AreEqual(b.DateValue, a.DateValue);
-        }
-
-        [Test, ExpectedException]
-        public void ThrowsIfNewVersionIsNotFull()
-        {
-            Comment a, b;
-            TestingShared.CreateTwoComments(out a, out b);
-            b.IsFull = false;
-
-            _rh.UpdateDirectDataWith(a, b);
         }
 
         [Test, ExpectedException]

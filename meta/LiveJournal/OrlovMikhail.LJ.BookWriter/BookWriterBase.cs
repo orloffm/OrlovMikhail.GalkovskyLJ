@@ -49,14 +49,14 @@ namespace OrlovMikhail.LJ.BookWriter
             else if(ppb is ImagePart)
             {
                 // Image
-                ImagePart ip = ppb as ImagePart;
+                ImagePart ip = (ImagePart)ppb;
                 string relativePath = IOTools.MakeRelativePath(Root, ip.Src);
                 WriteImageInternal(relativePath);
             }
             else if(ppb is UserLinkPart)
             {
-                UserLinkPart ip = ppb as UserLinkPart;
-                WriteUsernameInternal(ip.Username);
+                UserLinkPart ip = (UserLinkPart)ppb;
+                WriteUsernameInternal(ip.Username, ip.IsCommunity);
             }
             else if(ppb is BoldStartPart)
                 WriteBoldStartInternal();
@@ -74,7 +74,7 @@ namespace OrlovMikhail.LJ.BookWriter
                 log.WarnFormat("Post part of type {0} is not supported.", ppb.GetType().Name);
         }
 
-        protected abstract void WriteUsernameInternal(string username);
+        protected abstract void WriteUsernameInternal(string username, bool isCommunity = false);
         protected abstract void WriteParagraphStartInternal(int quotationLevel);
         protected abstract void WriteLineBreakInternal();
         protected abstract void WriteItalicEndInternal();

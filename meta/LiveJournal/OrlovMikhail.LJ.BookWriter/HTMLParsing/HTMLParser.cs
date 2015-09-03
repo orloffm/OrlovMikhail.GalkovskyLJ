@@ -8,7 +8,7 @@ using System.Web;
 
 namespace OrlovMikhail.LJ.BookWriter
 {
-    public class HTMLParser : IHTMLParser
+    public sealed class HTMLParser : IHTMLParser
     {
         static readonly ILog log = LogManager.GetLogger(typeof(HTMLParser));
 
