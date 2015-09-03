@@ -16,7 +16,7 @@ namespace OrlovMikhail.LJ.BookWriter
                 if(rtpp == null)
                     continue;
 
-                while(i < items.Count - 1)
+                while(i < items.Count - 2)
                 {
                     RawTextPostPart next = items[i + 1] as RawTextPostPart;
                     if(next == null)

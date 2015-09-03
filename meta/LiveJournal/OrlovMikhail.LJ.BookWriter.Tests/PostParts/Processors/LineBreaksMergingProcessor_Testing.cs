@@ -8,45 +8,42 @@ using NUnit.Framework;
 namespace OrlovMikhail.LJ.BookWriter.Tests
 {
     [TestFixture]
-    public class ChevronsProcessor_Testing
+    public class LineBreaksMergingProcessor_Testing
     {
         [Test]
-        public void DoubleQuotation()
+        public void MergesLineBreaks()
         {
             PostPartBase[] parts =
             {
-                new RawTextPostPart(">A"),  LineBreakPart.Instance,
-                new RawTextPostPart(">B"),  LineBreakPart.Instance,
-                new RawTextPostPart(">>C"), LineBreakPart.Instance,
-                new RawTextPostPart(">D"),
+                LineBreakPart.Instance,
+                LineBreakPart.Instance,
+                LineBreakPart.Instance
             };
 
             PostPartBase[] expected =
             {
-                new ParagraphStartPart(1),
-                new RawTextPostPart("A"),   
-                new RawTextPostPart("B"),  
-                new ParagraphStartPart(2),
-                new RawTextPostPart("C"),
-                new ParagraphStartPart(1),
-                new RawTextPostPart("D"),
+                new ParagraphStartPart(),
             };
 
             Check(parts, expected);
         }
 
         [Test]
-        public void SimplestCase()
+        public void LineBreaksAreConsumedByParagraphs()
         {
             PostPartBase[] parts =
             {
-                new RawTextPostPart(">A")
+                LineBreakPart.Instance,
+                new ParagraphStartPart(0),
+                LineBreakPart.Instance,
+                LineBreakPart.Instance,
+                new ParagraphStartPart(1),
+                LineBreakPart.Instance
             };
 
             PostPartBase[] expected =
             {
                 new ParagraphStartPart(1),
-                new RawTextPostPart("A")
             };
 
             Check(parts, expected);
@@ -54,7 +51,7 @@ namespace OrlovMikhail.LJ.BookWriter.Tests
 
         private void Check(PostPartBase[] parts, PostPartBase[] expected)
         {
-            IProcessor cp = new ChevronsProcessor2();
+            IProcessor cp = new LineBreaksMergingProcessor();
             List<PostPartBase> processed = cp.Process(parts);
             CollectionAssert.AreEqual(expected, processed);
         }

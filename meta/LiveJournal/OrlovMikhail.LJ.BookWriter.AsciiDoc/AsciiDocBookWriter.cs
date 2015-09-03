@@ -47,11 +47,13 @@ namespace OrlovMikhail.LJ.BookWriter.AsciiDoc
             PL("''''");
         }
 
-        public override void EntryEnd() { PL(""); }
+        public override void EntryEnd() { PL("");  }
         public override void CommentEnd() { PL(""); }
 
         public override void EntryHeader(DateTime dateTime, long id, string subject, UserLite user, string posterUserpicRelativeLocation)
         {
+            currentQuotationLevel = 0;
+
             if(subject.Length == 0)
                 subject = id.ToString();
 
@@ -71,6 +73,8 @@ namespace OrlovMikhail.LJ.BookWriter.AsciiDoc
 
         public override void CommentHeader(DateTime dateTime, long id, string subject, UserLite user, string commentUserpicRelativeLocation)
         {
+            currentQuotationLevel = 0;
+
             PL("");
             if(commentUserpicRelativeLocation != null)
                 PL(String.Format("image:{0}[userpic, 40, 40]", commentUserpicRelativeLocation));

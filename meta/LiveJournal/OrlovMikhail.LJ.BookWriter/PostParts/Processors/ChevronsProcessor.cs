@@ -39,7 +39,7 @@ namespace OrlovMikhail.LJ.BookWriter
 
                         // Should we replace it with paragraph start?
                         if (previousLineChevronCount != currentChevronCount)
-                            items[i - 1] = ParagraphStartPart.Instance;
+                            items[i - 1] = new ParagraphStartPart();
                     }
 
                     int nextBreakIndex = FindNextPart<LineBreakPart, ParagraphStartPart>(items, i);
@@ -52,7 +52,7 @@ namespace OrlovMikhail.LJ.BookWriter
                     // We have next break index, it is a line break, not paragraph start.
                     int nextLineChevronCount = FindNextLineChevronCount(items, nextBreakIndex);
                     if (nextLineChevronCount != currentChevronCount)
-                        items[nextBreakIndex] = ParagraphStartPart.Instance;
+                        items[nextBreakIndex] = new ParagraphStartPart();
 
                     // Will go to next line begin.
                     i = nextBreakIndex;

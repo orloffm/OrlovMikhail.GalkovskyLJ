@@ -13,6 +13,7 @@ namespace OrlovMikhail.LJ.BookWriter
             Text = text;
         }
 
+        #region equality
         public override int GetHashCode()
         {
             return Text.GetHashCode();
@@ -25,9 +26,9 @@ namespace OrlovMikhail.LJ.BookWriter
 
         public static bool AreEqual(RawTextPostPart p1, RawTextPostPart p2)
         {
-            if (ReferenceEquals(p1, p2))
-                            return true;
-            else if (ReferenceEquals(p1, null) || ReferenceEquals(p2, null))
+            if(ReferenceEquals(p1, p2))
+                return true;
+            else if(ReferenceEquals(p1, null) || ReferenceEquals(p2, null))
                 return false;
 
             return String.Equals(p1.Text, p2.Text, StringComparison.OrdinalIgnoreCase);
@@ -37,5 +38,6 @@ namespace OrlovMikhail.LJ.BookWriter
         {
             return AreEqual(this, other);
         }
+        #endregion
     }
 }

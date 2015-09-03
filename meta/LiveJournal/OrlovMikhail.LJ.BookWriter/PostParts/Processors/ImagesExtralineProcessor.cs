@@ -20,18 +20,18 @@ namespace OrlovMikhail.LJ.BookWriter
                 PostPartBase next = (i < items.Count - 1 ? items[i + 1] : null);
 
                 if(previous is LineBreakPart)
-                    items[i - 1] = ParagraphStartPart.Instance;
+                    items[i - 1] = new ParagraphStartPart();
                 else if(previous != null && !(previous is ParagraphStartPart))
                 {
-                    items.Insert(i, ParagraphStartPart.Instance);
+                    items.Insert(i, new ParagraphStartPart());
                     i++;
                 }
 
                 if(next is LineBreakPart)
-                    items[i + 1] = ParagraphStartPart.Instance;
+                    items[i + 1] = new ParagraphStartPart();
                 else if(next != null && !(next is ParagraphStartPart))
                 {
-                    items.Insert(i + 1, ParagraphStartPart.Instance);
+                    items.Insert(i + 1, new ParagraphStartPart());
 
                     // Can skip, whatever.
                     i++;

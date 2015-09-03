@@ -39,10 +39,6 @@ namespace OrlovMikhail.LJ.BookWriter
         {
            List<IProcessor> ret = new List<IProcessor>();
             
-            // Consecutive texts into singles - we removed
-            // some unused tags, so this can be useful.
-            ret.Add(new TextMergingProcessor());
-
             // Some people quote with -- <text> --. We try to convert
             // them to paired italics and remove if we can't.
             // Remove artificial separators.
@@ -50,9 +46,16 @@ namespace OrlovMikhail.LJ.BookWriter
 
             // Trim text near breaks.
             ret.Add(new SecondPassTextProcessor());
-
             // Multiple line breaks into paragraphs.
             ret.Add(new LineBreaksMergingProcessor());
+            // Images must be on separate lines.
+            ret.Add(new ImagesExtralineProcessor());
+                   
+            // Consecutive texts into singles - we removed
+            // some unused tags, so this can be useful.
+            ret.Add(new TextMergingProcessor());
+
+            // Now we can extract quotations.
 
             // Spaces after chevrons.
             ret.Add(new ChevronsProcessor());
@@ -63,8 +66,6 @@ namespace OrlovMikhail.LJ.BookWriter
             // Span formatting over paragraphs.
             ret.Add(new FormattingSpanningProcessor());
 
-            // Images must be on separate lines.
-            ret.Add(new ImagesExtralineProcessor());
 
             return ret.ToArray();
         }
@@ -186,7 +187,7 @@ namespace OrlovMikhail.LJ.BookWriter
                                 if(brsFound > 0)
                                 {
                                     // If we've found some <br/>s, step over them.
-                                    yield return ParagraphStartPart.Instance;
+                                    yield return new ParagraphStartPart();
                                     i += brsFound;
                                 }
                             }

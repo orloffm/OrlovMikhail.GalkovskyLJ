@@ -68,6 +68,7 @@
     <Compile Include="PostParts\Parts\UserLinkPart.cs" />
     <Compile Include="PostParts\Processors\ArtificialLinesRemoverProcessor.cs" />
     <Compile Include="PostParts\Processors\ChevronsProcessor.cs" />
+    <Compile Include="PostParts\Processors\ChevronsProcessor2.cs" />
     <Compile Include="PostParts\Processors\LineBreakAdjacentFormattingRemovingProcessor.cs" />
     <Compile Include="PostParts\Processors\ImagesExtralineProcessor.cs" />
     <Compile Include="PostParts\Processors\LineBreaksMergingProcessor.cs" />
