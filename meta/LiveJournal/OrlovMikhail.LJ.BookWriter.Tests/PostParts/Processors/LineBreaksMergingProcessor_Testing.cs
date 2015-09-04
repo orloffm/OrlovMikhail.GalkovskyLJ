@@ -10,6 +10,13 @@ namespace OrlovMikhail.LJ.BookWriter.Tests
     [TestFixture]
     public class LineBreaksMergingProcessor_Testing
     {
+        private void Check(PostPartBase[] parts, PostPartBase[] expected)
+        {
+            IProcessor cp = new LineBreaksMergingProcessor();
+            List<PostPartBase> processed = cp.Process(parts);
+            CollectionAssert.AreEqual(expected, processed);
+        }
+
         [Test]
         public void MergesLineBreaks()
         {
@@ -47,13 +54,6 @@ namespace OrlovMikhail.LJ.BookWriter.Tests
             };
 
             Check(parts, expected);
-        }
-
-        private void Check(PostPartBase[] parts, PostPartBase[] expected)
-        {
-            IProcessor cp = new LineBreaksMergingProcessor();
-            List<PostPartBase> processed = cp.Process(parts);
-            CollectionAssert.AreEqual(expected, processed);
         }
     }
 }

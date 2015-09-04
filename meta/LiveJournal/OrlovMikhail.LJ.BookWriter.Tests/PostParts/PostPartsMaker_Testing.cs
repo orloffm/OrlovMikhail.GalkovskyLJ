@@ -10,12 +10,37 @@ namespace OrlovMikhail.LJ.BookWriter.Tests
     [TestFixture]
     public class PostPartsMaker_Testing
     {
+        private HTMLParser _p;
         private PostPartsMaker _m;
 
         [SetUp]
         public void Setup()
         {
+            _p = new HTMLParser();
             _m = new PostPartsMaker();
+        }
+
+        private void Check(string html, PostPartBase[] expected)
+        {
+            HTMLTokenBase[] tokens = _p.Parse(html).ToArray();
+            PostPartBase[] result = _m.CreateTextParts(tokens, null).ToArray();
+
+            CollectionAssert.AreEqual(expected, result);
+        }
+
+        [Test]
+        public void ReplacesSpecialQuotationStyle_756()
+        {
+            string source = @"-- A --<br /><br />Z ";
+            
+            PostPartBase[] expected = new PostPartBase[]{
+                new ParagraphStartPart(1),
+                new RawTextPostPart("A"),
+                new ParagraphStartPart(),
+                new RawTextPostPart("Z"),
+            };
+
+            Check(source,expected);
         }
 
         [Test]
@@ -76,11 +101,6 @@ namespace OrlovMikhail.LJ.BookWriter.Tests
                             @"&gt;F<br />" +
                             @"&gt;G </i><br /><br />Z";
 
-            HTMLParser p = new HTMLParser();
-            HTMLTokenBase[] tokens = p.Parse(source).ToArray();
-
-            PostPartBase[] result = _m.CreateTextParts(tokens, null).ToArray();
-
             PostPartBase[] expected = new PostPartBase[]{
                 new RawTextPostPart("Z:"),
                 new ParagraphStartPart(1),
@@ -93,7 +113,7 @@ namespace OrlovMikhail.LJ.BookWriter.Tests
                 new RawTextPostPart("Z"),
             };
 
-            CollectionAssert.AreEqual(expected, result);
+            Check(source, expected);
         }
 
         [Test]
@@ -111,11 +131,6 @@ namespace OrlovMikhail.LJ.BookWriter.Tests
         {
             string source = @"A. <br /><br /> <br />B:<br /><i>&gt;C</i><br />D";
 
-            HTMLParser p = new HTMLParser();
-            HTMLTokenBase[] tokens = p.Parse(source).ToArray();
-
-            PostPartBase[] result = _m.CreateTextParts(tokens, null).ToArray();
-
             PostPartBase[] expected = new PostPartBase[]{
                 new RawTextPostPart("{empty}A."),
                 new ParagraphStartPart(),
@@ -126,7 +141,7 @@ namespace OrlovMikhail.LJ.BookWriter.Tests
                 new RawTextPostPart("D"),
             };
 
-            CollectionAssert.AreEqual(expected, result);
+            Check(source, expected);
         }
 
         [Test]
@@ -138,11 +153,6 @@ namespace OrlovMikhail.LJ.BookWriter.Tests
                             @"<a href=""http://pitirim-sas.livejournal.com/"" class=""i-ljuser-username""   target=""_self""   ><b>pitirim_sas</b></a></span>: <br />" +
                             @"<br /><i>&gt;&gt;A<br />&gt;&gt;B<br /><br />&gt;C<br />&gt;Z</i><br /><br />Text";
 
-            HTMLParser p = new HTMLParser();
-            HTMLTokenBase[] tokens = p.Parse(source).ToArray();
-
-            PostPartBase[] result = _m.CreateTextParts(tokens, null).ToArray();
-
             PostPartBase[] expected = new PostPartBase[]{
                 new UserLinkPart("pitirim_sas"),
                 new RawTextPostPart(":"),
@@ -153,8 +163,8 @@ namespace OrlovMikhail.LJ.BookWriter.Tests
                 new ParagraphStartPart(),
                 new RawTextPostPart("Text"),
             };
-
-            CollectionAssert.AreEqual(expected, result);
+            
+            Check(source, expected);
         }
     }
 }

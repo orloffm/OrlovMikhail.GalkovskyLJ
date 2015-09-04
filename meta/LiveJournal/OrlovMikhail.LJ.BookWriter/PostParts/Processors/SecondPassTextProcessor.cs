@@ -39,21 +39,6 @@ namespace OrlovMikhail.LJ.BookWriter
                         i--;
                     }
                 }
-                else if(items[i] is NewBlockStartBasePart)
-                {
-                    if(previous == null)
-                    {
-                        // This is the first. Stay on it.
-                        items.RemoveAt(i);
-                        i--;
-                    }
-                    else if(next == null)
-                    {
-                        // This is the last. Go to previous item.
-                        items.RemoveAt(i);
-                        i -= 2;
-                    }
-                }
             }
         }
     }

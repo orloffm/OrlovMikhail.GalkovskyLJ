@@ -39,15 +39,15 @@ namespace OrlovMikhail.LJ.BookWriter
         {
             List<IProcessor> ret = new List<IProcessor>();
 
-            // We've removed some tags, let's merge text.
+            // We've removed some tags, let's merge text now.
             ret.Add(new TextMergingProcessor());
 
-            // Some people quote with -- <text> --. We try to convert
+            // Some people quote with --<br><text><br> --. We try to convert
             // them to paired italics and remove if we can't.
             // Remove artificial separators.
             ret.Add(new ArtificialLinesRemoverProcessor());
 
-            // Remove line breaks if formatting starts before or ends after it.
+            // Swap line breaks if formatting starts before or ends after it.
             // Requires merged text.
             ret.Add(new LineBreakAdjacentFormattingSwapProcessor());
 
@@ -71,6 +71,7 @@ namespace OrlovMikhail.LJ.BookWriter
 
             // Trim text near breaks.
             ret.Add(new SecondPassTextProcessor());
+            ret.Add(new BlocksAtTheEdgesRemover());
             ret.Add(new ListsDisablerProcessor());
 
             // Double spaces.

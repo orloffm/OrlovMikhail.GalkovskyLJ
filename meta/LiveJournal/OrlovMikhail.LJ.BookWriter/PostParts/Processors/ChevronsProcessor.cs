@@ -34,6 +34,9 @@ namespace OrlovMikhail.LJ.BookWriter
                 // All text parts.
                 RawTextPostPart[] textPartsBetween = EnumerateTextPartsBetween(items, i, nextBreak).ToArray();
 
+                // Replace stuff like "-- text --" with "> text".
+                ReplaceSpecialQuotationWithChevrons(textPartsBetween);
+
                 int chevronsFound = RemoveChevrons(textPartsBetween);
 
                 // Is depth the same as it was?
@@ -89,6 +92,27 @@ namespace OrlovMikhail.LJ.BookWriter
             {
                 if (items[i] is FormattingBasePart)
                     items.RemoveAt(i);
+            }
+        }
+
+        public static void ReplaceSpecialQuotationWithChevrons(RawTextPostPart[] textPartsBetween)
+        {
+            if (textPartsBetween.Length == 0)
+                return;
+
+            string[] specialSelectors = new[] { "--" };
+
+            foreach (string s in specialSelectors)
+            {
+                RawTextPostPart a = textPartsBetween[0];
+                RawTextPostPart z = textPartsBetween[textPartsBetween.Length - 1];
+
+                if (a.Text.StartsWith(s) && z.Text.EndsWith(s))
+                {
+                    // Remove this formatter and prepend a chevron.
+                    a.Text = "> " + a.Text.Substring(s.Length);
+                    z.Text = z.Text.Substring(0, z.Text.Length - s.Length);
+                }
             }
         }
 

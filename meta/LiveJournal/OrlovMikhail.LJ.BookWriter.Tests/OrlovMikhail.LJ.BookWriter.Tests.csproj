@@ -77,6 +77,7 @@
   <ItemGroup>
     <Compile Include="HTMLParsing\HTMLParser_Testing.cs" />
     <Compile Include="PostParts\PostPartsMaker_Testing.cs" />
+    <Compile Include="PostParts\Processors\BlocksAtTheEdgesRemover_Testing.cs" />
     <Compile Include="PostParts\Processors\ChevronsProcessor_Testing.cs" />
     <Compile Include="PostParts\Processors\LineBreaksMergingProcessor_Testing.cs" />
     <Compile Include="Replacer_Testing.cs" />
