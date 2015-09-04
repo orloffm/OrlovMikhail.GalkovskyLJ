@@ -62,7 +62,7 @@ namespace OrlovMikhail.LJ.BookWriter.AsciiDoc
             if (subject.Length == 0)
                 subject = e.Id.ToString();
 
-            subject = subject.Trim();
+            subject = HTMLParser.StripOfTags(subject.Trim());
             if (subject.EndsWith("."))
                 subject = subject.Substring(0, subject.Length - 1);
             subject = Tp.Prepare(subject);
@@ -93,6 +93,7 @@ namespace OrlovMikhail.LJ.BookWriter.AsciiDoc
             string subject = c.Subject;
             if (!String.IsNullOrWhiteSpace(subject))
             {
+                subject = HTMLParser.StripOfTags(subject);
                 subject = Tp.Prepare(subject);
                 PL(String.Format("{0}", subject));
             }

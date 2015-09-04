@@ -3,14 +3,21 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Web;
 
 namespace OrlovMikhail.LJ.BookWriter
 {
-    public sealed class HTMLParser : IHTMLParser
+    public class HTMLParser : IHTMLParser
     {
         static readonly ILog log = LogManager.GetLogger(typeof(HTMLParser));
+
+        public static string StripOfTags(string source)
+        {
+            string result = Regex.Replace(source, @"<[^>]*>", String.Empty);
+            return result;
+        }
 
         public IEnumerable<HTMLTokenBase> Parse(string html)
         {
