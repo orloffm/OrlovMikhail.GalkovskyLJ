@@ -107,6 +107,7 @@ namespace OrlovMikhail.LJ.Galkovsky.Preparator
         private static string MakeLead(Split[] splits, Split current, int max)
         {
             StringBuilder sb = new StringBuilder();
+            sb.AppendLine("****");
             sb.AppendLine("Записи разбиты по книгам следующим образом:");
             sb.AppendLine();
 
@@ -121,7 +122,8 @@ namespace OrlovMikhail.LJ.Galkovsky.Preparator
                 sb.AppendLine(String.Format("|{4}{0}{4}|{4}{1}&#8211;{2}{4}|{4}{3}{4}", s.Name, s.From, s.To ?? max, s.Description, formatter));
             }
 
-            sb.Append("|====");
+            sb.AppendLine("|====");
+            sb.Append("****");
 
             return sb.ToString();
         }

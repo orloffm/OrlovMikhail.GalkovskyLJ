@@ -64,17 +64,23 @@ namespace OrlovMikhail.LJ.BookWriter
 
         public static IEnumerable<RawTextPostPart> EnumerateTextPartsBetween(List<PostPartBase> items, int a, int b)
         {
+            var indeces = EnumerateIndecesOfBetween<RawTextPostPart>(items, a, b);
+            foreach (int i in indeces)
+                yield return items[i] as RawTextPostPart;
+        }
+
+        public static IEnumerable<int> EnumerateIndecesOfBetween<T>(List<PostPartBase> items, int a, int b)where T : PostPartBase
+        {
             int startIndex = (a < 0) ? 0 : a + 1;
             int endIndex = (b < 0) ? items.Count - 1 : b - 1;
 
-            if(startIndex > endIndex && (a != -1 && b != -1))
+            if (startIndex > endIndex && (a != -1 && b != -1))
                 throw new ArgumentException();
 
-            for(int i = startIndex; i <= endIndex; i++)
+            for (int i = startIndex; i <= endIndex; i++)
             {
-                RawTextPostPart rtpp = items[i] as RawTextPostPart;
-                if(rtpp != null)
-                    yield return rtpp;
+                if (items[i] is T)
+                    yield return i;
             }
         }
 
