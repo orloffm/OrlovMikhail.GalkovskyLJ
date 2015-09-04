@@ -17,7 +17,7 @@ http://www.samisdat.com/picture/LJ3/3424.jpg	3424.jpg
 http://ic.pics.livejournal.com/bek408/72125390/9773/9773_600.jpg	9773_600.jpg
 http://ic.pics.livejournal.com/bek408/72125390/10170/10170_600.jpg	10170_600.jpg
 http://ic.pics.livejournal.com/bek408/72125390/10314/10314_600.jpg	10314_600.jpg
-https://upload.wikimedia.org/wikipedia/commons/3/39/Abbaye_de_Saint-Germain-des-Pr%C3%A9s_140131_1.jpg	Abbaye_de_Saint-Germain-des-Pr%C3%A9s_140131_1.jpg
+https://upload.wikimedia.org/wikipedia/commons/3/39/Abbaye_de_Saint-Germain-des-Pr%C3%A9s_140131_1.jpg	Abbaye.jpg
 https://upload.wikimedia.org/wikipedia/commons/b/b1/Notre-Dame_de_Paris_2792x2911.jpg	Notre-Dame_de_Paris_2792x2911.jpg
 https://upload.wikimedia.org/wikipedia/commons/2/21/Cluny-Abtei-Ostfluegel-mtob.jpg	Cluny-Abtei-Ostfluegel-mtob.jpg
 https://upload.wikimedia.org/wikipedia/commons/thumb/8/8f/Dehio_212_Cluny.jpg/1024px-Dehio_212_Cluny.jpg	1024px-Dehio_212_Cluny.jpg
