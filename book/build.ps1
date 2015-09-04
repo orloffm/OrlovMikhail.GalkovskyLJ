@@ -9,6 +9,10 @@ $scriptPath = split-path -parent $MyInvocation.MyCommand.Definition
 $years = dir -path $scriptPath -filter "*$filter*"
 
 ForEach($year in $years){
+	If([System.IO.Path]::GetExtension($year) -ne ".asc"){
+		continue
+	}
+
     Write-Host "===================="
     Write-Host $year.Name
     Write-Host "===================="
