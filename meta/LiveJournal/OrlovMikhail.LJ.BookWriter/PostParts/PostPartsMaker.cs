@@ -39,27 +39,25 @@ namespace OrlovMikhail.LJ.BookWriter
         {
             List<IProcessor> ret = new List<IProcessor>();
 
+            Action addNormalizers = () =>
+            {
+                ret.Add(new TextMergingProcessor());
+                ret.Add(new OpenCloseRemovalProcessor());
+                ret.Add(new TextTrimmingProcessor());
+                ret.Add(new LineBreaksMergingProcessor());
+            };
+
             // Basic first pass. ============================
 
-            // We've removed some tags, let's merge text now.
-            ret.Add(new TextMergingProcessor());
-            // Multiple line breaks into paragraphs.
-            //    ret.Add(new LineBreaksMergingProcessor());
+            addNormalizers();
 
-            // Complex things. ==============================
+            // Structural processing. =======================
 
-            // Swap line breaks if formatting starts before or ends after it.
-            // !!! Requires merged text.
+            // Swap line breaks with formatting if it starts before or ends after it.
             ret.Add(new LineBreakAdjacentFormattingSwapProcessor());
 
-            // Trim text near breaks.
-            ret.Add(new SecondPassTextProcessor());
-            // Multiple line breaks into paragraphs.
-            ret.Add(new LineBreaksMergingProcessor());
             // Images must be on separate lines.
             ret.Add(new ImagesExtralineProcessor());
-
-            // Now we can extract quotations.
 
             // Some people quote with --<br><text><br> --. We try to convert
             // them to paired italics and remove if we can't.
@@ -67,25 +65,23 @@ namespace OrlovMikhail.LJ.BookWriter
             // !!! Requires merged line breaks.
             ret.Add(new ArtificialLinesRemoverProcessor());
 
+            addNormalizers();
+
             // Spaces after chevrons.
             ret.Add(new ChevronsProcessor());
 
             // Span formatting over paragraphs.
             ret.Add(new FormattingSpanningProcessor());
 
-            // This guy again.
-            ret.Add(new TextMergingProcessor());
+            // Final text processing ========================
 
-            // Trim text near breaks.
-            ret.Add(new SecondPassTextProcessor());
+            addNormalizers();
+
             ret.Add(new BlocksAtTheEdgesRemover());
             ret.Add(new ListsDisablerProcessor());
 
             // Double spaces.
             ret.Add(new DoubleSpacesRemovalProcessor());
-            ret.Add(new OpenCloseRemovalProcessor());
-            // Multiple line breaks into paragraphs.
-            ret.Add(new LineBreaksMergingProcessor());
 
             return ret.ToArray();
         }

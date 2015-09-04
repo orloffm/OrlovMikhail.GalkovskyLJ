@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace OrlovMikhail.LJ.BookWriter
 {
-    public class SecondPassTextProcessor : ProcessorBase
+    public class TextTrimmingProcessor : ProcessorBase
     {
         protected internal override void ProcessInternal(List<PostPartBase> items)
         {
