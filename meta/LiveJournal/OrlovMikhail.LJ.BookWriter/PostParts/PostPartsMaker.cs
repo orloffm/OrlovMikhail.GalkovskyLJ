@@ -56,6 +56,8 @@ namespace OrlovMikhail.LJ.BookWriter
             // Swap line breaks with formatting if it starts before or ends after it.
             ret.Add(new LineBreakAdjacentFormattingSwapProcessor());
 
+            addNormalizers();
+
             // Images must be on separate lines.
             ret.Add(new ImagesExtralineProcessor());
 

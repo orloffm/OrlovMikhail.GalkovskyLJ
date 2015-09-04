@@ -1,5 +1,6 @@
 # General
-[ ] Write deleted comments.
+[ ] Insert video link.
+[ ] Exe goes through all dumps, not powershell.
 [ ] Replace XMLSerializer with DataContract one.
 [ ] Everything to portable libraries.
 [ ] Userpics: find the path automatically.
