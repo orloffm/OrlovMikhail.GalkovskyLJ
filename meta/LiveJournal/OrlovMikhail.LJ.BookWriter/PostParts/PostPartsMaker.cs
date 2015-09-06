@@ -79,6 +79,8 @@ namespace OrlovMikhail.LJ.BookWriter
 
             addNormalizers();
 
+            ret.Add(new QuoteNormalizingProcessor());
+
             ret.Add(new BlocksAtTheEdgesRemover());
             ret.Add(new ListsDisablerProcessor());
 

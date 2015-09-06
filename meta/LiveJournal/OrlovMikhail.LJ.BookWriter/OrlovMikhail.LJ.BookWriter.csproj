@@ -68,6 +68,7 @@
     <Compile Include="PostParts\Parts\Formatting\FormattingBasePart.cs" />
     <Compile Include="PostParts\Parts\UserLinkPart.cs" />
     <Compile Include="PostParts\Processors\ArtificialLinesRemoverProcessor.cs" />
+    <Compile Include="PostParts\Processors\QuoteNormalizingProcessor.cs" />
     <Compile Include="PostParts\Processors\ChevronsProcessor.cs" />
     <Compile Include="PostParts\Processors\OpenCloseRemovalProcessor.cs" />
     <Compile Include="PostParts\Processors\LineBreakAdjacentFormattingSwapProcessor.cs" />
