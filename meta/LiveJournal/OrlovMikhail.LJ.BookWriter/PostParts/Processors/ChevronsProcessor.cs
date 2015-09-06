@@ -100,18 +100,25 @@ namespace OrlovMikhail.LJ.BookWriter
             if (textPartsBetween.Length == 0)
                 return;
 
-            string[] specialSelectors = new[] { "--" };
+            Tuple<string, string>[] specialSelectors = new[]
+            {
+                Tuple.Create("--", "--"),
+                Tuple.Create(@"//", @"//")
+            };
 
-            foreach (string s in specialSelectors)
+            foreach (var tuple in specialSelectors)
             {
                 RawTextPostPart a = textPartsBetween[0];
                 RawTextPostPart z = textPartsBetween[textPartsBetween.Length - 1];
 
-                if (a.Text.StartsWith(s) && z.Text.EndsWith(s))
+                string begin = tuple.Item1;
+                string end = tuple.Item2;
+
+                if (a.Text.StartsWith(begin) && z.Text.EndsWith(end))
                 {
                     // Remove this formatter and prepend a chevron.
-                    a.Text = "> " + a.Text.Substring(s.Length);
-                    z.Text = z.Text.Substring(0, z.Text.Length - s.Length);
+                    a.Text = "> " + a.Text.Substring(begin.Length);
+                    z.Text = z.Text.Substring(0, z.Text.Length - end.Length);
                 }
             }
         }

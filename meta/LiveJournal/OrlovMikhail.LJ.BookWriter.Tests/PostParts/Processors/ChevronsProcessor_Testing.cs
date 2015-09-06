@@ -10,6 +10,24 @@ namespace OrlovMikhail.LJ.BookWriter.Tests
     [TestFixture]
     public class ChevronsProcessor_Testing
     {
+        [TestCase(@"--RAM--")]
+        [TestCase(@"//RAM//")]
+        public void ConvertsSpecialQuotations(string input)
+        {
+            PostPartBase[] parts =
+           {
+                new RawTextPostPart(input),
+            };
+
+            PostPartBase[] expected =
+            {
+                new ParagraphStartPart(1),
+                new RawTextPostPart("RAM")
+            };
+
+            Check(parts, expected);
+        }
+
         [Test]
         public void RemovesChevrons()
         {
@@ -91,33 +109,6 @@ namespace OrlovMikhail.LJ.BookWriter.Tests
 
             Check(parts, expected);
         }
-
-        //[Test]
-        //public void ExtractsLineBeginFromPreviousLine()
-        //{
-        //    PostPartBase[] parts =
-        //    {
-        //        new RawTextPostPart("Vasily: >A"),  LineBreakPart.Instance,
-        //        new RawTextPostPart(">B"),  LineBreakPart.Instance,
-        //        new RawTextPostPart(">C"),  LineBreakPart.Instance,
-        //        new RawTextPostPart(">>D"), LineBreakPart.Instance,
-        //    };
-
-        //    PostPartBase[] expected =
-        //    {
-        //        new RawTextPostPart("Vasily:"),
-        //        new ParagraphStartPart(1),   
-        //        new RawTextPostPart("A"),
-        //        new RawTextPostPart(" "),
-        //        new RawTextPostPart("B"),
-        //        new RawTextPostPart(" "),
-        //        new RawTextPostPart("C"),
-        //        new ParagraphStartPart(2),
-        //        new RawTextPostPart("D"),
-        //    };
-
-        //    Check(parts, expected);
-        //}
 
         [Test]
         public void RemovesFormatting()
