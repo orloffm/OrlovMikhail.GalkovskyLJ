@@ -83,11 +83,16 @@
     <Compile Include="PostParts\Processors\LineBreaksMergingProcessor_Testing.cs" />
     <Compile Include="Replacer_Testing.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Text\AsciiDocTextPreparator_Testing.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\OrlovMikhail.LJ.BookWriter.AsciiDoc\OrlovMikhail.LJ.BookWriter.AsciiDoc.csproj">
+      <Project>{698e61d6-7d04-4fdd-988b-dd4046dbc922}</Project>
+      <Name>OrlovMikhail.LJ.BookWriter.AsciiDoc</Name>
+    </ProjectReference>
     <ProjectReference Include="..\OrlovMikhail.LJ.BookWriter\OrlovMikhail.LJ.BookWriter.csproj">
       <Project>{87e91951-b240-4486-99b1-746c52cce06a}</Project>
       <Name>OrlovMikhail.LJ.BookWriter</Name>

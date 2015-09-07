@@ -47,7 +47,7 @@ namespace OrlovMikhail.LJ.BookWriter
 
         public string Prepare(string text)
         {
-            if (strings == null)
+            if(strings == null)
                 Initialize();
 
             string work = text;
@@ -71,37 +71,36 @@ namespace OrlovMikhail.LJ.BookWriter
 
         private void AddMainRegeces(Action<string, string> add)
         {
-            // начало и конец строки
-            add("^\"", laquo);
-            add("\"$", raquo);
-            add("\"\r\n", @"\" + raquo + @"\r\n");
-            add("\"\n", @"\" + raquo + @"\n");
+            // Line end and begin, explicitly.
+            add(@"^[“”""„‘’]", laquo);
+            add(@"[“”""„‘’]$", raquo);
 
-            // остальные кавычки
-            add(" \"", " " + laquo);
-            add("“ ", raquo);
-            add(" „", laquo);
+            // Start of word.
+            add(@"(?<=[\s])[“”""„‘’]", laquo);
+            // End of word.
+            add(@"[“”""„‘’](?=[,.;:?!\s])", raquo);
+
+            // Explicit
+            add("“", laquo);
+            add("”", raquo);
+            add("‘", laquo);
+            add("’", raquo);
+            add("„", laquo);
             add("«", laquo);
-            add("” ", raquo + " ");
-            add("\" ", raquo + " ");
             add("»", raquo);
-            add("\":", raquo + ":");
-            add(@"""\.", raquo + ".");
-            add(@"\.""", raquo + ".");
-            add(@"""\?", raquo + "?");
-            add(@"""\!", raquo + "!");
-            add("\",", raquo + ",");
 
-            add(@"""\)", raquo + ")");
-            add(@"\(""", "(" + laquo);
+            // After end of sentence.
+            add(@"(?<=[.?!])[“”""„‘’]", raquo);
+            // Before minus.
+            add(@"(?<=[A-Za-zА-Яа-я])[“”""„‘’](?=-)", raquo);
+            // After three dots.
+            add(@"\.\.\.[“”""„‘’]", @"..." + raquo);
 
-            add(@"\)""", ")" + laquo);
-            add(@"""\(", raquo + "(");
+            // Double quotes.
+            add(String.Format(@"[“”""„‘’](?={0})", raquo), raquo);
+            add(String.Format(@"(?<={0})[“”""„‘’]", laquo), laquo);
 
-            add("!\"", @"!" + raquo);
-            add(@"\.\.\.""", @"..." + raquo);
-
-            // тире
+            // Em-dashes.
             add(" - ", nobr + emdash + " ");
             add(" – ", nobr + emdash + " ");
             add(" — ", nobr + emdash + " ");
@@ -114,18 +113,18 @@ namespace OrlovMikhail.LJ.BookWriter
             add("^--- ", emdash + " ");
 
             // Single space.
-            add("  ", " ");
+            add(@"\s\s", " ");
         }
 
         string ReplaceByRegeces(string work)
         {
-            for (int i = 0; i < strings.Count; i++)
+            for(int i = 0; i < strings.Count; i++)
             {
                 var tuple = strings[i];
                 string a = tuple.Item1;
                 string b = tuple.Item2;
 
-                work = Regex.Replace(work, a, b, RegexOptions.Multiline | RegexOptions.Singleline);
+                work = Regex.Replace(work, a, b, RegexOptions.Compiled | RegexOptions.Multiline | RegexOptions.Singleline);
             }
             return work;
         }
@@ -136,13 +135,13 @@ namespace OrlovMikhail.LJ.BookWriter
         {
             StringBuilder sb = new StringBuilder(work.Length);
 
-            for (int i = 0; i < work.Length; i++)
+            for(int i = 0; i < work.Length; i++)
             {
                 int foundTill = PositiveLookAhead(work, i);
-                if (foundTill >= 0)
+                if(foundTill >= 0)
                 {
                     // OK, add characters, continue;
-                    for (int f = i; f < foundTill; f++)
+                    for(int f = i; f < foundTill; f++)
                         sb.Append(work[f]);
                     sb.Append(nobr);
                     i = foundTill;
@@ -164,25 +163,25 @@ namespace OrlovMikhail.LJ.BookWriter
             bool hasSpaceTokenAtStart = Char.IsWhiteSpace(work, start);
 
             // It must be space after initial character.
-            if (start > 0 && !hasSpaceTokenAtStart)
+            if(start > 0 && !hasSpaceTokenAtStart)
                 return -1;
 
             int wordMustStartAt = hasSpaceTokenAtStart ? start + 1 : 0;
 
-            if (work.Length < wordMustStartAt + 2)
+            if(work.Length < wordMustStartAt + 2)
                 return -1;
 
-            for (int i = 0; i < noBrKeyWords.Length; i++)
+            for(int i = 0; i < noBrKeyWords.Length; i++)
             {
-                if (work.IndexOf(noBrKeyWords[i], wordMustStartAt, StringComparison.OrdinalIgnoreCase) != wordMustStartAt)
+                if(work.IndexOf(noBrKeyWords[i], wordMustStartAt, StringComparison.OrdinalIgnoreCase) != wordMustStartAt)
                     continue;
 
                 int afterIndex = wordMustStartAt + noBrKeyWords[i].Length;
-                if (afterIndex >= work.Length)
+                if(afterIndex >= work.Length)
                     continue;
 
                 bool isSpace = work[afterIndex] == ' ';
-                if (!isSpace)
+                if(!isSpace)
                     continue;
 
                 return afterIndex;
