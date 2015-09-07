@@ -1,6 +1,6 @@
 # General
 
-[ ] Escape <URL>{nbsp}em-dash
+[ ] Break all by lines.
 
 # Other
 

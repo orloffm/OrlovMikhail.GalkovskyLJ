@@ -144,13 +144,28 @@ namespace OrlovMikhail.LJ.BookWriter.Tests
             string source = @"A. <br /><br /> <br />B:<br /><i>&gt;C</i><br />D";
 
             PostPartBase[] expected = new PostPartBase[]{
-                new RawTextPostPart("{empty}A."),
+                EmptyPostPart.Instance,
+                new RawTextPostPart("A."),
                 new ParagraphStartPart(),
                 new RawTextPostPart("B:"),
                 new ParagraphStartPart(1),
                 new RawTextPostPart("C"),
                 new ParagraphStartPart(),
                 new RawTextPostPart("D"),
+            };
+
+            Check(source, expected);
+        }
+
+        [Test]
+        public void PreventsEmDashesAfterURLs()
+        {
+            string source = @"A<br /><a href='http://www.kreml.org/users/' rel='nofollow'>http://www.kreml.org/users/</a> - B";
+
+            PostPartBase[] expected = new PostPartBase[]{
+                new RawTextPostPart("A"),
+                LineBreakPart.Instance,
+                new RawTextPostPart(@"http://www.kreml.org/users/ - B")
             };
 
             Check(source, expected);

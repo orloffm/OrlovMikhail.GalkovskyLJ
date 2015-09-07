@@ -15,5 +15,7 @@ namespace OrlovMikhail.LJ.BookWriter
         {
 
         }
+
+        public override PostPartBase FullClone() { return this; }
     }
 }

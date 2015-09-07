@@ -107,16 +107,12 @@ namespace OrlovMikhail.LJ.BookWriter
             add(String.Format(@"(?<={0})[“”""„‘’]", laquo), laquo);
 
             // Em-dashes.
-            add(" - ", nobr + emdash + " ");
-            add(" – ", nobr + emdash + " ");
-            add(" — ", nobr + emdash + " ");
-            add(" -- ", nobr + emdash + " ");
-            add(" --- ", nobr + emdash + " ");
-            add("^- ", emdash + " ");
-            add("^– ", emdash + " ");
-            add("^— ", emdash + " ");
-            add("^-- ", emdash + " ");
-            add("^--- ", emdash + " ");
+            // Nobr if NOT (?<!) after a link.
+            add(@"(?<!\b(?:(?:https?|ftp|file)://|www\.|ftp\.)[-A-Za-z0-9+&@#/%=~_|$?!:,.]*[A-Za-z0-9+&@#/%=~_|$])\s(?:[-–—]|--|---)(?=\s)", nobr + emdash);
+            // So, in any case - insert emdash after space.
+            add(@"(?<=\s)(?:[-–—]|--|---)(?=\s)", emdash);
+            // And insert it in the line start.
+            add(@"^(?:[-–—]|--|---)(?=\s)", emdash);
 
             // Single space.
             add(@"\s\s", " ");

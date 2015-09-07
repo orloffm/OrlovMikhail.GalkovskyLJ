@@ -17,7 +17,7 @@ namespace OrlovMikhail.LJ.BookWriter
                     continue;
 
                 // Merge into single one.
-                while(i < items.Count - 2)
+                while(i < items.Count - 1)
                 {
                     RawTextPostPart next = items[i + 1] as RawTextPostPart;
                     if(next == null)

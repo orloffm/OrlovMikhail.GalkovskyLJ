@@ -11,6 +11,9 @@ namespace OrlovMikhail.LJ.BookWriter.AsciiDoc.Tests
     public class AsciiDocTextPreparator_Testing
     {
         [TestCase("\"Общее\"", "«Общее»")]
+        [TestCase("A - B", "A{nbsp}&#8212; B")]
+        [TestCase("- B", "&#8212; B")]
+        [TestCase(@"http://ya.ru - B", @"http://ya.ru &#8212; B")]
         [TestCase("Вася-\"Пупкин\"", "Вася-«Пупкин»")]
         [TestCase("\"Вася\"-Пупкин", "«Вася»-Пупкин")]
         [TestCase("(\"Общее\")", "(«Общее»)")]
