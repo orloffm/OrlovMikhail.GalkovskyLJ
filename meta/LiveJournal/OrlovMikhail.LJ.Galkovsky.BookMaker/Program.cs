@@ -23,39 +23,50 @@ namespace OrlovMikhail.LJ.Galkovsky.BookMaker
         {
             log4net.Config.XmlConfigurator.Configure();
 
+            // Configuration.
             Dictionary<string, string> argsDic = ConsoleTools.ArgumentsToDictionary(args);
-
-            if (!SettingsTools.LoadValue("root", argsDic, Settings.Default, s => s.RootFolder))
+            if(!SettingsTools.LoadValue("root", argsDic, Settings.Default, s => s.RootFolder))
                 return;
-            if (!SettingsTools.LoadValue("source", argsDic, Settings.Default, s => s.Source))
+            if(!SettingsTools.LoadValue("source", argsDic, Settings.Default, s => s.Source))
                 return;
             Settings.Default.Save();
-
             bool overWrite = argsDic.ContainsKey("overwrite");
 
+            // Concrete classes.
             ContainerBuilder builder = new ContainerBuilder();
             GrabberContainerHelper.RegisterDefaultClasses(builder);
             BookWriterContainerHelper.RegisterDefaultClasses(builder);
-
             builder.RegisterType<AsciiDocBookWriterFactory>().As<IBookWriterFactory>();
             builder.RegisterType<BookMaker>().As<IBookMaker>();
-
             IContainer container = builder.Build();
-            IBookMaker bm = container.Resolve<IBookMaker>();
+
+            // Load all dump files.
             IFileSystem fs = container.Resolve<IFileSystem>();
-
             DirectoryInfoBase root = fs.DirectoryInfo.FromDirectoryName(Settings.Default.RootFolder);
-            FileInfoBase sourceFI = fs.FileInfo.FromFileName(Settings.Default.Source);
-            FileInfoBase targetFI = fs.FileInfo.FromFileName(fs.Path.Combine(sourceFI.Directory.FullName, "fragment.asc"));
-
-            if (targetFI.Exists && !overWrite)
-            {
-                // We won't overwrite files if not specifically asked to.
-                log.InfoFormat("File {0} already exists, no /overwrite parameter specified, won't overwrite.", targetFI.Name);
+            FileInfoBase[] dumps = FindAllDumps(Settings.Default.Source, fs);
+            log.Info("Dumps found: " + dumps.Length);
+            if(dumps.Length == 0)
                 return;
+
+            // Run.
+            IBookMaker bm = container.Resolve<IBookMaker>();
+            bm.Make(root, dumps, overWrite).Wait();
+        }
+
+        private static FileInfoBase[] FindAllDumps(string passed, IFileSystem fs)
+        {
+            FileInfoBase sourceFI = fs.FileInfo.FromFileName(passed);
+            if(sourceFI.Exists)
+                return new FileInfoBase[] { sourceFI };
+
+            DirectoryInfoBase sourceDI = fs.DirectoryInfo.FromDirectoryName(passed);
+            if(sourceDI.Exists)
+            {
+                FileInfoBase[] found = sourceDI.GetFiles("dump.xml", SearchOption.AllDirectories);
+                return found;
             }
 
-            bm.Make(root, sourceFI, targetFI);
+            return new FileInfoBase[0];
         }
     }
 }

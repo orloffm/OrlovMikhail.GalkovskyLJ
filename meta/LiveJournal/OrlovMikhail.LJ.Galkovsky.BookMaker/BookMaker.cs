@@ -5,6 +5,9 @@ using System.IO.Abstractions;
 using System.Linq;
 using OrlovMikhail.LJ.BookWriter;
 using OrlovMikhail.Tools;
+using System.Threading.Tasks;
+using System;
+using System.Threading;
 
 namespace OrlovMikhail.LJ.Galkovsky.BookMaker
 {
@@ -35,14 +38,77 @@ namespace OrlovMikhail.LJ.Galkovsky.BookMaker
             this._f = f;
             this._scp = scp;
             this._usf = usf;
-            _ppm = ppm;
+            this._ppm = ppm;
             this._rds = rds;
             this._htmlParser = htmlParser;
         }
 
-        public void Make(DirectoryInfoBase bookRootLocation, FileInfoBase sourceFile, FileInfoBase targetFile)
+        public async Task Make(DirectoryInfoBase bookRootLocation, FileInfoBase[] dumps, bool overwrite)
         {
-            EntryPage ep = _lp.ParseAsAnEntryPage(_fs.File.ReadAllText(sourceFile.FullName));
+            // And now for each post...
+            int CONCURRENCY_LEVEL = 10;
+            int nextIndex = 0;
+            var postTasks = new List<Task>();
+
+            Action runTask = () =>
+            {
+                FileInfoBase dump = dumps[nextIndex];
+                log.DebugFormat("Running {0}...", dump.Directory.Name);
+
+                Task postProcessor = Task.Run(() => ProcessDump(dump, bookRootLocation, overwrite));
+                postTasks.Add(postProcessor);
+                nextIndex++;
+            };
+
+            log.Debug("Inititial population.");
+            while(nextIndex < CONCURRENCY_LEVEL && nextIndex < dumps.Length)
+            {
+                // Adding tasks to process posts.
+                runTask();
+            }
+
+            while(postTasks.Count > 0)
+            {
+                try
+                {
+                    Task postTask = await Task.WhenAny(postTasks);
+                    postTasks.Remove(postTask);
+
+                    int count = postTasks.Count;
+                    int running = postTasks.Count(z => !(z.IsCompleted || z.IsCanceled || z.IsFaulted));
+
+                    log.DebugFormat("Tasks in array: {0}, running: {1}.", count, running);
+
+                    await postTask;
+                }
+                catch(Exception exc)
+                {
+                    log.Error(exc.ToString());
+                }
+
+                if(nextIndex < dumps.Length)
+                {
+                    // Empty slots, adding new tasks.
+                    runTask();
+                }
+            }
+
+        }
+
+        void ProcessDump(FileInfoBase source, DirectoryInfoBase bookRootLocation, bool overWrite)
+        {
+            log.DebugFormat("{0} is on thread {1}.", source.Directory.Name, Thread.CurrentThread.ManagedThreadId);
+
+            FileInfoBase target = _fs.FileInfo.FromFileName(_fs.Path.Combine(source.Directory.FullName, "fragment.asc"));
+            if(target.Exists && target.Length != 0 && !overWrite)
+            {
+                log.DebugFormat("Target already exists for {0}.", source.Directory.FullName);
+                return;
+            }
+
+            log.Info(source.FullName);
+
+            EntryPage ep = _lp.ParseAsAnEntryPage(_fs.File.ReadAllText(source.FullName));
             string html = ep.Entry.Text;
 
             Entry e = ep.Entry;
@@ -51,16 +117,13 @@ namespace OrlovMikhail.LJ.Galkovsky.BookMaker
             EntryBase[] all = (new EntryBase[] { e }).Concat(comments.SelectMany(a => a)).ToArray();
 
             // Target book.
-            using (IBookWriter w = _f.Create(bookRootLocation, targetFile))
-            using (IFileStorage fs = _fsf.CreateOn(sourceFile.Directory.FullName))
-            using (IUserpicStorage us = _usf.CreateOn(bookRootLocation.FullName))
+            using(IBookWriter w = _f.Create(bookRootLocation, target))
+            using(IFileStorage fs = _fsf.CreateOn(source.Directory.FullName))
+            using(IUserpicStorage us = _usf.CreateOn(bookRootLocation.FullName))
             {
                 // Parallelize conversion to text parts.
                 Dictionary<long, PostPartBase[]> converted = all
-#if !DEBUG
-                    // Make it parallel in Release for speed increase.
                     .AsParallel()
-#endif
                     .Select(z => new
                     {
                         Id = (z is Comment) ? z.Id : 0,
@@ -75,15 +138,15 @@ namespace OrlovMikhail.LJ.Galkovsky.BookMaker
                 WriteText(converted[0], w);
                 w.EntryEnd();
 
-                if (comments.Count > 0)
+                if(comments.Count > 0)
                 {
                     w.CommentsBegin();
 
-                    foreach (Comment[] thread in comments)
+                    foreach(Comment[] thread in comments)
                     {
                         w.ThreadBegin();
 
-                        foreach (Comment c in thread)
+                        foreach(Comment c in thread)
                         {
                             userpicRelative = GetUserpicRelativeLocation(c, us, bookRootLocation);
                             w.CommentHeader(c, userpicRelative);
@@ -110,7 +173,7 @@ namespace OrlovMikhail.LJ.Galkovsky.BookMaker
 
         protected internal virtual void WriteText(PostPartBase[] parts, IBookWriter w)
         {
-            for (int i = 0; i < parts.Length; i++)
+            for(int i = 0; i < parts.Length; i++)
             {
                 PostPartBase ppb = parts[i];
                 w.WritePart(ppb);
@@ -119,7 +182,7 @@ namespace OrlovMikhail.LJ.Galkovsky.BookMaker
 
         PostPartBase[] HTMLToParts(string html, IFileStorage fs, IBookWriter w)
         {
-            if (string.IsNullOrWhiteSpace(html))
+            if(string.IsNullOrWhiteSpace(html))
                 return new PostPartBase[0];
 
             // Explicit tokens as they are in the file.

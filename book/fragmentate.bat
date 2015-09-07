@@ -3,7 +3,7 @@
 SET man1=%1
 
 IF "%1"=="" (
-   SET man1=.
+   SET man1=%~dp0
 )
 
-PowerShell.exe -NoProfile -ExecutionPolicy Bypass -Command "& '%~dpn0.ps1' -source %man1%"
+%~dp0\..\bin\bookmaker.exe /root=%~dp0 /source=%man1%
