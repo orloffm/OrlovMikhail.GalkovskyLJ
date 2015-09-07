@@ -95,8 +95,10 @@ namespace OrlovMikhail.LJ.BookWriter
 
             // After end of sentence.
             add(@"(?<=[.?!])[“”""„‘’]", raquo);
-            // Before minus.
-            add(@"(?<=[A-Za-zА-Яа-я])[“”""„‘’](?=-)", raquo);
+
+            // Before and after a minus.
+            add(@"(?<=[A-Za-zА-Яа-я])[“”""„‘’](?=[-–])", raquo);
+            add(@"(?<=[-–])[“”""„‘’](?=[A-Za-zА-Яа-я])", laquo);
             // After three dots.
             add(@"\.\.\.[“”""„‘’]", @"..." + raquo);
 
