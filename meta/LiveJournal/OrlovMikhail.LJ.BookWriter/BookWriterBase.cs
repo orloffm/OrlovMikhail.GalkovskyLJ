@@ -61,14 +61,18 @@ namespace OrlovMikhail.LJ.BookWriter
 
         public void WritePart(PostPartBase ppb)
         {
-            if (ppb is RawTextPostPart)
+            if(ppb is RawTextPostPart)
             {
                 // Text.
                 RawTextPostPart rtpp = ppb as RawTextPostPart;
                 string preparedText = _tp.Prepare(rtpp.Text);
                 WritePreparedTextInternal(preparedText);
             }
-            else if (ppb is ImagePart)
+            else if(ppb is EmptyPostPart)
+            {
+                WriteEmptyPostPart();
+            }
+            else if(ppb is ImagePart)
             {
                 // Image
                 ImagePart ip = (ImagePart)ppb;
@@ -101,10 +105,9 @@ namespace OrlovMikhail.LJ.BookWriter
                 log.WarnFormat("Post part of type {0} is not supported.", ppb.GetType().Name);
         }
 
-
         protected abstract void EntryHeaderInternal(string subject, string url, DateTime date, string posterUserpicRelativeLocation);
         protected abstract void CommentHeaderInternal(string subject, DateTime date, string username, bool isDeleted, bool isScreened, bool isSuspended, string commentUserpicRelativeLocation);
-        
+
         protected abstract void WriteUsernameInternal(string username, bool isCommunity = false);
         protected abstract void WriteParagraphStartInternal(int quotationLevel);
         protected abstract void WriteLineBreakInternal();
@@ -115,5 +118,6 @@ namespace OrlovMikhail.LJ.BookWriter
         protected abstract void WriteImageInternal(string relativePath);
         protected abstract void WriteVideoInternal(string url);
         protected abstract void WritePreparedTextInternal(string preparedText);
+        protected virtual void WriteEmptyPostPart() { WritePreparedTextInternal(""); }
     }
 }

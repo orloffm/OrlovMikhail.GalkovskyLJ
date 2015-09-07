@@ -115,6 +115,11 @@ namespace OrlovMikhail.LJ.BookWriter.AsciiDoc
             }
         }
 
+        protected override void WriteEmptyPostPart()
+        {
+            P("{empty}");
+        }
+
         protected override void WriteUsernameInternal(string username, bool isCommunity = false)
         {
             if(!isCommunity)

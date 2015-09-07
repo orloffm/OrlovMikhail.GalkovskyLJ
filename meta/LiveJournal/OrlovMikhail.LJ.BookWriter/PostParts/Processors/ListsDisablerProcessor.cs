@@ -7,38 +7,41 @@ using System.Threading.Tasks;
 
 namespace OrlovMikhail.LJ.BookWriter
 {
+    /// <summary>Prepends possible formatting issues in Asciidoc with an empty
+    /// item. Other possible writers can just ignore this.</summary>
     public class ListsDisablerProcessor : ProcessorBase
     {
-        private const string lineStartRegexString = @"^[*\da-zА-ЯA-Zа-я]*\.";
+        private const string lineStartRegexPattern = @"^(?:[*\da-zА-ЯA-Zа-я]*\.|\[)";
         private readonly Regex _lineStartRegex;
 
         public ListsDisablerProcessor()
         {
-            _lineStartRegex = new Regex(lineStartRegexString, RegexOptions.Compiled);
+            _lineStartRegex = new Regex(lineStartRegexPattern, RegexOptions.Compiled);
         }
 
         protected internal override void ProcessInternal(List<PostPartBase> items)
         {
             for(int i = 0; i < items.Count; i++)
             {
+                RawTextPostPart rtpp = items[i] as RawTextPostPart;
+
+                if(rtpp == null)
+                    continue;
+
+                // What should be trimmed?
                 PostPartBase previous = (i > 0 ? items[i - 1] : null);
-                PostPartBase next = (i < items.Count - 1 ? items[i + 1] : null);
+                bool previousIsBreak = previous == null || previous is NewBlockStartBasePart;
 
-                if(items[i] is RawTextPostPart)
-                {
-                    RawTextPostPart rtpp = items[i] as RawTextPostPart;
+                // Prepend numbers with {empty} to disable lists.
+                if(!previousIsBreak)
+                    continue;
 
-                    // What should be trimmed?
-                    bool previousIsBreak = previous == null || previous is NewBlockStartBasePart;
+                bool shouldPrependWithEmpty = _lineStartRegex.IsMatch(rtpp.Text);
+                if(!shouldPrependWithEmpty)
+                    continue;
 
-                    // Prepend numbers with {empty} to disable lists.
-                    if(previousIsBreak)
-                    {
-                        bool startsWithNumberAndDot = _lineStartRegex.IsMatch(rtpp.Text);
-                        if(startsWithNumberAndDot)
-                            rtpp.Text = "{empty}" + rtpp.Text;
-                    }
-                }
+                items.Insert(i, EmptyPostPart.Instance);
+                i++;
             }
         }
     }
