@@ -12,11 +12,14 @@ namespace OrlovMikhail.LJ.BookWriter
     {
         protected internal override void ProcessInternal(List<PostPartBase> items)
         {
-            for(int i = 0; i < items.Count; i++)
+            for(int i = -1; i < items.Count; i++)
             {
-                ParagraphStartPart p1 = items[i] as ParagraphStartPart;
-                if(p1 == null)
-                    continue;
+                if(i >= 0)
+                {
+                    ParagraphStartPart p1 = items[i] as ParagraphStartPart;
+                    if(p1 == null)
+                        continue;
+                }
 
                 // This is what the block starts with.
                 FormattingStartBasePart formattingStarter = (i < items.Count - 1 ? items[i + 1] : null) as FormattingStartBasePart;
@@ -33,7 +36,7 @@ namespace OrlovMikhail.LJ.BookWriter
                     continue;
 
                 int p2Index = FindNextPartIndex<ParagraphStartPart>(items, i);
-                if (p2Index == -1)
+                if(p2Index == -1)
                 {
                     // This is the end.
                     return;
@@ -74,7 +77,7 @@ namespace OrlovMikhail.LJ.BookWriter
             do
             {
                 // Now let's make sure next is the same starting.
-                if(items[p2Index + 1] is ImagePart)
+                if(items[p2Index + 1] is MultimediaBasePart)
                 {
                     // Don't work with images. Go to next paragraph.
                     p2Index = FindNextPartIndex<ParagraphStartPart>(items, p2Index);

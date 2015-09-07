@@ -46,7 +46,11 @@ namespace OrlovMikhail.LJ.Galkovsky.BookMaker
         public async Task Make(DirectoryInfoBase bookRootLocation, FileInfoBase[] dumps, bool overwrite)
         {
             // And now for each post...
+#if DEBUG
+            int CONCURRENCY_LEVEL = 1;
+#else
             int CONCURRENCY_LEVEL = 10;
+#endif
             int nextIndex = 0;
             var postTasks = new List<Task>();
 
@@ -123,7 +127,9 @@ namespace OrlovMikhail.LJ.Galkovsky.BookMaker
             {
                 // Parallelize conversion to text parts.
                 Dictionary<long, PostPartBase[]> converted = all
+#if !DEBUG
                     .AsParallel()
+#endif
                     .Select(z => new
                     {
                         Id = (z is Comment) ? z.Id : 0,
