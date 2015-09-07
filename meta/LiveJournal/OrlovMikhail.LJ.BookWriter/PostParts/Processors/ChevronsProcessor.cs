@@ -103,7 +103,10 @@ namespace OrlovMikhail.LJ.BookWriter
             Tuple<string, string>[] specialSelectors = new[]
             {
                 Tuple.Create("--", "--"),
+                Tuple.Create(@"///", @"///"),
                 Tuple.Create(@"//", @"//"),
+                Tuple.Create(@"/", @"/"),
+                Tuple.Create(@"\\\", @"\\\"),
                 Tuple.Create(@"\\", @"\\"),
                 Tuple.Create(@"\", @"\"),
             };
