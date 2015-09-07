@@ -16,6 +16,7 @@ namespace OrlovMikhail.LJ.BookWriter
         Underline,
         Center,
         Image,
+        IFrame,
         Anchor
     }
 
@@ -45,6 +46,7 @@ namespace OrlovMikhail.LJ.BookWriter
             matches["center"] = HTMLElementKind.Center;
             matches["img"] = HTMLElementKind.Image;
             matches["em"] = HTMLElementKind.Italic;
+            matches["iframe"] = HTMLElementKind.IFrame;
         }
 
         public TagHTMLToken(bool isOpening, bool isClosing, string elementName)

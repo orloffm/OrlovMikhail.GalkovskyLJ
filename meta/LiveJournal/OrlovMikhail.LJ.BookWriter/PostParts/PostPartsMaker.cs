@@ -23,7 +23,7 @@ namespace OrlovMikhail.LJ.BookWriter
             // Convert as is, with minor merges.
             results[0] = CreatePartsFirstPass(tokens, fs).ToList();
 
-            for (int i = 0; i < processors.Length; i++)
+            for(int i = 0; i < processors.Length; i++)
             {
                 IProcessor p = processors[i];
                 List<PostPartBase> source = results[i];
@@ -92,10 +92,12 @@ namespace OrlovMikhail.LJ.BookWriter
 
         IEnumerable<PostPartBase> CreatePartsFirstPass(HTMLTokenBase[] tokens, IFileStorage fs)
         {
-            for (int i = 0; i < tokens.Length; i++)
+            string src;
+
+            for(int i = 0; i < tokens.Length; i++)
             {
                 HTMLTokenBase t = tokens[i];
-                if (t is TextHTMLToken)
+                if(t is TextHTMLToken)
                 {
                     TextHTMLToken textToken = t as TextHTMLToken;
                     yield return new RawTextPostPart(textToken.Text);
@@ -108,7 +110,7 @@ namespace OrlovMikhail.LJ.BookWriter
                                   && (tagToken.IsOpening && !tagToken.IsClosing)
                                   && (nextTagToken.IsClosing && !nextTagToken.IsOpening);
 
-                    switch (tagToken.Kind)
+                    switch(tagToken.Kind)
                     {
                         default:
                         case HTMLElementKind.Other:
@@ -119,7 +121,7 @@ namespace OrlovMikhail.LJ.BookWriter
                             break;
 
                         case HTMLElementKind.Anchor:
-                            if (!tagToken.IsOpening)
+                            if(!tagToken.IsOpening)
                                 break;
 
                             int closingA = FindClosingTag(tokens, i, HTMLElementKind.Anchor);
@@ -127,7 +129,7 @@ namespace OrlovMikhail.LJ.BookWriter
 
                             // Is it a real link?
                             bool isFake = closingA < i + 2 || String.IsNullOrWhiteSpace(href);
-                            if (isFake)
+                            if(isFake)
                                 break;
 
                             // What is the content?
@@ -138,7 +140,7 @@ namespace OrlovMikhail.LJ.BookWriter
                             string result = String.Join("", textsInside);
 
                             bool hrefIsAutomatedFromURL = (result == href);
-                            if (!hrefIsAutomatedFromURL)
+                            if(!hrefIsAutomatedFromURL)
                             {
                                 // Href differs from text inside.
                                 // Write out the href explicitly.
@@ -148,14 +150,14 @@ namespace OrlovMikhail.LJ.BookWriter
                             break;
 
                         case HTMLElementKind.Bold:
-                            if (isPairWithNext)
+                            if(isPairWithNext)
                             {
                                 // Skip both.
                                 i++;
                             }
                             else
                             {
-                                if (tagToken.IsOpening)
+                                if(tagToken.IsOpening)
                                     yield return BoldStartPart.Instance;
                                 else
                                     yield return BoldEndPart.Instance;
@@ -166,7 +168,7 @@ namespace OrlovMikhail.LJ.BookWriter
                             // If it has lj:user attribute, we consider it
                             // a username link.
                             string username;
-                            if (tagToken.IsOpening && tagToken.Attributes.TryGetValue("lj:user", out username))
+                            if(tagToken.IsOpening && tagToken.Attributes.TryGetValue("lj:user", out username))
                             {
                                 string classValue = tagToken.Attributes.GetExistingOrDefault("class") ?? String.Empty;
                                 bool isCommunity = classValue.Contains("i-ljuser-type-C");
@@ -179,14 +181,14 @@ namespace OrlovMikhail.LJ.BookWriter
 
                         case HTMLElementKind.Underline:
                         case HTMLElementKind.Italic:
-                            if (isPairWithNext)
+                            if(isPairWithNext)
                             {
                                 // Skip both.
                                 i++;
                             }
                             else
                             {
-                                if (tagToken.IsOpening)
+                                if(tagToken.IsOpening)
                                     yield return ItalicStartPart.Instance;
                                 else
                                     yield return ItalicEndPart.Instance;
@@ -194,56 +196,102 @@ namespace OrlovMikhail.LJ.BookWriter
                             break;
 
                         case HTMLElementKind.Center:
-                            if (tagToken.IsClosing)
+                            if(!tagToken.IsClosing)
+                                break;
+
+                            // All <br/>'sboth 1 or 2 after it should
+                            // be treated as a new paragraph.
+                            int brsFound = 0;
+                            for(int p = i + 1; p < tokens.Length && p < i + 3; p++)
                             {
-                                // All <br/>'sboth 1 or 2 after it should
-                                // be treated as a new paragraph.
-                                int brsFound = 0;
-                                for (int p = i + 1; p < tokens.Length && p < i + 3; p++)
-                                {
-                                    TagHTMLToken someToken = tokens[p] as TagHTMLToken;
-                                    if (someToken != null && someToken.Kind == HTMLElementKind.LineBreak)
-                                        brsFound++;
-                                    else
-                                        break;
-                                }
-                                if (brsFound > 0)
-                                {
-                                    // If we've found some <br/>s, step over them.
-                                    yield return new ParagraphStartPart();
-                                    i += brsFound;
-                                }
+                                TagHTMLToken someToken = tokens[p] as TagHTMLToken;
+                                if(someToken != null && someToken.Kind == HTMLElementKind.LineBreak)
+                                    brsFound++;
+                                else
+                                    break;
+                            }
+                            if(brsFound > 0)
+                            {
+                                // If we've found some <br/>s, step over them.
+                                yield return new ParagraphStartPart();
+                                i += brsFound;
                             }
                             break;
 
-                        case HTMLElementKind.Image:
-                            string src;
-                            if (tagToken.Attributes.TryGetValue("src", out src))
-                            {
-                                FileInfoBase local = fs.TryGet(src);
-                                if (local != null)
-                                {
-                                    if (!local.Exists)
-                                        log.WarnFormat("Encountered image {0} does not exist.", src);
-                                    else
-                                        yield return new ImagePart(local);
-                                }
-                                else
-                                {
-                                    log.WarnFormat("Encountered image {0} not local.", src);
+                        case HTMLElementKind.IFrame:
+                            if(!tagToken.IsOpening)
+                                break;
 
-                                    // No image saved, so we will just write the URL.
-                                    string replaceString = String.Format("({0})", src);
-                                    yield return new RawTextPostPart(replaceString);
-                                }
+                            if(!tagToken.Attributes.TryGetValue("src", out src))
+                            {
+                                log.Warn("Encountered iframe tag without source.");
+                                break;
+                            }
+
+                            // Trying to parse the video source.
+                            VideoPart vp = TryCreateAVideoPart(src);
+                            if(vp != null)
+                                yield return vp;
+
+                            break;
+
+                        case HTMLElementKind.Image:
+                            if(!tagToken.Attributes.TryGetValue("src", out src))
+                            {
+                                log.Warn("Encountered image tag without source.");
+                                break;
+                            }
+
+                            FileInfoBase local = fs.TryGet(src);
+                            if(local != null)
+                            {
+                                if(!local.Exists)
+                                    log.WarnFormat("Encountered image {0} does not exist.", src);
+                                else
+                                    yield return new ImagePart(local);
                             }
                             else
-                                log.Warn("Encountered image tag without source.");
+                            {
+                                log.WarnFormat("Encountered image {0} not local.", src);
+
+                                // No image saved, so we will just write the URL.
+                                string replaceString = String.Format("({0})", src);
+                                yield return new RawTextPostPart(replaceString);
+                            }
 
                             break;
                     }
                 }
             }
+        }
+
+        private VideoPart TryCreateAVideoPart(string src)
+        {
+            var kvps = WebTools.ParseKeyValuePairsFromURL(src);
+
+            string videoSource;
+            if(!kvps.TryGetValue("source", out videoSource))
+                return null;
+            string videoId;
+            if(!kvps.TryGetValue("vid", out videoId))
+                return null;
+
+            string fullUrl;
+            switch(videoSource)
+            {
+                case "youtube":
+                    fullUrl = String.Format(@"https://www.youtube.com/watch?v={0}", videoId);
+                    break;
+
+                default:
+                    fullUrl = null;
+                    break;
+            }
+
+            if(fullUrl == null)
+                return null;
+
+            return new VideoPart(fullUrl);
         }
 
         /// <summary>Returns the index of the specified closing tag.</summary>
@@ -252,23 +300,23 @@ namespace OrlovMikhail.LJ.BookWriter
         static int FindClosingTag(HTMLTokenBase[] tokens, int startIndex, HTMLElementKind kind)
         {
             int count = 1;
-            for (int i = startIndex + 1; i < tokens.Length; i++)
+            for(int i = startIndex + 1; i < tokens.Length; i++)
             {
                 TagHTMLToken t = tokens[i] as TagHTMLToken;
-                if (t == null)
+                if(t == null)
                     continue;
 
                 bool isThisKind = t.Kind == kind;
-                if (!isThisKind)
+                if(!isThisKind)
                     continue;
 
-                if (t.IsOpening)
+                if(t.IsOpening)
                     count++;
-                if (t.IsClosing)
+                if(t.IsClosing)
                     count--;
 
                 // This is the closing tag.
-                if (count == 0)
+                if(count == 0)
                     return i;
             }
 

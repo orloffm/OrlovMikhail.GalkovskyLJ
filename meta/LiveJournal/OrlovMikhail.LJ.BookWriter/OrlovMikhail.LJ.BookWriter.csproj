@@ -65,6 +65,8 @@
     <Compile Include="IBookWriter.cs" />
     <Compile Include="IBookWriterFactory.cs" />
     <Compile Include="PostParts\Parts\Blocks\NewBlockStartBasePart.cs" />
+    <Compile Include="PostParts\Parts\Multimedia\MultimediaBasePart.cs" />
+    <Compile Include="PostParts\Parts\Multimedia\VideoPart.cs" />
     <Compile Include="PostParts\Parts\Formatting\FormattingBasePart.cs" />
     <Compile Include="PostParts\Parts\UserLinkPart.cs" />
     <Compile Include="PostParts\Processors\ArtificialLinesRemoverProcessor.cs" />
@@ -90,7 +92,7 @@
     <Compile Include="PostParts\Parts\Formatting\ItalicStartPart.cs" />
     <Compile Include="PostParts\Parts\Blocks\LineBreakPart.cs" />
     <Compile Include="PostParts\Parts\Blocks\ParagraphStartPart.cs" />
-    <Compile Include="PostParts\Parts\ImagePart.cs" />
+    <Compile Include="PostParts\Parts\Multimedia\ImagePart.cs" />
     <Compile Include="PostParts\Parts\RawTextPostPart.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="PostParts\Parts\PostPartBase.cs" />

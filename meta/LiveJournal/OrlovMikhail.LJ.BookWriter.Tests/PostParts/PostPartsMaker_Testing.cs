@@ -29,6 +29,18 @@ namespace OrlovMikhail.LJ.BookWriter.Tests
         }
 
         [Test]
+        public void ExtractsYouTubeVideo()
+        {
+            string source = @"<iframe src=""http://l.lj-toys.com/?auth_token=sessionless%3A1439474400%3Aembedcontent%3A1380996%2686%261%260%26youtube%26Y64bw6Xxduw%3A72e47f9e2e972625858c7dc3fd62b06dc4758bea&amp;source=youtube&amp;vid=Y64bw6Xxduw&amp;moduleid=86&amp;preview=0&amp;journalid=1380996&amp;noads=1"" width=""640"" height=""390"" frameborder=""0"" class=""lj_embedcontent"" allowfullscreen name=""embed_1380996_86""></iframe>";
+
+            PostPartBase[] expected = new PostPartBase[]{
+                new VideoPart(@"https://www.youtube.com/watch?v=Y64bw6Xxduw"),
+            };
+
+            Check(source, expected);
+        }
+
+        [Test]
         public void ReplacesSpecialQuotationStyle_756()
         {
             string source = @"-- A --<br /><br />Z ";

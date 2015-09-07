@@ -1,14 +1,8 @@
-﻿using OrlovMikhail.LJ.Grabber;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Abstractions;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using OrlovMikhail.LJ.BookWriter;
-using OrlovMikhail.Tools;
-using System.Net;
 
 namespace OrlovMikhail.LJ.BookWriter.AsciiDoc
 {
@@ -55,34 +49,24 @@ namespace OrlovMikhail.LJ.BookWriter.AsciiDoc
         public override void EntryEnd() { PL(""); }
         public override void CommentEnd() { PL(""); }
 
-        public override void EntryHeader(Entry e, string posterUserpicRelativeLocation)
+        protected override void EntryHeaderInternal(string subject, string url, DateTime date, string posterUserpicRelativeLocation)
         {
             currentQuotationLevel = 0;
 
-            string subject = e.Subject;
-            if(subject.Length == 0)
-                subject = e.Id.ToString();
-
-            subject = HTMLParser.StripOfTags(subject.Trim());
-            if(subject.EndsWith(".") && !subject.EndsWith("..."))
-                subject = subject.Substring(0, subject.Length - 1);
-            subject = WebUtility.HtmlDecode(subject);
-            subject = Tp.Prepare(subject);
-
             PL(String.Format("== {0}", subject));
             PL("");
-            PL("++" + e.Url + "++");
+            PL("++" + url + "++");
             PL("");
 
             if(posterUserpicRelativeLocation != null)
                 PL(String.Format("image:{0}[userpic, 40, 40]", posterUserpicRelativeLocation));
-            PL(String.Format("{0:dd-MM-yyy HH:mm} +", e.Date.Value));
+            PL(String.Format("{0:dd-MM-yyy HH:mm} +", date));
             PL("");
 
             wroteAfterItemBegin = false;
         }
 
-        public override void CommentHeader(Comment c, string commentUserpicRelativeLocation)
+        protected override void CommentHeaderInternal(string subject, DateTime date, string username, bool isDeleted, bool isScreened, bool isSuspended, string commentUserpicRelativeLocation)
         {
             currentQuotationLevel = 0;
 
@@ -90,32 +74,31 @@ namespace OrlovMikhail.LJ.BookWriter.AsciiDoc
             if(commentUserpicRelativeLocation != null)
                 PL(String.Format("image:{0}[userpic, 40, 40]", commentUserpicRelativeLocation));
 
-            WriteUsernameInternal(c.Poster.Username, c.Poster.UserType == UserLiteType.C);
-            PL(String.Format(" {0:dd-MM-yyy HH:mm}", c.Date.Value));
+            WriteUsernameInternal(username);
+            PL(String.Format(" {0:dd-MM-yyy HH:mm}", date));
 
-            string subject = c.Subject;
             if(!String.IsNullOrWhiteSpace(subject))
-            {
-                subject = HTMLParser.StripOfTags(subject);
-                subject = WebUtility.HtmlDecode(subject);
-                subject = Tp.Prepare(subject);
                 PL(String.Format("{0}", subject));
-            }
 
             PL("");
             wroteAfterItemBegin = false;
 
-            if(c.IsDeleted)
+            if(isDeleted)
                 P("(комментарий удалён)");
-            else if(c.IsScreened)
+            else if(isScreened)
                 P("(комментарий скрыт)");
-            else if(c.IsSuspendedUser)
+            else if(isSuspended)
                 P("(пользователь заблокирован)");
         }
 
         protected override void WriteImageInternal(string relativePath)
         {
             P("image::" + relativePath + "[]");
+        }
+
+        protected override void WriteVideoInternal(string url)
+        {
+            P("(Видео: " + url + ")");
         }
 
         protected override void WritePreparedTextInternal(string preparedText)

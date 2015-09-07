@@ -12,8 +12,7 @@ namespace OrlovMikhail.LJ.BookWriter
         {
             for(int i = 0; i < items.Count; i++)
             {
-                ImagePart ip = items[i] as ImagePart;
-                if(ip == null)
+                if(!(items[i] is MultimediaBasePart))
                     continue;
 
                 PostPartBase previous = (i > 0 ? items[i - 1] : null);

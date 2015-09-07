@@ -15,7 +15,7 @@ namespace OrlovMikhail.LJ.BookWriter.Tests
         public void ConvertsSpecialQuotations(string input)
         {
             PostPartBase[] parts =
-           {
+            {
                 new RawTextPostPart(input),
             };
 

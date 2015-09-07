@@ -5,7 +5,7 @@ using System.IO.Abstractions;
 namespace OrlovMikhail.LJ.BookWriter
 {
     [DebuggerDisplay("[Image, {Src.FullName}]")]
-    public class ImagePart : PostPartBase, IEquatable<ImagePart>
+    public class ImagePart : MultimediaBasePart, IEquatable<ImagePart>
     {
         public FileInfoBase Src { get; set; }
 
@@ -30,6 +30,11 @@ namespace OrlovMikhail.LJ.BookWriter
             if(ReferenceEquals(p1, p2))
                 return true;
             else if(ReferenceEquals(p1, null) || ReferenceEquals(p2, null))
+                return false;
+
+            if(ReferenceEquals(p1.Src, p2.Src))
+                return true;
+            else if(ReferenceEquals(p1.Src, null) || ReferenceEquals(p2.Src, null))
                 return false;
 
             return String.Equals(p1.Src.FullName, p2.Src.FullName, StringComparison.OrdinalIgnoreCase);
