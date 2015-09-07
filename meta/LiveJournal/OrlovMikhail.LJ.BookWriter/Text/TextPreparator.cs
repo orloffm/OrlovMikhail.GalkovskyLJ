@@ -76,9 +76,13 @@ namespace OrlovMikhail.LJ.BookWriter
             add(@"[“”""„‘’]$", raquo);
 
             // Start of word.
-            add(@"(?<=[\s])[“”""„‘’]", laquo);
+            add(@"(?<=[\s(])[“”""„‘’]", laquo);
             // End of word.
-            add(@"[“”""„‘’](?=[,.;:?!\s])", raquo);
+            add(@"[“”""„‘’](?=[,.;:?!\s)])", raquo);
+
+            // Before and after brackets.
+            add(@"(?<=[)])[“”""„‘’]", raquo);
+            add(@"[“”""„‘’](?=[(])", laquo);
 
             // Explicit
             add("“", laquo);
@@ -160,7 +164,8 @@ namespace OrlovMikhail.LJ.BookWriter
         /// <param name="start">Where to look for tilde candidate from.</param>
         int PositiveLookAhead(string work, int start)
         {
-            bool hasSpaceTokenAtStart = Char.IsWhiteSpace(work, start);
+            char c = work[start];
+            bool hasSpaceTokenAtStart = Char.IsWhiteSpace(c) || c == '(' || c == '[';
 
             // It must be space after initial character.
             if(start > 0 && !hasSpaceTokenAtStart)

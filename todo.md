@@ -1,5 +1,6 @@
 # General
 
+[ ] EntryHeader, CommentHeader - should recieve processed subject.
 [ ] Escape <URL>{nbsp}em-dash
 [ ] Insert video link.
 [ ] Exe goes through all dumps, not powershell.

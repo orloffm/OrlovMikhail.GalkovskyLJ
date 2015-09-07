@@ -14,6 +14,7 @@ namespace OrlovMikhail.LJ.BookWriter.AsciiDoc.Tests
         [TestCase("„Jeszcze Polska nie zginęła“", "«Jeszcze Polska nie zginęła»")]
         [TestCase("Что „лучше“ – сыто есть", "Что «лучше»{nbsp}&#8212; сыто есть")]
         [TestCase("\"А в \"Б\"\"", "«А в{nbsp}«Б»»")]
+        [TestCase(@"(а точнее ""тройки"")", @"(а{nbsp}точнее «тройки»)")]
         public void ConvertsQuotes(string source, string expected)
         {
             AsciiDocTextPreparator adtp = new AsciiDocTextPreparator();

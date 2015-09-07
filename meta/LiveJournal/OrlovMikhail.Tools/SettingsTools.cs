@@ -1,4 +1,5 @@
-﻿using System;
+﻿using log4net;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
@@ -10,6 +11,8 @@ namespace OrlovMikhail.Tools
 {
     public static class SettingsTools
     {
+        static readonly ILog log = LogManager.GetLogger(typeof(SettingsTools));
+
         public static bool LoadValue<T>(string key, Dictionary<string, string> argsDic, T settings, Expression<Func<T, string>> propertyExpression)
         {
             string message;
@@ -29,14 +32,12 @@ namespace OrlovMikhail.Tools
 
             if (String.IsNullOrEmpty(value))
             {
-                message = String.Format("No {0} known. Please specify it as /{0}=\"abc\" in the command line.", key);
-                Console.WriteLine(message);
+                log.ErrorFormat("No {0} known. Please specify it as /{0}=\"abc\" in the command line.", key);
                 return false;
             }
             else
             {
-                message = String.Format("Using {0}={1}.", key, value);
-                Console.WriteLine(message);
+                log.DebugFormat("Using {0}={1}.", key, value);
                 return true;
             }
         }

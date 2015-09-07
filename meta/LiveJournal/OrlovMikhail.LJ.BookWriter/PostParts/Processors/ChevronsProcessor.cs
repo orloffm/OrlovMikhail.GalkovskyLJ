@@ -103,8 +103,11 @@ namespace OrlovMikhail.LJ.BookWriter
             Tuple<string, string>[] specialSelectors = new[]
             {
                 Tuple.Create("--", "--"),
-                Tuple.Create(@"//", @"//")
+                Tuple.Create(@"//", @"//"),
+                Tuple.Create(@"\\", @"\\"),
             };
+
+            int totalTextLength = textPartsBetween.Sum(z => z.Text.Length);
 
             foreach (var tuple in specialSelectors)
             {
@@ -114,7 +117,12 @@ namespace OrlovMikhail.LJ.BookWriter
                 string begin = tuple.Item1;
                 string end = tuple.Item2;
 
-                if (a.Text.StartsWith(begin) && z.Text.EndsWith(end))
+                int adornersLength = begin.Length + end.Length;
+
+                // So, is this text adorned by our special formatters?
+                bool isAdorned = a.Text.StartsWith(begin) && z.Text.EndsWith(end) && adornersLength < totalTextLength;
+
+                if(isAdorned)
                 {
                     // Remove this formatter and prepend a chevron.
                     a.Text = "> " + a.Text.Substring(begin.Length);
