@@ -8,28 +8,31 @@ $scriptPath = split-path -parent $MyInvocation.MyCommand.Definition
 
 $years = dir -path $scriptPath -filter "*$filter*"
 
+$env:KINDLEGEN =  Join-Path $scriptPath 'resources\kindlegen.exe'
+
 ForEach($year in $years){
 	If([System.IO.Path]::GetExtension($year) -ne ".asc"){
 		continue
 	}
 
-    Write-Host "===================="
-    Write-Host $year.Name
-    Write-Host "===================="
-    Write-Host ""
+    " "
+    "===================="
+    $year.Name
+    "===================="
+    " "
 
     $bookFile = ($scriptPath + "\" + $year.Name)
 
-    # Write-Host "Converting to HTML..."
+    # "Converting to HTML..."
     # & bundle exec asciidoctor $bookFile
 
-    # Write-Host "Converting to EPub..."
-    # & bundle exec asciidoctor-epub3 $bookFile
+    "Converting to EPub..."
+    & bundle exec asciidoctor-epub3 $bookFile
 
-    # Write-Host "Converting to Mobi (kf8)..."
-    # & bundle exec asciidoctor-epub3 -a ebook-format=kf8 $bookFile
+    "Converting to Mobi (kf8)..."
+    & bundle exec asciidoctor-epub3 -a ebook-format=kf8 $bookFile
 
-    Write-Host "Converting to PDF..."
+    "Converting to PDF..."
     & bundle exec asciidoctor-pdf $bookFile -a pdf-style=resources/themes/galkovsky-theme.yml --trace
 }
 
@@ -44,6 +47,7 @@ else{
 
 Write-Host "Moving files to output folder..."
 mv -Path ($scriptPath + "\*.html") -Destination $outputPath -Force
+rm ($scriptPath + "\*-kf8.epub")
 mv -Path ($scriptPath + "\*.epub") -Destination $outputPath -Force
 mv -Path ($scriptPath + "\*.mobi") -Destination $outputPath -Force
 rm ($scriptPath + "\*.pdfmarks")

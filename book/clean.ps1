@@ -8,6 +8,8 @@ IF($source -eq "."){
 	"Removing all .asc and output files..."
 	dir -path $scriptPath -recurse -filter "*.asc" | %{ rm $_.FullName }
 	dir -path $scriptPath -recurse -filter "*.pdf" | %{ rm $_.FullName }
+	dir -path $scriptPath -recurse -filter "*.epub" | %{ rm $_.FullName }
+	dir -path $scriptPath -recurse -filter "*.mobi" | %{ rm $_.FullName }
 }
 else{
 	"Removing all fragment.asc files from $source..."
