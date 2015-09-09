@@ -29,8 +29,8 @@ ForEach($year in $years){
     "Converting to EPub..."
     & bundle exec asciidoctor-epub3 $bookFile
 
-    "Converting to Mobi (kf8)..."
-    & bundle exec asciidoctor-epub3 -a ebook-format=kf8 $bookFile
+    # "Converting to Mobi (kf8)..."
+    # & bundle exec asciidoctor-epub3 -a ebook-format=kf8 $bookFile
 
     "Converting to PDF..."
     & bundle exec asciidoctor-pdf $bookFile -a pdf-style=resources/themes/galkovsky-theme.yml --trace
