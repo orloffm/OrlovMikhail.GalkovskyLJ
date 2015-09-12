@@ -79,16 +79,15 @@ http://www.livejournal.com/customize/,
 ### Собственно скачивание
 
 1. Открыть консоль.
-2. Зайти в `bin\`.
-3. Запустить `dumper /url=<адрес поста> /root=<путь к папке book> /cookie=<cookie>`.
+2. Зайти в папку `book`.
+3. Запустить `dumper /url=<адрес поста> /cookie=<cookie>`.
 Здесь:
     * Адрес поста --- полный его адрес, например, http://galkovsky.livejournal.com/15915.html.
-    * Путь к папке book --- например, `C:\galkovskylj\book`. Если в пути есть пробелы, он должен быть обрамлён кавычками.
     * Cookie --- то, что мы скопировали из консоли разработчика. В кавычках
     
 Пример.
 
-`dumper /url=http://galkovsky.livejournal.com/15915.html /root="C:\galkovsky lj\book" /cookie="__utma=48425145..."`
+`dumper /url=http://galkovsky.livejournal.com/15915.html /cookie="__utma=48425145..."`
 
 #### Примечания
 
