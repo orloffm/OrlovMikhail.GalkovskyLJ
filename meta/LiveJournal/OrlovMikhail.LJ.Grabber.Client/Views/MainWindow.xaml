@@ -6,12 +6,12 @@
         Background="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"
         IsEnabled="{Binding IsEnabled}"
         Closing="Window_Closing"
-        Title="MainWindow" Height="350" Width="525">
+        Title="Post downloader" Height="350" Width="525">
 
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/OrlovMikhail.LJ.Grabber.Client;component/Controls/ResourceDictionary.xaml" />
+                <ResourceDictionary Source="/GrabberClient;component/Controls/ResourceDictionary.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>

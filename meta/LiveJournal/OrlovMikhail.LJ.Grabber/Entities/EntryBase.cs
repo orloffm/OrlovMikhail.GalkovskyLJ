@@ -50,7 +50,7 @@ namespace OrlovMikhail.LJ.Grabber
         [XmlElement("date")]
         public string DateValue
         {
-            get { return Date.HasValue ? Date.Value.ToString("yyyy-MM-dd hh:mm:ss") : null; }
+            get { return Date.HasValue ? Date.Value.ToString("yyyy-MM-dd HH:mm:ss") : null; }
             set { Date = ParseDateTimeFromString(value); }
         }
 
