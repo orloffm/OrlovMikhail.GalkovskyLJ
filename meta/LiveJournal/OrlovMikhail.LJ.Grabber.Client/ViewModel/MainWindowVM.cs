@@ -25,7 +25,11 @@ namespace OrlovMikhail.LJ.Grabber.Client
             UIAppender app = new UIAppender();
             app.StringAdded += (sender, args) =>
             {
-                log.Info(args.Value);
+                string s = Log;
+                string add = String.IsNullOrWhiteSpace(s) ? "" : Environment.NewLine;
+                add += args.Value;
+
+                Log += add;
             };
 
             // Set it.
