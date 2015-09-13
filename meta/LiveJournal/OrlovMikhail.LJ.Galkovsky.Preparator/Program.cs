@@ -85,6 +85,7 @@ namespace OrlovMikhail.LJ.Galkovsky.Preparator
                 sb.AppendLine(":docinfo:");
                 sb.AppendLine(":toc:");
                 sb.AppendLine(":toclevels: 2");
+                sb.AppendLine(":imagesdir: .");
 
                 // Shared lead.
                 sb.AppendLine();

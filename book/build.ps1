@@ -36,7 +36,9 @@ ForEach($sourceAsc in $sourceAscs){
 
     "Converting to PDF..."
     $outputPdf = Join-Path $outputPath ($nameWithoutExt + ".A4.pdf")
-    & bundle exec asciidoctor-pdf $bookFile -o "$outputPdf" -a pdf-style=resources/themes/galkovsky-theme.yml --trace
+    & bundle exec asciidoctor-pdf $bookFile -o "$outputPdf" -a pdf-style=resources/themes/galkovsky-theme_A4.yml --trace
+    $outputPdf = Join-Path $outputPath ($nameWithoutExt + ".A5.pdf")
+    & bundle exec asciidoctor-pdf $bookFile -o "$outputPdf" -a pdf-style=resources/themes/galkovsky-theme_A5.yml --trace
 }
 
 $outputPath = Join-Path $scriptPath "output"
