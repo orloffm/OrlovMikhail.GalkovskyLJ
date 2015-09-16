@@ -27,18 +27,25 @@ ForEach($sourceAsc in $sourceAscs){
     # "Converting to HTML..."
     # & bundle exec asciidoctor $bookFile
 
-    "Converting to EPub..."
     $outputEpub = Join-Path $outputPath ($nameWithoutExt + ".epub")
-    & bundle exec asciidoctor-epub3 $bookFile -o "$outputEpub$"
-
+    if(!(Test-Path -Path $outputEpub)) {
+		"Converting to EPub..."
+		# & bundle exec asciidoctor-epub3 $bookFile -o "$outputEpub$"
+	}
+	
     # "Converting to Mobi (kf8)..."
     # & bundle exec asciidoctor-epub3 -a ebook-format=kf8 $bookFile
 
-    "Converting to PDF..."
     $outputPdf = Join-Path $outputPath ($nameWithoutExt + ".A4.pdf")
-    & bundle exec asciidoctor-pdf $bookFile -o "$outputPdf" -a pdf-style=resources/themes/galkovsky-theme_A4.yml --trace
+    if(!(Test-Path -Path $outputPdf)) {
+		"Converting to PDF A4..."
+		& bundle exec asciidoctor-pdf $bookFile -o "$outputPdf" -a pdf-style=resources/themes/galkovsky-theme_A4.yml --trace
+	}
     $outputPdf = Join-Path $outputPath ($nameWithoutExt + ".A5.pdf")
-    & bundle exec asciidoctor-pdf $bookFile -o "$outputPdf" -a pdf-style=resources/themes/galkovsky-theme_A5.yml --trace
+    if(!(Test-Path -Path $outputPdf)) {
+		"Converting to PDF A5..."
+		# & bundle exec asciidoctor-pdf $bookFile -o "$outputPdf" -a pdf-style=resources/themes/galkovsky-theme_A5.yml --trace
+	}
 }
 
 $outputPath = Join-Path $scriptPath "output"
