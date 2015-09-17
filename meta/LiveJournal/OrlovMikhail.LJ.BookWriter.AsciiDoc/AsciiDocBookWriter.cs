@@ -72,7 +72,7 @@ namespace OrlovMikhail.LJ.BookWriter.AsciiDoc
 
             PL("");
             if(!String.IsNullOrEmpty(commentUserpicRelativeLocation))
-                PL(String.Format("image:{0}[userpic, height=40]", commentUserpicRelativeLocation));
+                PL(String.Format("image:{0}[\"userpic\", 40, 40]", commentUserpicRelativeLocation));
 
             WriteUsernameInternal(username);
             PL(String.Format(" {0:dd-MM-yyy HH:mm}", date));
