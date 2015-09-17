@@ -17,7 +17,7 @@ namespace OrlovMikhail.LJ.BookWriter
             _artificialLineRegex = new Regex(artificialLineRegexString, RegexOptions.Compiled);
         }
 
-        protected internal override void ProcessInternal(List<PostPartBase> items)
+        protected internal override void ProcessInternal(List<IPostPart> items)
         {
             // At these indeces are the artificial lines.
             List<int> artificialIndeces = GetArtificialIndeces(items);
@@ -42,7 +42,7 @@ namespace OrlovMikhail.LJ.BookWriter
             }
         }
 
-        private List<int> GetArtificialIndeces(List<PostPartBase> items)
+        private List<int> GetArtificialIndeces(List<IPostPart> items)
         {
             List<int> artificialIndeces = new List<int>();
 

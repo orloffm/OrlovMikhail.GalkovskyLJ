@@ -63,7 +63,7 @@ namespace OrlovMikhail.LJ.BookWriter
         private void Check(PostPartBase[] parts, PostPartBase[] expected)
         {
             IProcessor cp = new BlocksAtTheEdgesRemover();
-            List<PostPartBase> processed = cp.Process(parts);
+            List<IPostPart> processed = cp.Process(parts);
             CollectionAssert.AreEqual(expected, processed);
         }
 

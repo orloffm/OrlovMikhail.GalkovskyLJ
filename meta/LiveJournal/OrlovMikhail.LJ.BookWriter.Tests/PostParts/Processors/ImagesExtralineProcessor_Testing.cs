@@ -46,7 +46,7 @@ namespace OrlovMikhail.LJ.BookWriter.Tests
         private void Check(PostPartBase[] parts, PostPartBase[] expected)
         {
             IProcessor cp = new ImagesExtralineProcessor();
-            List<PostPartBase> processed = cp.Process(parts);
+            List<IPostPart> processed = cp.Process(parts);
             CollectionAssert.AreEqual(expected, processed);
         }
     }

@@ -19,7 +19,7 @@ namespace OrlovMikhail.LJ.BookWriter
             _lineStartRegex = new Regex(lineStartRegexPattern, RegexOptions.Compiled);
         }
 
-        protected internal override void ProcessInternal(List<PostPartBase> items)
+        protected internal override void ProcessInternal(List<IPostPart> items)
         {
             for(int i = 0; i < items.Count; i++)
             {
@@ -29,7 +29,7 @@ namespace OrlovMikhail.LJ.BookWriter
                     continue;
 
                 // What should be trimmed?
-                PostPartBase previous = (i > 0 ? items[i - 1] : null);
+                IPostPart previous = (i > 0 ? items[i - 1] : null);
                 bool previousIsBreak = previous == null || previous is NewBlockStartBasePart;
 
                 // Prepend numbers with {empty} to disable lists.

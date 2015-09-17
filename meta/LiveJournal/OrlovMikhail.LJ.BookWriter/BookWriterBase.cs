@@ -56,10 +56,11 @@ namespace OrlovMikhail.LJ.BookWriter
                 subject = _tp.Prepare(subject);
             }
 
-            CommentHeaderInternal(subject, c.Date.Value, c.Poster.Username, c.IsDeleted, c.IsScreened, c.IsSuspendedUser, commentUserpicRelativeLocation);
+            string username = _tp.Prepare(c.Poster.Username);
+            CommentHeaderInternal(subject, c.Date.Value, username, c.IsDeleted, c.IsScreened, c.IsSuspendedUser, commentUserpicRelativeLocation);
         }
 
-        public void WritePart(PostPartBase ppb)
+        public void WritePart(IPostPart ppb)
         {
             if(ppb is RawTextPostPart)
             {
@@ -87,7 +88,7 @@ namespace OrlovMikhail.LJ.BookWriter
             else if(ppb is UserLinkPart)
             {
                 UserLinkPart ip = (UserLinkPart)ppb;
-                WriteUsernameInternal(ip.Username, ip.IsCommunity);
+                WriteUsernameInternal(_tp.Prepare(ip.Username), ip.IsCommunity);
             }
             else if(ppb is BoldStartPart)
                 WriteBoldStartInternal();

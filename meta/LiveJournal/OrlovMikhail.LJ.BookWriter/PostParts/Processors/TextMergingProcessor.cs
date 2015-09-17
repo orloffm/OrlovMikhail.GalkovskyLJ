@@ -8,7 +8,7 @@ namespace OrlovMikhail.LJ.BookWriter
 {
     public class TextMergingProcessor : ProcessorBase
     {
-        protected internal override void ProcessInternal(List<PostPartBase> items)
+        protected internal override void ProcessInternal(List<IPostPart> items)
         {
             for(int i = 0; i < items.Count; i++)
             {

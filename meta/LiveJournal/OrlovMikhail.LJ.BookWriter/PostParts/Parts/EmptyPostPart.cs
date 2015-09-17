@@ -5,7 +5,7 @@ namespace OrlovMikhail.LJ.BookWriter
 {
     /// <summary>Zero-width item.</summary>
     [DebuggerDisplay("{empty}")]
-    public class EmptyPostPart : PostPartBase
+    public class EmptyPostPart : PostPartBase, IRendersAsText
     {
         static EmptyPostPart _instance = new EmptyPostPart();
 
@@ -16,6 +16,11 @@ namespace OrlovMikhail.LJ.BookWriter
 
         }
 
-        public override PostPartBase FullClone() { return this; }
+        public override IPostPart FullClone() { return this; }
+
+        public bool CanBeTrimmed
+        {
+            get { return false; }
+        }
     }
 }

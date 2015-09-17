@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace OrlovMikhail.LJ.BookWriter
 {
-    public abstract class PostPartBase
+    public abstract class PostPartBase : IPostPart
     {
-        public virtual PostPartBase FullClone()
+        public virtual IPostPart FullClone()
         {
-            return (PostPartBase)this.MemberwiseClone();
+            return (IPostPart)this.MemberwiseClone();
         }
     }
 }

@@ -141,7 +141,7 @@ namespace OrlovMikhail.LJ.BookWriter.Tests
         private void Check(PostPartBase[] parts, PostPartBase[] expected)
         {
             IProcessor cp = new ChevronsProcessor();
-            List<PostPartBase> processed = cp.Process(parts);
+            List<IPostPart> processed = cp.Process(parts);
             CollectionAssert.AreEqual(expected, processed);
         }
     }

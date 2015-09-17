@@ -9,6 +9,6 @@ namespace OrlovMikhail.LJ.BookWriter
     /// <summary>Converts the list of post parts.</summary>
     public interface IProcessor
     {
-        List<PostPartBase> Process(IList<PostPartBase> items);
+        List<IPostPart> Process(IList<IPostPart> items);
     }
 }

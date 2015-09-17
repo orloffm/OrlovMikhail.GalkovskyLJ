@@ -9,6 +9,6 @@ namespace OrlovMikhail.LJ.BookWriter
         /// <param name="tokens">HTML parsed.</param>
         /// <param name="fs">File storage to replace URLs with local paths.</param>
         /// <returns></returns>
-        PostPartBase[] CreateTextParts(HTMLTokenBase[] tokens, IFileStorage fs);
+        IPostPart[] CreateTextParts(HTMLTokenBase[] tokens, IFileStorage fs);
     }
 }

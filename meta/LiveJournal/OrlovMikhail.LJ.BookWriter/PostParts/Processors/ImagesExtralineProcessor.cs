@@ -8,15 +8,15 @@ namespace OrlovMikhail.LJ.BookWriter
 {
     public class ImagesExtralineProcessor : ProcessorBase
     {
-        protected internal override void ProcessInternal(List<PostPartBase> items)
+        protected internal override void ProcessInternal(List<IPostPart> items)
         {
             for(int i = 0; i < items.Count; i++)
             {
                 if(!(items[i] is MultimediaBasePart))
                     continue;
 
-                PostPartBase previous = (i > 0 ? items[i - 1] : null);
-                PostPartBase next = (i < items.Count - 1 ? items[i + 1] : null);
+                IPostPart previous = (i > 0 ? items[i - 1] : null);
+                IPostPart next = (i < items.Count - 1 ? items[i + 1] : null);
 
                 if(previous is LineBreakPart)
                     items[i - 1] = new ParagraphStartPart();

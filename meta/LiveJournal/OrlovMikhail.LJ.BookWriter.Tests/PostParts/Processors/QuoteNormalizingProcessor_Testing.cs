@@ -52,7 +52,7 @@ namespace OrlovMikhail.LJ.BookWriter.Tests
             PostPartBase[] expected = output.Select(i => new ParagraphStartPart(i) as PostPartBase).ToArray();
 
             IProcessor cp = new QuoteNormalizingProcessor();
-            List<PostPartBase> processed = cp.Process(parts);
+            List<IPostPart> processed = cp.Process(parts);
             CollectionAssert.AreEqual(expected, processed);
         }
     }

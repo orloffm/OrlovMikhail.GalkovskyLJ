@@ -15,10 +15,10 @@ namespace OrlovMikhail.LJ.BookWriter
     {
         static readonly ILog log = LogManager.GetLogger(typeof(PostPartsMaker));
 
-        public PostPartBase[] CreateTextParts(HTMLTokenBase[] tokens, IFileStorage fs)
+        public IPostPart[] CreateTextParts(HTMLTokenBase[] tokens, IFileStorage fs)
         {
             IProcessor[] processors = CreateProcessorsList();
-            List<PostPartBase>[] results = new List<PostPartBase>[processors.Length + 1];
+            List<IPostPart>[] results = new List<IPostPart>[processors.Length + 1];
 
             // Convert as is, with minor merges.
             results[0] = CreatePartsFirstPass(tokens, fs).ToList();
@@ -26,8 +26,8 @@ namespace OrlovMikhail.LJ.BookWriter
             for(int i = 0; i < processors.Length; i++)
             {
                 IProcessor p = processors[i];
-                List<PostPartBase> source = results[i];
-                List<PostPartBase> result = p.Process(source);
+                List<IPostPart> source = results[i];
+                List<IPostPart> result = p.Process(source);
 
                 results[i + 1] = result;
             }
@@ -90,7 +90,7 @@ namespace OrlovMikhail.LJ.BookWriter
             return ret.ToArray();
         }
 
-        IEnumerable<PostPartBase> CreatePartsFirstPass(HTMLTokenBase[] tokens, IFileStorage fs)
+        IEnumerable<IPostPart> CreatePartsFirstPass(HTMLTokenBase[] tokens, IFileStorage fs)
         {
             string src;
 

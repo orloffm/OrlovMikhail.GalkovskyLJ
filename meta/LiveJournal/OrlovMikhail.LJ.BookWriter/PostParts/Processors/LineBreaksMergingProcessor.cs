@@ -10,7 +10,7 @@ namespace OrlovMikhail.LJ.BookWriter
     /// removes double paragraph starts.</summary>
     public class LineBreaksMergingProcessor : ProcessorBase
     {
-        protected internal override void ProcessInternal(List<PostPartBase> items)
+        protected internal override void ProcessInternal(List<IPostPart> items)
         {
             // First, merge line breaks.
             for(int i = 0; i < items.Count; i++)

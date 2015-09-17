@@ -24,6 +24,6 @@ namespace OrlovMikhail.LJ.BookWriter
 
         void CommentHeader(Comment c, string commentUserpicRelativeLocation);
 
-        void WritePart(PostPartBase ppb);
+        void WritePart(IPostPart ppb);
     }
 }

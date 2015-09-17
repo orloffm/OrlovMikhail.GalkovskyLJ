@@ -3,8 +3,8 @@ using System.Diagnostics;
 
 namespace OrlovMikhail.LJ.BookWriter
 {
-    [DebuggerDisplay("{Username}")]
-    public class UserLinkPart : PostPartBase, IEquatable<UserLinkPart>
+    [DebuggerDisplay("User '{Username}'")]
+    public class UserLinkPart : PostPartBase, IEquatable<UserLinkPart>, IRendersAsText
     {
         public string Username { get; set; }
         public bool IsCommunity { get; set; }
@@ -41,5 +41,10 @@ namespace OrlovMikhail.LJ.BookWriter
             return AreEqual(this, other);
         }
         #endregion
+
+        public bool CanBeTrimmed
+        {
+            get { return false; }
+        }
     }
 }
