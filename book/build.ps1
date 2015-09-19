@@ -36,11 +36,12 @@ ForEach($sourceAsc in $sourceAscs){
     # "Converting to Mobi (kf8)..."
     # & bundle exec asciidoctor-epub3 -a ebook-format=kf8 $bookFile
 
-    $outputPdf = Join-Path $outputPath ($nameWithoutExt + ".A4.pdf")
-    if(!(Test-Path -Path $outputPdf)) {
-		"Converting to PDF A4..."
-		& bundle exec asciidoctor-pdf $bookFile -o "$outputPdf" -a pdf-style=resources/themes/galkovsky-theme_A4.yml --trace
-	}
+#    $outputPdf = Join-Path $outputPath ($nameWithoutExt + ".A4.pdf")
+#    if(!(Test-Path -Path $outputPdf)) {
+#		"Converting to PDF A4..."
+#		& bundle exec asciidoctor-pdf $bookFile -o "$outputPdf" -a pdf-style=resources/themes/galkovsky-theme_A4.yml --trace
+#	}
+
     $outputPdf = Join-Path $outputPath ($nameWithoutExt + ".A5.pdf")
     if(!(Test-Path -Path $outputPdf)) {
 		"Converting to PDF A5..."

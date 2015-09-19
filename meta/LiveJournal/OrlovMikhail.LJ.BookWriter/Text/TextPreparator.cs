@@ -126,7 +126,7 @@ namespace OrlovMikhail.LJ.BookWriter
             // So, in any case - insert emdash after space.
             add(@"(?<=\s)(?:[-–—]|--|---)(?=\s)", emdash);
             // And insert it in the line start.
-            add(@"^(?:[-–—]|--|---)(?=\s)", emdash);
+            add(@"^(?:[-–—]|--|---)\s", emdash + nobr);
 
             // Single space.
             add(@"\s\s", " ");
