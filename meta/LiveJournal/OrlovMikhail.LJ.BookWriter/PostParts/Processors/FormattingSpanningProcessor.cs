@@ -10,7 +10,7 @@ namespace OrlovMikhail.LJ.BookWriter
     /// one paragraph.</summary>
     public class FormattingSpanningProcessor : ProcessorBase
     {
-        protected internal override void ProcessInternal(List<PostPartBase> items)
+        protected internal override void ProcessInternal(List<IPostPart> items)
         {
             for(int i = -1; i < items.Count; i++)
             {
@@ -60,7 +60,7 @@ namespace OrlovMikhail.LJ.BookWriter
                 int p3Index = FindNextNonImageParagraphStartPartIndex(items, p2Index);
 
                 // Item after the next paragraph.
-                PostPartBase following = items[p3Index + 1];
+                IPostPart following = items[p3Index + 1];
                 if(following.GetType() != formattingStarter.GetType())
                 {
                     // Formatting starter there!
@@ -72,7 +72,7 @@ namespace OrlovMikhail.LJ.BookWriter
             }
         }
 
-        private int FindNextNonImageParagraphStartPartIndex(List<PostPartBase> items, int p2Index)
+        private int FindNextNonImageParagraphStartPartIndex(List<IPostPart> items, int p2Index)
         {
             do
             {
@@ -97,7 +97,7 @@ namespace OrlovMikhail.LJ.BookWriter
         /// <param name="startP">Beginning.</param>
         /// <param name="nextP">Item after the last one.</param>
         /// <param name="ender">What type closes the formatting.</param>
-        private bool CheckIfBlockHasClosing(List<PostPartBase> items, int startP, int nextP, Type ender)
+        private bool CheckIfBlockHasClosing(List<IPostPart> items, int startP, int nextP, Type ender)
         {
             Type starter = items[startP].GetType();
 
@@ -105,7 +105,7 @@ namespace OrlovMikhail.LJ.BookWriter
 
             for(int p = startP; p < nextP; p++)
             {
-                PostPartBase current = items[p];
+                IPostPart current = items[p];
                 if(current.GetType() == starter)
                     count++;
                 else if(current.GetType() == ender)

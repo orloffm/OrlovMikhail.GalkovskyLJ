@@ -66,6 +66,8 @@
     <Compile Include="IBookWriterFactory.cs" />
     <Compile Include="PostParts\Parts\Blocks\NewBlockStartBasePart.cs" />
     <Compile Include="PostParts\Parts\EmptyPostPart.cs" />
+    <Compile Include="PostParts\Parts\IPostPart.cs" />
+    <Compile Include="PostParts\Parts\IRendersAsText.cs" />
     <Compile Include="PostParts\Parts\Multimedia\MultimediaBasePart.cs" />
     <Compile Include="PostParts\Parts\Multimedia\VideoPart.cs" />
     <Compile Include="PostParts\Parts\Formatting\FormattingBasePart.cs" />

@@ -9,12 +9,12 @@ namespace OrlovMikhail.LJ.BookWriter
 {
     public class TextTrimmingProcessor : ProcessorBase
     {
-        protected internal override void ProcessInternal(List<PostPartBase> items)
+        protected internal override void ProcessInternal(List<IPostPart> items)
         {
             for(int i = 0; i < items.Count; i++)
             {
-                PostPartBase previous = (i > 0 ? items[i - 1] : null);
-                PostPartBase next = (i < items.Count - 1 ? items[i + 1] : null);
+                IPostPart previous = (i > 0 ? items[i - 1] : null);
+                IPostPart next = (i < items.Count - 1 ? items[i + 1] : null);
 
                 if(items[i] is RawTextPostPart)
                 {

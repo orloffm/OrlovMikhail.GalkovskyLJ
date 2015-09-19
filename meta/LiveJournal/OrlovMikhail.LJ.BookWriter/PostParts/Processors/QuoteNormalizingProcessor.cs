@@ -9,7 +9,7 @@ namespace OrlovMikhail.LJ.BookWriter
 {
     public class QuoteNormalizingProcessor : ProcessorBase
     {
-        protected internal override void ProcessInternal(List<PostPartBase> items)
+        protected internal override void ProcessInternal(List<IPostPart> items)
         {
             List<ParagraphStartPart> psps = new List<ParagraphStartPart>();
             List<int> zeroBlocksIndeces = new List<int>();

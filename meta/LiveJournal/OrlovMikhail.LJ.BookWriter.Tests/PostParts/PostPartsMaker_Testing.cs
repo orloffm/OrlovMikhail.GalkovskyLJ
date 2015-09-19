@@ -20,10 +20,10 @@ namespace OrlovMikhail.LJ.BookWriter.Tests
             _m = new PostPartsMaker();
         }
 
-        private void Check(string html, PostPartBase[] expected)
+        private void Check(string html, IPostPart[] expected)
         {
             HTMLTokenBase[] tokens = _p.Parse(html).ToArray();
-            PostPartBase[] result = _m.CreateTextParts(tokens, null).ToArray();
+            IPostPart[] result = _m.CreateTextParts(tokens, null).ToArray();
 
             CollectionAssert.AreEqual(expected, result);
         }
@@ -44,7 +44,7 @@ namespace OrlovMikhail.LJ.BookWriter.Tests
         public void ReplacesSpecialQuotationStyle_756()
         {
             string source = @"-- A --<br /><br />Z ";
-            
+
             PostPartBase[] expected = new PostPartBase[]{
                 new ParagraphStartPart(1),
                 new RawTextPostPart("A"),
@@ -52,7 +52,20 @@ namespace OrlovMikhail.LJ.BookWriter.Tests
                 new RawTextPostPart("Z"),
             };
 
-            Check(source,expected);
+            Check(source, expected);
+        }
+
+        [Test]
+        public void KeepsTheSpaceAfterUserName()
+        {
+            string source = @" <br /><br /><span  class=""ljuser  i-ljuser  i-ljuser-deleted  i-ljuser-type-P     ""  lj:user=""sharkun"" ><a href=""http://sharkun.livejournal.com/profile""  target=""_self""  class=""i-ljuser-profile"" ><img  class=""i-ljuser-userhead""  src=""http://l-stat.livejournal.net/img/userinfo.gif?v=17080?v=129.5"" /></a><a href=""http://sharkun.livejournal.com/"" class=""i-ljuser-username""   target=""_self""   ><b>sharkun</b></a></span> Z";
+
+            PostPartBase[] expected = new PostPartBase[]{
+                new UserLinkPart("sharkun"),
+                new RawTextPostPart(" Z"),
+            };
+
+            Check(source, expected);
         }
 
         [Test]
@@ -67,7 +80,7 @@ namespace OrlovMikhail.LJ.BookWriter.Tests
             tokens.Add(TagHTMLToken.FromTag("</span>"));
             tokens.Add(TagHTMLToken.FromTag("</span>"));
 
-            PostPartBase[] result = _m.CreateTextParts(tokens.ToArray(), null).ToArray();
+            IPostPart[] result = _m.CreateTextParts(tokens.ToArray(), null).ToArray();
             Assert.AreEqual(1, result.Length);
             Assert.IsInstanceOf<UserLinkPart>(result[0]);
             Assert.AreEqual("orloffm", ((UserLinkPart)result[0]).Username);
@@ -90,7 +103,7 @@ namespace OrlovMikhail.LJ.BookWriter.Tests
             tokens.Add(TagHTMLToken.FromTag("<br/>"));
             tokens.Add(new TextHTMLToken("C"));
 
-            PostPartBase[] result = _m.CreateTextParts(tokens.ToArray(), null).ToArray();
+            IPostPart[] result = _m.CreateTextParts(tokens.ToArray(), null).ToArray();
             Assert.AreEqual(7, result.Length);
             Assert.IsInstanceOf<RawTextPostPart>(result[0]);
             Assert.IsInstanceOf<ParagraphStartPart>(result[1]);
@@ -113,7 +126,7 @@ namespace OrlovMikhail.LJ.BookWriter.Tests
                             @"&gt;F<br />" +
                             @"&gt;G </i><br /><br />Z";
 
-            PostPartBase[] expected = new PostPartBase[]{
+            IPostPart[] expected = new PostPartBase[]{
                 new RawTextPostPart("Z:"),
                 new ParagraphStartPart(1),
                 new RawTextPostPart("A B C"),
@@ -134,7 +147,7 @@ namespace OrlovMikhail.LJ.BookWriter.Tests
             HTMLParser p = new HTMLParser();
             HTMLTokenBase[] tokens = p.Parse("").ToArray();
 
-            PostPartBase[] result = _m.CreateTextParts(tokens, null).ToArray();
+            IPostPart[] result = _m.CreateTextParts(tokens, null).ToArray();
             CollectionAssert.IsEmpty(result);
         }
 
@@ -162,7 +175,7 @@ namespace OrlovMikhail.LJ.BookWriter.Tests
         {
             string source = @"A<br /><a href='http://www.kreml.org/users/' rel='nofollow'>http://www.kreml.org/users/</a> - B";
 
-            PostPartBase[] expected = new PostPartBase[]{
+            IPostPart[] expected = new PostPartBase[]{
                 new RawTextPostPart("A"),
                 LineBreakPart.Instance,
                 new RawTextPostPart(@"http://www.kreml.org/users/ - B")
@@ -180,7 +193,7 @@ namespace OrlovMikhail.LJ.BookWriter.Tests
                             @"<a href=""http://pitirim-sas.livejournal.com/"" class=""i-ljuser-username""   target=""_self""   ><b>pitirim_sas</b></a></span>: <br />" +
                             @"<br /><i>&gt;&gt;A<br />&gt;&gt;B<br /><br />&gt;C<br />&gt;Z</i><br /><br />Text";
 
-            PostPartBase[] expected = new PostPartBase[]{
+            IPostPart[] expected = new PostPartBase[]{
                 new UserLinkPart("pitirim_sas"),
                 new RawTextPostPart(":"),
                 new ParagraphStartPart(2),
@@ -190,7 +203,7 @@ namespace OrlovMikhail.LJ.BookWriter.Tests
                 new ParagraphStartPart(),
                 new RawTextPostPart("Text"),
             };
-            
+
             Check(source, expected);
         }
     }

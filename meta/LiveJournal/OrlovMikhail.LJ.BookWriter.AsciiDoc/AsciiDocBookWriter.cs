@@ -71,8 +71,8 @@ namespace OrlovMikhail.LJ.BookWriter.AsciiDoc
             currentQuotationLevel = 0;
 
             PL("");
-            if(commentUserpicRelativeLocation != null)
-                PL(String.Format("image:{0}[userpic, 40, 40]", commentUserpicRelativeLocation));
+            if(!String.IsNullOrEmpty(commentUserpicRelativeLocation))
+                PL(String.Format("image:{0}[\"userpic\", 40, 40]", commentUserpicRelativeLocation));
 
             WriteUsernameInternal(username);
             PL(String.Format(" {0:dd-MM-yyy HH:mm}", date));

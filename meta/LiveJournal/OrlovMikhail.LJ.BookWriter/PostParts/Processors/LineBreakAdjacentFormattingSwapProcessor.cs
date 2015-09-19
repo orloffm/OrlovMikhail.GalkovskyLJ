@@ -10,7 +10,7 @@ namespace OrlovMikhail.LJ.BookWriter
     /// and closing formatting before line breaks.</summary>
     public class LineBreakAdjacentFormattingSwapProcessor : ProcessorBase
     {
-        protected internal override void ProcessInternal(List<PostPartBase> items)
+        protected internal override void ProcessInternal(List<IPostPart> items)
         {
             for(int i = 0; i < items.Count - 1; i++)
             {

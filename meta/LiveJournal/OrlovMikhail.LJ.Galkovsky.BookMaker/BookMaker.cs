@@ -126,7 +126,7 @@ namespace OrlovMikhail.LJ.Galkovsky.BookMaker
             using(IUserpicStorage us = _usf.CreateOn(bookRootLocation.FullName))
             {
                 // Parallelize conversion to text parts.
-                Dictionary<long, PostPartBase[]> converted = all
+                Dictionary<long, IPostPart[]> converted = all
 #if !DEBUG
                     .AsParallel()
 #endif
@@ -177,16 +177,16 @@ namespace OrlovMikhail.LJ.Galkovsky.BookMaker
             return relativeUserpicLocation;
         }
 
-        protected internal virtual void WriteText(PostPartBase[] parts, IBookWriter w)
+        protected internal virtual void WriteText(IPostPart[] parts, IBookWriter w)
         {
             for(int i = 0; i < parts.Length; i++)
             {
-                PostPartBase ppb = parts[i];
+                IPostPart ppb = parts[i];
                 w.WritePart(ppb);
             }
         }
 
-        PostPartBase[] HTMLToParts(string html, IFileStorage fs, IBookWriter w)
+        IPostPart[] HTMLToParts(string html, IFileStorage fs, IBookWriter w)
         {
             if(string.IsNullOrWhiteSpace(html))
                 return new PostPartBase[0];
@@ -194,7 +194,7 @@ namespace OrlovMikhail.LJ.Galkovsky.BookMaker
             // Explicit tokens as they are in the file.
             HTMLTokenBase[] tokens = _htmlParser.Parse(html).ToArray();
 
-            PostPartBase[] parts = _ppm.CreateTextParts(tokens, fs).ToArray();
+            IPostPart[] parts = _ppm.CreateTextParts(tokens, fs).ToArray();
             return parts;
         }
     }

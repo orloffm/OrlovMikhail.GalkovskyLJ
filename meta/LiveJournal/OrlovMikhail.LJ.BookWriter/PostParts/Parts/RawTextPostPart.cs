@@ -4,7 +4,7 @@ using System.Diagnostics;
 namespace OrlovMikhail.LJ.BookWriter
 {
     [DebuggerDisplay("{Text}")]
-    public class RawTextPostPart : PostPartBase, IEquatable<RawTextPostPart>
+    public class RawTextPostPart : PostPartBase, IEquatable<RawTextPostPart>, IRendersAsText
     {
         public string Text { get; set; }
 
@@ -39,5 +39,10 @@ namespace OrlovMikhail.LJ.BookWriter
             return AreEqual(this, other);
         }
         #endregion
+
+        public bool CanBeTrimmed
+        {
+            get { return false; }
+        }
     }
 }

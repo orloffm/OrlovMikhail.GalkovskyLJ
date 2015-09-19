@@ -49,6 +49,8 @@ namespace OrlovMikhail.LJ.BookWriter
         {
             if(strings == null)
                 Initialize();
+            if(String.IsNullOrWhiteSpace(text))
+                return text;
 
             string work = text;
 

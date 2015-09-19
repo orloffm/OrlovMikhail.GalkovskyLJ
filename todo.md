@@ -1,4 +1,8 @@
 ﻿# Мелкое насущное
+[ ] disable break at ...»,
+[ ] _devol_: escape underscores in usernames
+[ ] mdash - use &#8239; as a space before
+
 
 [ ] ====================
 GalkovskyLJ_G.asc
@@ -30,3 +34,4 @@ kibbokift.org/wakenow.html)&#160;&#8212</a>; ?????-?? ????? «??????????» ?&#16
 [ ] Everything to portable libraries.
 [ ] Userpics: find the path automatically.
 [ ] Replace XMLSerializer with DataContract one.
+[ ] Try to use word joiner &#8288; (when is fixed in asciidoctor-pdf).
