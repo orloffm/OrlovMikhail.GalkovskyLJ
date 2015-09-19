@@ -32,6 +32,9 @@ namespace OrlovMikhail.LJ.BookWriter.AsciiDoc.Tests
 
         [TestCase("ABC", "ABC")]
         [TestCase("_ABC_", "\\_ABC_")]
+        [TestCase("_A*BC_", "\\_A*BC_")]
+        [TestCase("A*B_C_", "A*B_C_")]
+        [TestCase("*A*B_C_", "\\*A*B_C_")]
         [TestCase("*_ABC_* *_DEF_*", "\\*\\_ABC_* \\*\\_DEF_*")]
         public void EscapesFormatters(string source, string expected)
         {

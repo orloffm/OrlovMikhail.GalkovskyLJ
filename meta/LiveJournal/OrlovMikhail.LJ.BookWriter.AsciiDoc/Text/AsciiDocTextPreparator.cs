@@ -32,7 +32,10 @@ namespace OrlovMikhail.LJ.BookWriter.AsciiDoc
             foreach (char c in work)
             {
                 if (char.IsWhiteSpace(c))
-                    founds = keys.ToDictionary(z => z, q => false);
+                {
+                    foreach (char k in keys)
+                        founds[k] = false;
+                }
                 else if (keys.Contains(c))
                 {
                     if (!founds[c])
@@ -40,6 +43,11 @@ namespace OrlovMikhail.LJ.BookWriter.AsciiDoc
                         sb.Append('\\');
                         founds[c] = true;
                     }
+                }
+                else
+                {
+                    foreach (char k in keys)
+                        founds[k] = true;
                 }
 
                 sb.Append(c);
