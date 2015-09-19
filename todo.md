@@ -1,7 +1,6 @@
 ﻿# Мелкое насущное
-[ ] disable break at ...»,
-[ ] _devol_: escape underscores in usernames
-[ ] mdash - use &#8239; as a space before
+
+
 
 
 [ ] ====================
@@ -27,11 +26,12 @@ kibbokift.org/wakenow.html)&#160;&#8212</a>; ?????-?? ????? «??????????» ?&#16
 [ ] Break all by lines in .asc.
 [ ] Hyphenation: when gets implemented in `asciidoctor-pdf`.
 [ ] MOBI: images?
-[ ] PDF A5.
 
 # Technical
 
+[ ] disable break at ...»,
 [ ] Everything to portable libraries.
 [ ] Userpics: find the path automatically.
 [ ] Replace XMLSerializer with DataContract one.
 [ ] Try to use word joiner &#8288; (when is fixed in asciidoctor-pdf).
+[ ] mdash - use &#8239; as a space before

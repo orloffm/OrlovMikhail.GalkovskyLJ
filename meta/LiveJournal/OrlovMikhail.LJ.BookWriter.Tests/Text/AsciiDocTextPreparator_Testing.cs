@@ -29,5 +29,15 @@ namespace OrlovMikhail.LJ.BookWriter.AsciiDoc.Tests
 
             Assert.AreEqual(expected, result);
         }
+
+        [TestCase("ABC", "ABC")]
+        [TestCase("_ABC_", "\\_ABC_")]
+        [TestCase("*_ABC_* *_DEF_*", "\\*\\_ABC_* \\*\\_DEF_*")]
+        public void EscapesFormatters(string source, string expected)
+        {
+            string result = AsciiDocTextPreparator.EscapeFormatters(source);
+
+            Assert.AreEqual(expected, result);
+        }
     }
 }

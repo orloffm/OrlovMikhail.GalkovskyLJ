@@ -15,11 +15,13 @@ namespace OrlovMikhail.LJ.BookWriter
         List<Tuple<string, string>> strings;
 
         private string nobr;
+        private string nobr_emdash;
         private string laquo;
         private string raquo;
         private string emdash;
 
         protected abstract string GetNoBreakString();
+        protected virtual string GetNoBreakBeforeMDashString() { return GetNoBreakString(); }
         protected abstract string GetLaquoString();
         protected abstract string GetRaquoString();
         protected abstract string GetMDashString();
@@ -32,6 +34,7 @@ namespace OrlovMikhail.LJ.BookWriter
         void Initialize()
         {
             nobr = GetNoBreakString();
+            nobr_emdash = GetNoBreakBeforeMDashString();
             laquo = GetLaquoString();
             raquo = GetRaquoString();
             emdash = GetMDashString();
@@ -47,16 +50,25 @@ namespace OrlovMikhail.LJ.BookWriter
 
         public string Prepare(string text)
         {
-            if(strings == null)
+            if (strings == null)
                 Initialize();
-            if(String.IsNullOrWhiteSpace(text))
+            if (String.IsNullOrWhiteSpace(text))
                 return text;
 
             string work = text;
 
+            work = Preprocess(work);
+
             work = ReplaceByRegeces(work);
             work = InsertNoBR(work);
 
+            return work;
+        }
+
+        /// <summary>Does the possible initial
+        /// preprocessing.</summary>
+        protected virtual string Preprocess(string work)
+        {
             return work;
         }
 
@@ -110,7 +122,7 @@ namespace OrlovMikhail.LJ.BookWriter
 
             // Em-dashes.
             // Nobr if NOT (?<!) after a link.
-            add(@"(?<!\b(?:(?:https?|ftp|file)://|www\.|ftp\.)[-A-Za-z0-9+&@#/%=~_|$?!:,.]*[A-Za-z0-9+&@#/%=~_|$])\s(?:[-–—]|--|---)(?=\s)", nobr + emdash);
+            add(@"(?<!\b(?:(?:https?|ftp|file)://|www\.|ftp\.)[-A-Za-z0-9+&@#/%=~_|$?!:,.]*[A-Za-z0-9+&@#/%=~_|$])\s(?:[-–—]|--|---)(?=\s)", nobr_emdash + emdash);
             // So, in any case - insert emdash after space.
             add(@"(?<=\s)(?:[-–—]|--|---)(?=\s)", emdash);
             // And insert it in the line start.
@@ -122,7 +134,7 @@ namespace OrlovMikhail.LJ.BookWriter
 
         string ReplaceByRegeces(string work)
         {
-            for(int i = 0; i < strings.Count; i++)
+            for (int i = 0; i < strings.Count; i++)
             {
                 var tuple = strings[i];
                 string a = tuple.Item1;
@@ -139,13 +151,13 @@ namespace OrlovMikhail.LJ.BookWriter
         {
             StringBuilder sb = new StringBuilder(work.Length);
 
-            for(int i = 0; i < work.Length; i++)
+            for (int i = 0; i < work.Length; i++)
             {
                 int foundTill = PositiveLookAhead(work, i);
-                if(foundTill >= 0)
+                if (foundTill >= 0)
                 {
                     // OK, add characters, continue;
-                    for(int f = i; f < foundTill; f++)
+                    for (int f = i; f < foundTill; f++)
                         sb.Append(work[f]);
                     sb.Append(nobr);
                     i = foundTill;
@@ -168,25 +180,25 @@ namespace OrlovMikhail.LJ.BookWriter
             bool hasSpaceTokenAtStart = Char.IsWhiteSpace(c) || c == '(' || c == '[';
 
             // It must be space after initial character.
-            if(start > 0 && !hasSpaceTokenAtStart)
+            if (start > 0 && !hasSpaceTokenAtStart)
                 return -1;
 
             int wordMustStartAt = hasSpaceTokenAtStart ? start + 1 : 0;
 
-            if(work.Length < wordMustStartAt + 2)
+            if (work.Length < wordMustStartAt + 2)
                 return -1;
 
-            for(int i = 0; i < noBrKeyWords.Length; i++)
+            for (int i = 0; i < noBrKeyWords.Length; i++)
             {
-                if(work.IndexOf(noBrKeyWords[i], wordMustStartAt, StringComparison.OrdinalIgnoreCase) != wordMustStartAt)
+                if (work.IndexOf(noBrKeyWords[i], wordMustStartAt, StringComparison.OrdinalIgnoreCase) != wordMustStartAt)
                     continue;
 
                 int afterIndex = wordMustStartAt + noBrKeyWords[i].Length;
-                if(afterIndex >= work.Length)
+                if (afterIndex >= work.Length)
                     continue;
 
                 bool isSpace = work[afterIndex] == ' ';
-                if(!isSpace)
+                if (!isSpace)
                     continue;
 
                 return afterIndex;
