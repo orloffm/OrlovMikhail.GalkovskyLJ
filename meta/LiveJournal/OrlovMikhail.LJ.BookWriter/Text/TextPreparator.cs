@@ -101,24 +101,24 @@ namespace OrlovMikhail.LJ.BookWriter
             // Explicit
             add("“", laquo);
             add("”", raquo);
-            add("‘", laquo);
-            add("’", raquo);
+            //add("‘", laquo);
+            //add("’", raquo);
             add("„", laquo);
             add("«", laquo);
             add("»", raquo);
 
             // After end of sentence.
-            add(@"(?<=[.?!])[“”""„‘’]", raquo);
+            add(@"(?<=[.?!])[""‘’]", raquo);
 
             // Before and after a minus.
-            add(@"(?<=[A-Za-zА-Яа-я])[“”""„‘’](?=[-–])", raquo);
-            add(@"(?<=[-–])[“”""„‘’](?=[A-Za-zА-Яа-я])", laquo);
+            add(@"(?<=[A-Za-zА-Яа-я])[""‘’](?=[-–])", raquo);
+            add(@"(?<=[-–])[""‘’](?=[A-Za-zА-Яа-я])", laquo);
             // After three dots.
-            add(@"\.\.\.[“”""„‘’]", @"..." + raquo);
+            add(@"\.\.\.[""‘’]", @"..." + raquo);
 
             // Double quotes.
-            add(String.Format(@"[“”""„‘’](?={0})", raquo), raquo);
-            add(String.Format(@"(?<={0})[“”""„‘’]", laquo), laquo);
+            add(String.Format(@"[""‘’](?={0})", raquo), raquo);
+            add(String.Format(@"(?<={0})[""‘’]", laquo), laquo);
 
             // Em-dashes.
             // Nobr if NOT (?<!) after a link.
