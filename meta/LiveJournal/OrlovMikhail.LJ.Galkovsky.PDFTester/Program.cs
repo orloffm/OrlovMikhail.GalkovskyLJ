@@ -40,12 +40,14 @@ namespace OrlovMikhail.LJ.Galkovsky.PDFTester
 
             foreach (Split s in splits)
             {
+                string splitInfo = String.Format("{0} ({1}-{2})", s.Name, s.From, s.To);
+
                 string relativePath = String.Format(sourcePdf, s.Name);
                 string absolutePath = Path.Combine(root, relativePath);
 
                 if (!File.Exists(absolutePath))
                 {
-                    log.Error(String.Format("File for split {0} doesn't exist.", s.Name));
+                    log.Error(String.Format("File for split {0} doesn't exist.", splitInfo));
                     continue;
                 }
 
@@ -61,7 +63,7 @@ namespace OrlovMikhail.LJ.Galkovsky.PDFTester
                 }
                 catch
                 {
-                    log.Error(String.Format("File for split {0} yielded an error.", s.Name));
+                    log.Error(String.Format("File for split {0} yielded an error.", splitInfo));
                     continue;
                 }
 
@@ -69,11 +71,11 @@ namespace OrlovMikhail.LJ.Galkovsky.PDFTester
                 int[] missing = shouldBe.Except(nums).ToArray();
 
                 if (missing.Length == 0)
-                    log.Info(String.Format("File for split {0} is OK.", s.Name));
+                    log.Info(String.Format("File for split {0} is OK.", splitInfo));
                 else
                 {
                     foreach (int m in missing)
-                        log.Error(String.Format("File for split {0} doesn't have record {1}.", s.Name, m));
+                        log.Error(String.Format("File for split {0} doesn't have record {1}.", splitInfo, m));
                 }
             }
         }

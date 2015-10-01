@@ -48,7 +48,9 @@ namespace OrlovMikhail.LJ.Galkovsky.Dumper
                 {
                     Settings.Default.Save();
                     EntryPage result = w.Work(Settings.Default.LatestUrl, Settings.Default.RootFolder, gsg, Settings.Default.Cookie);
-                    Settings.Default.LatestUrl = result.Entry.NextUrl;
+                    string nextUrl = result.Entry.NextUrl;
+                    if (!String.IsNullOrWhiteSpace(nextUrl))
+                        Settings.Default.LatestUrl = nextUrl;
                 }
                 catch (Exception ex)
                 {
@@ -72,6 +74,6 @@ namespace OrlovMikhail.LJ.Galkovsky.Dumper
             }
         }
 
-      
+
     }
 }
