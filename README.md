@@ -30,7 +30,7 @@
 	1. Скачать установщик Community Edition 2015: https://www.visualstudio.com/en-us/downloads/download-visual-studio-vs.aspx.
 	2. Запустить его. Выбрать кастомную установку, снять все галочки. (Т.е. Web-компоненты не нужны, нужен только C#.)
 1. Сборка проекта.
-	1. Зайти в папку `meta/LiveJournal` проекта и запустить `build_VS2015.bat`.
+	1. Зайти в папку `meta/LiveJournal` проекта и запустить `build.bat`.
 2. Ruby.
 	1. Скачать Ruby, версию >= 2.2 с http://rubyinstaller.org/downloads/. Возможно, рабочая ссылка --- http://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-2.2.2.exe.
 	2. Запустить установщик. При установке нужно отметить добавление программ в переменную PATH.
@@ -57,6 +57,7 @@
 2. Очистить результаты для одного года: `clean 2004`.
 3. Собрать фрагменты для одного года: `fragmentate 2004`.
 4. Подготовить список корневых документов: `prepare`.
+5. Проверить собранные PDF: `pdftest`.
 
 ## Как скачивать очередной пост
 
