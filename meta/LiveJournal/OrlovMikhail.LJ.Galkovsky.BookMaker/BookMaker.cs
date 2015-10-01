@@ -103,7 +103,7 @@ namespace OrlovMikhail.LJ.Galkovsky.BookMaker
         {
             log.DebugFormat("{0} is on thread {1}.", source.Directory.Name, Thread.CurrentThread.ManagedThreadId);
 
-            FileInfoBase target = _fs.FileInfo.FromFileName(_fs.Path.Combine(source.Directory.FullName, "fragment.asc"));
+            FileInfoBase target = _fs.FileInfo.FromFileName(_fs.Path.Combine(source.Directory.FullName, FragmentHelper.FRAGMENT_FILE_NAME));
             if(target.Exists && target.Length != 0 && !overWrite)
             {
                 log.DebugFormat("Target already exists for {0}.", source.Directory.FullName);
@@ -127,9 +127,6 @@ namespace OrlovMikhail.LJ.Galkovsky.BookMaker
             {
                 // Parallelize conversion to text parts.
                 Dictionary<long, IPostPart[]> converted = all
-#if !DEBUG
-                    .AsParallel()
-#endif
                     .Select(z => new
                     {
                         Id = (z is Comment) ? z.Id : 0,

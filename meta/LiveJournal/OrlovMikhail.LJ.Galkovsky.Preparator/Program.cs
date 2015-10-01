@@ -14,7 +14,6 @@ namespace OrlovMikhail.LJ.Galkovsky.Preparator
     {
         static readonly ILog log = LogManager.GetLogger(typeof(Program));
 
-        private const string splitFileName = "split.txt";
         private const string galkovskyFormat = "GalkovskyLJ_{0}.asc";
 
         static void Main(string[] args)
@@ -27,7 +26,7 @@ namespace OrlovMikhail.LJ.Galkovsky.Preparator
             string root = argsDic.GetExistingOrDefault("root");
             if (String.IsNullOrEmpty(root))
             {
-                log.Error("No \root specified.");
+                log.Error(@"No \root specified.");
                 return;
             }
 
@@ -36,36 +35,16 @@ namespace OrlovMikhail.LJ.Galkovsky.Preparator
             foreach (string existingFile in existingFiles)
                 File.Delete(existingFile);
 
-            // Splits.
-            string[] lines = fs.File.ReadAllLines(fs.Path.Combine(root, splitFileName));
-            Split[] splits = lines.Select(z => z.Split('\t'))
-                .Select(z => new Split()
-                {
-                    Name = z[0],
-                    From = int.Parse(z[1]),
-                    Description = z[2]
-                }).ToArray();
-            for (int i = 0; i < splits.Length - 1; i++)
-                splits[i].To = splits[i + 1].From - 1;
-
-
             // All available files.
-            DirectoryInfoBase rootInfo = fs.DirectoryInfo.FromDirectoryName(root);
-            FileInfoBase[] fragments = rootInfo.EnumerateFiles("fragment.asc", SearchOption.AllDirectories).ToArray();
-            List<Tuple<int, string>> relativePaths = new List<Tuple<int, string>>();
-            foreach (FileInfoBase fragment in fragments)
-            {
-                int number = int.Parse(fragment.Directory.Name);
-                //   log.Info(rootInfo.FullName);
-                //   log.Info(fragment.FullName);
-                string relativePath = IOTools.MakeRelativePath(rootInfo, fragment);
+            int? maxFound;
+            List<Tuple<int, string>> relativePaths = FragmentHelper.GetAllFragmentPaths(fs, root, out maxFound);
 
-                relativePaths.Add(Tuple.Create(number, relativePath));
-            }
-            
+            // Splits.
+            Split[] splits = Split.LoadSplits(fs, root, maxFound);
+
             foreach (Split s in splits)
             {
-                string lead = MakeLead(splits, s, relativePaths.Max(z => z.Item1));
+                string lead = MakeLead(splits, s);
 
                 string[] matchingPaths = relativePaths
                     .Where(z => z.Item1 >= s.From && (!s.To.HasValue || z.Item1 <= s.To.Value))
@@ -105,7 +84,7 @@ namespace OrlovMikhail.LJ.Galkovsky.Preparator
             }
         }
 
-        private static string MakeLead(Split[] splits, Split current, int max)
+        private static string MakeLead(Split[] splits, Split current)
         {
             StringBuilder sb = new StringBuilder();
             sb.AppendLine("****");
@@ -120,7 +99,7 @@ namespace OrlovMikhail.LJ.Galkovsky.Preparator
                 Split s = splits[i];
                 bool isCurrent = s.Name == current.Name;
                 string formatter = isCurrent ? "**" : "";
-                sb.AppendLine(String.Format("|{4}{0}{4}|{4}{1}&#8211;{2}{4}|{4}{3}{4}", s.Name, s.From, s.To ?? max, s.Description, formatter));
+                sb.AppendLine(String.Format("|{4}{0}{4}|{4}{1}&#8211;{2}{4}|{4}{3}{4}", s.Name, s.From, s.To, s.Description, formatter));
             }
 
             sb.AppendLine("|====");
@@ -128,13 +107,5 @@ namespace OrlovMikhail.LJ.Galkovsky.Preparator
 
             return sb.ToString();
         }
-    }
-
-    class Split
-    {
-        public string Name { get; set; }
-        public int From { get; set; }
-        public int? To { get; set; }
-        public string Description { get; set; }
     }
 }
