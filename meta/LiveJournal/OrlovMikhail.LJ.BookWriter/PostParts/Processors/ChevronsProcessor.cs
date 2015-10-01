@@ -115,6 +115,9 @@ namespace OrlovMikhail.LJ.BookWriter
                 Tuple.Create(@"\\\", @"\\\"),
                 Tuple.Create(@"\\", @"\\"),
                 Tuple.Create(@"\", @"\"),
+                Tuple.Create(@"===", @"==="),
+                Tuple.Create(@"==", @"=="),
+                Tuple.Create(@"=", @"="),
             };
 
             int totalTextLength = textPartsBetween.OfType<RawTextPostPart>().Sum(q => q.Text.Length);

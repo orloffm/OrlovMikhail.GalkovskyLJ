@@ -88,7 +88,7 @@ namespace OrlovMikhail.LJ.Galkovsky.PDFTester
             {
                 string title = bookmarks[i].Values.First().ToString();
 
-                Match m = Regex.Match(title, @"^(\d+)\.", RegexOptions.Compiled);
+                Match m = Regex.Match(title, @"^(\d+)[,.]", RegexOptions.Compiled);
                 if (m.Success)
                 {
                     string numString = m.Groups[1].Value;
