@@ -96,6 +96,9 @@ namespace OrlovMikhail.LJ.Grabber
 
         protected internal virtual IEnumerable<string> EnumerateFiles(EntryBase e)
         {
+            if (e.Text == null)
+                yield break;
+
             string[] urls;
 
             urls = _fileExtractor.GetImagesURLs(e.Text);
