@@ -30,7 +30,7 @@
 	1. Скачать установщик Community Edition 2015: https://www.visualstudio.com/en-us/downloads/download-visual-studio-vs.aspx.
 	2. Запустить его. Выбрать кастомную установку, снять все галочки. (Т.е. Web-компоненты не нужны, нужен только C#.)
 1. Сборка проекта.
-	1. Зайти в папку `meta/LiveJournal` проекта и запустить `build.bat`.
+	1. Зайти в папку `src` проекта и запустить `build.bat`.
 2. Ruby.
 	1. Скачать Ruby, версию >= 2.2 с http://rubyinstaller.org/downloads/. Возможно, рабочая ссылка --- http://dl.bintray.com/oneclick/rubyinstaller/rubyinstaller-2.2.2.exe.
 	2. Запустить установщик. При установке нужно отметить добавление программ в переменную PATH.
@@ -101,7 +101,7 @@ http://www.livejournal.com/customize/,
 4. Программу можно запускать подряд, в этом случае файл дампа не переписывается,
 а дополняется.
 5. Также при сборке компилируется графическая программа
-`meta\LiveJournal\OrlovMikhail.LJ.Grabber.Client\bin\Release\GrabberClient.exe`,
+`src\OrlovMikhail.LJ.Grabber.Client\bin\Release\GrabberClient.exe`,
 которая позволяет делать то же, но которая требует явного указания папки
 а-ля `2004\0061`.
 
