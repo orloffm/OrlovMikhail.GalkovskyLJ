@@ -35,7 +35,7 @@ namespace OrlovMikhail.LJ.Galkovsky.Dumper
             if (!SettingsTools.LoadValue("cookie", argsDic, Settings.Default, s => s.Cookie))
                 return;
 
-            bool autoContinue = argsDic.ContainsKey("continue");
+            bool continueWithNext = argsDic.ContainsKey("continue");
 
             while (true)
             {
@@ -49,8 +49,10 @@ namespace OrlovMikhail.LJ.Galkovsky.Dumper
                     Settings.Default.Save();
                     EntryPage result = w.Work(Settings.Default.LatestUrl, Settings.Default.RootFolder, gsg, Settings.Default.Cookie);
                     string nextUrl = result.Entry.NextUrl;
-                    if (!String.IsNullOrWhiteSpace(nextUrl))
+                    if(!String.IsNullOrWhiteSpace(nextUrl))
                         Settings.Default.LatestUrl = nextUrl;
+                    else
+                        continueWithNext = false;
                 }
                 catch (Exception ex)
                 {
@@ -61,7 +63,7 @@ namespace OrlovMikhail.LJ.Galkovsky.Dumper
                     return;
                 }
 
-                if (!autoContinue)
+                if (!continueWithNext)
                 {
                     Console.WriteLine("Exiting.");
                     return;
