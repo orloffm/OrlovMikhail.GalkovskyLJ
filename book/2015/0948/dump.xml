@@ -369,7 +369,16 @@
           <user name="eggoga" username="eggoga" />
           <date>2015-10-15 17:33:27</date>
           <text>посмотрите на последнее фото)</text>
-          <comments />
+          <comments>
+            <comment id="93423150" depth="3">
+              <url>http://galkovsky.livejournal.com/250158.html?thread=93423150#t93423150</url>
+              <user name="commentator2015" username="commentator2015" />
+              <date>2015-10-16 11:40:21</date>
+              <text>Может они просто еще не поняли.</text>
+              <comments />
+              <parent>http://galkovsky.livejournal.com/250158.html?thread=93378094&amp;style=mine#t93378094</parent>
+            </comment>
+          </comments>
           <parent>http://galkovsky.livejournal.com/250158.html?thread=93377070&amp;style=mine#t93377070</parent>
         </comment>
       </comments>
@@ -429,6 +438,15 @@
               <comments />
               <parent>http://galkovsky.livejournal.com/250158.html?thread=93381934&amp;style=mine#t93381934</parent>
             </comment>
+            <comment id="93430574" depth="3">
+              <url>http://galkovsky.livejournal.com/250158.html?thread=93430574#t93430574</url>
+              <user name="ad_notandam" username="ad_notandam" />
+              <userpic url="http://l-userpic.livejournal.com/120921787/64163907" height="100" width="100" />
+              <date>2015-10-16 14:06:05</date>
+              <text>Был бы отлично, тоже всегда завидовал москвичам. Всегда хотелось увидеться вживую, а теперь вот уже вроде как все. Если получится с видеоконференциями был бы очень рад.</text>
+              <comments />
+              <parent>http://galkovsky.livejournal.com/250158.html?thread=93381934&amp;style=mine#t93381934</parent>
+            </comment>
           </comments>
           <parent>http://galkovsky.livejournal.com/250158.html?thread=93379374&amp;style=mine#t93379374</parent>
         </comment>
@@ -456,7 +474,17 @@
           <userpic url="http://l-userpic.livejournal.com/6763708/900597" height="100" width="100" />
           <date>2015-10-16 06:41:52</date>
           <text>А кого вы имели ввиду, если не секрет?</text>
-          <comments />
+          <comments>
+            <comment id="93421358" depth="3">
+              <url>http://galkovsky.livejournal.com/250158.html?thread=93421358#t93421358</url>
+              <user name="Бродячие мысли" username="nikola_rus" />
+              <userpic url="http://l-userpic.livejournal.com/119834126/38792106" height="100" width="87" />
+              <date>2015-10-16 11:14:36</date>
+              <text>Прямо так не могу сказать. Не запоминал их имена.</text>
+              <comments />
+              <parent>http://galkovsky.livejournal.com/250158.html?thread=93393966&amp;style=mine#t93393966</parent>
+            </comment>
+          </comments>
           <parent>http://galkovsky.livejournal.com/250158.html?thread=93380654&amp;style=mine#t93380654</parent>
         </comment>
       </comments>
@@ -472,7 +500,35 @@
           <user name="eggoga" username="eggoga" />
           <date>2015-10-16 08:17:14</date>
           <text>русская свинья всегда грязь найдет. Могу дать бесплатный совет - купите БТ и насрите на него. Этим вы превзойдете своих предков)</text>
-          <comments />
+          <comments>
+            <comment id="93429294" depth="3">
+              <url>http://galkovsky.livejournal.com/250158.html?thread=93429294#t93429294</url>
+              <user name="korzh18" username="korzh18" />
+              <date>2015-10-16 13:55:42</date>
+              <text>В таком случае Вы проверьтесь на shizofaziyu.</text>
+              <comments>
+                <comment id="93431342" depth="4">
+                  <url>http://galkovsky.livejournal.com/250158.html?thread=93431342#t93431342</url>
+                  <user name="eggoga" username="eggoga" />
+                  <date>2015-10-16 14:19:37</date>
+                  <text>я тебе совет добрый даю, а ты не ценишь, неблагодарная вонючая русская свинья(</text>
+                  <comments>
+                    <comment id="93431598" depth="5">
+                      <url>http://galkovsky.livejournal.com/250158.html?thread=93431598#t93431598</url>
+                      <user name="korzh18" username="korzh18" />
+                      <userpic url="http://l-userpic.livejournal.com/116717240/37411242" height="100" width="100" />
+                      <date>2015-10-16 14:26:45</date>
+                      <text>дуф</text>
+                      <comments />
+                      <parent>http://galkovsky.livejournal.com/250158.html?thread=93431342&amp;style=mine#t93431342</parent>
+                    </comment>
+                  </comments>
+                  <parent>http://galkovsky.livejournal.com/250158.html?thread=93429294&amp;style=mine#t93429294</parent>
+                </comment>
+              </comments>
+              <parent>http://galkovsky.livejournal.com/250158.html?thread=93405998&amp;style=mine#t93405998</parent>
+            </comment>
+          </comments>
           <parent>http://galkovsky.livejournal.com/250158.html?thread=93382958&amp;style=mine#t93382958</parent>
         </comment>
       </comments>
@@ -483,6 +539,14 @@
       <userpic url="http://l-userpic.livejournal.com/117620942/12507073" height="100" width="72" />
       <date>2015-10-16 02:19:26</date>
       <text>&lt;i&gt;Остальные через гвалт «старичков» не могут в клубе слова сказать, к тому же в ресторанах, как правило, довольно шумно. &lt;/i&gt;&lt;br /&gt;&lt;br /&gt;&lt;i&gt;...общение, - даже самое поверхностное, - комкается «активом», который не пользуется в глазах новичков авторитетом и откровенно раздражает.&lt;/i&gt;&lt;br /&gt;&lt;br /&gt;Вот не надо пугать новайсов ветеранами.&lt;br /&gt;&lt;br /&gt;Их, то есть новайсов вместе с ветеранами, нужно научить играть в буриме без рифм и размеров. Типа написать аппликуху для смартфонов чтобы в заданной компашке выдавать участникам положительно-отрицательные оценочки, анонимно, разумеется. Типа выступает оратОр, а ему под столом слушатели черные шары накатывают, с непрерывной выдачей итога на экран оратору же. И лицу ответственному за ведение игры. Чтоб можно было вежливо так заметить "У Вас рейтинг того, просел."&lt;br /&gt;&lt;br /&gt;Вот таким образом, в виде непосредственной демократии и непрерывной ответственности за слова.</text>
+      <comments />
+    </comment>
+    <comment id="93432366" depth="1">
+      <url>http://galkovsky.livejournal.com/250158.html?thread=93432366#t93432366</url>
+      <user name="Aлександр Зорич" username="zorich" />
+      <userpic url="http://l-userpic.livejournal.com/5611563/1138540" height="100" width="100" />
+      <date>2015-10-16 14:43:10</date>
+      <text>Дорогой Дмитрий Евгеньевич! Посылаю Вам октябрьский Луч Абстрактного Добра. Буду рада общению в любом формате! :)&lt;br /&gt;&lt;br /&gt;(Я.)</text>
       <comments />
     </comment>
   </comments>
