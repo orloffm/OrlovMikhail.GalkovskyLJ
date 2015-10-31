@@ -11,6 +11,14 @@ namespace OrlovMikhail.LJ.Grabber
     {
         EntryPage Work(string URI, string rootLocation, ISubfolderByEntryGetter subFolderGetter, string cookie);
 
-        EntryPage WorkInGivenTarget(string URI, string rootLocation, string subfolder,string filename, string cookie);
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="URI"></param>
+        /// <param name="rootLocation"></param>
+        /// <param name="innerFolder">Folder inside year folder.</param>
+        /// <param name="cookie"></param>
+        /// <returns></returns>
+        EntryPage WorkInGivenTarget(string URI, string rootLocation, string innerFolder, string cookie);
     }
 }

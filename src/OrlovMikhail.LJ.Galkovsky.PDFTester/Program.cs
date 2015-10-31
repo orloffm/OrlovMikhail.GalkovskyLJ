@@ -83,18 +83,15 @@ namespace OrlovMikhail.LJ.Galkovsky.PDFTester
         private static int[] GetNumsFromBookmarks(IList<Dictionary<string, object>> bookmarks)
         {
             List<int> ret = new List<int>(100);
+            GalkovskySubfolderGetter gsg = new GalkovskySubfolderGetter();
 
             for (int i = 0; i < bookmarks.Count; i++)
             {
                 string title = bookmarks[i].Values.First().ToString();
 
-                Match m = Regex.Match(title, @"^(\d+)[,.]", RegexOptions.Compiled);
-                if (m.Success)
-                {
-                    string numString = m.Groups[1].Value;
-                    int num = Int32.Parse(numString);
+                int num;
+                if (gsg.TryExtractNumberFromSubject(title, out num))
                     ret.Add(num);
-                }
             }
 
             // Special case.
