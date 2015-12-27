@@ -24,7 +24,7 @@ namespace OrlovMikhail.LJ.Galkovsky.Dumper
             IContainer _container = builder.Build();
 
             IWorker w = _container.Resolve<IWorker>();
-            GalkovskySubfolderGetter gsg = new GalkovskySubfolderGetter();
+            INumberingStrategy gsg = new GalkovskyNumberingStrategy();
 
             Dictionary<string, string> argsDic = ConsoleTools.ArgumentsToDictionary(args);
 

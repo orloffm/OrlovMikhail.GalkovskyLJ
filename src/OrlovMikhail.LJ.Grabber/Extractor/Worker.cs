@@ -28,7 +28,7 @@ namespace OrlovMikhail.LJ.Grabber
             _scp = scp;
         }
 
-        class SubfolderPassthrough : ISubfolderByEntryGetter
+        class SubfolderPassthrough : INumberingStrategy
         {
             private readonly string _innerFolder;
 
@@ -37,9 +37,19 @@ namespace OrlovMikhail.LJ.Grabber
                 _innerFolder = innerFolder;
             }
 
-            public string GetSubfolderByEntrySubject(string s)
+            public string GetSubfolderByEntry(string s)
             {
                 return _innerFolder;
+            }
+
+            public int GetSortNumberBySubfolder(string subfolder)
+            {
+                throw new NotSupportedException();
+            }
+
+            public string GetFriendlyTitleBySortNumber(int? sortNumber)
+            {
+                throw new NotSupportedException();
             }
         }
 
@@ -50,7 +60,7 @@ namespace OrlovMikhail.LJ.Grabber
             return ret;
         }
 
-        public EntryPage Work(string URI, string rootLocation, ISubfolderByEntryGetter subFolderGetter, string cookie)
+        public EntryPage Work(string URI, string rootLocation, INumberingStrategy subFolderGetter, string cookie)
         {
             LiveJournalTarget t = LiveJournalTarget.FromString(URI);
             ILJClientData cookieData = _ext.Client.CreateDataObject(cookie);
@@ -59,7 +69,7 @@ namespace OrlovMikhail.LJ.Grabber
             log.InfoFormat("Extracting {0}...", t);
             EntryPage freshSource = _ext.GetFrom(t, cookieData);
 
-            string innerFolder = subFolderGetter.GetSubfolderByEntrySubject(freshSource.Entry.Subject);
+            string innerFolder = subFolderGetter.GetSubfolderByEntry(freshSource.Entry.Subject);
             string subFolder = String.Format("{0}\\{1}", freshSource.Entry.Date.Value.Year, innerFolder);
             string filename = "dump.xml";
 

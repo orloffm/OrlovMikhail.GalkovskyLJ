@@ -73,7 +73,7 @@
     <Compile Include="Entities\Helpers\Interfaces\IEntryBaseHelper.cs" />
     <Compile Include="Entities\IEntryBase.cs" />
     <Compile Include="Entities\IHasReplies.cs" />
-    <Compile Include="Extractor\Interfaces\ISubfolderByEntryGetter.cs" />
+    <Compile Include="Extractor\Interfaces\INumberingStrategy.cs" />
     <Compile Include="Extractor\Interfaces\IWorker.cs" />
     <Compile Include="Extractor\Worker.cs" />
     <Compile Include="Postprocess\Filter\LinkStorage.cs" />

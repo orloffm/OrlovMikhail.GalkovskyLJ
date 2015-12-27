@@ -7,6 +7,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using iTextSharp.text.pdf;
 using log4net;
+using OrlovMikhail.LJ.Grabber;
 using OrlovMikhail.Tools;
 
 namespace OrlovMikhail.LJ.Galkovsky.PDFTester
@@ -31,7 +32,8 @@ namespace OrlovMikhail.LJ.Galkovsky.PDFTester
 
             // All available files.
             int? maxFound;
-            List<Tuple<int, string>> relativePaths = FragmentHelper.GetAllFragmentPaths(fs, root, out maxFound);
+            GalkovskyNumberingStrategy ns = new GalkovskyNumberingStrategy();
+            List<Tuple<int, string>> relativePaths = FragmentHelper.GetAllFragmentPaths(fs, ns, root, out maxFound);
 
             // Splits.
             Split[] splits = Split.LoadSplits(fs, root, maxFound);
@@ -40,7 +42,9 @@ namespace OrlovMikhail.LJ.Galkovsky.PDFTester
 
             foreach (Split s in splits)
             {
-                string splitInfo = String.Format("{0} ({1}-{2})", s.Name, s.From, s.To);
+                string fromString = ns.GetFriendlyTitleBySortNumber(s.From);
+                string toString = ns.GetFriendlyTitleBySortNumber(s.To);
+                string splitInfo = String.Format("{0} ({1}-{2})", s.Name, fromString, toString);
 
                 string relativePath = String.Format(sourcePdf, s.Name);
                 string absolutePath = Path.Combine(root, relativePath);
@@ -83,15 +87,23 @@ namespace OrlovMikhail.LJ.Galkovsky.PDFTester
         private static int[] GetNumsFromBookmarks(IList<Dictionary<string, object>> bookmarks)
         {
             List<int> ret = new List<int>(100);
-            GalkovskySubfolderGetter gsg = new GalkovskySubfolderGetter();
+            INumberingStrategy gsg = new GalkovskyNumberingStrategy();
 
             for (int i = 0; i < bookmarks.Count; i++)
             {
                 string title = bookmarks[i].Values.First().ToString();
 
                 int num;
-                if (gsg.TryExtractNumberFromSubject(title, out num))
+                try
+                {
+                    // Extract number from title.
+                    string subFolder = gsg.GetSubfolderByEntry(title);
+                    num = gsg.GetSortNumberBySubfolder(subFolder);
                     ret.Add(num);
+                }
+                catch
+                {
+                }
             }
 
             // Special case.

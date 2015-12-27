@@ -9,7 +9,7 @@ namespace OrlovMikhail.LJ.Grabber
     /// <summary>Orchestrates everything, downloads stuff to folders.</summary>
     public interface IWorker
     {
-        EntryPage Work(string URI, string rootLocation, ISubfolderByEntryGetter subFolderGetter, string cookie);
+        EntryPage Work(string URI, string rootLocation, INumberingStrategy subFolderGetter, string cookie);
 
         /// <summary>
         /// 
