@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using log4net;
 using OrlovMikhail.Tools;
+using OrlovMikhail.LJ.Grabber;
 
 namespace OrlovMikhail.LJ.Galkovsky.Preparator
 {
@@ -37,14 +38,15 @@ namespace OrlovMikhail.LJ.Galkovsky.Preparator
 
             // All available files.
             int? maxFound;
-            List<Tuple<int, string>> relativePaths = FragmentHelper.GetAllFragmentPaths(fs, root, out maxFound);
+            GalkovskyNumberingStrategy ns = new GalkovskyNumberingStrategy();
+            List<Tuple<int, string>> relativePaths = FragmentHelper.GetAllFragmentPaths(fs, ns, root, out maxFound);
 
             // Splits.
             Split[] splits = Split.LoadSplits(fs, root, maxFound);
 
             foreach (Split s in splits)
             {
-                string lead = MakeLead(splits, s);
+                string lead = MakeLead(splits, s, ns);
 
                 string[] matchingPaths = relativePaths
                     .Where(z => z.Item1 >= s.From && (!s.To.HasValue || z.Item1 <= s.To.Value))
@@ -84,7 +86,7 @@ namespace OrlovMikhail.LJ.Galkovsky.Preparator
             }
         }
 
-        private static string MakeLead(Split[] splits, Split current)
+        private static string MakeLead(Split[] splits, Split current, INumberingStrategy ns)
         {
             StringBuilder sb = new StringBuilder();
             sb.AppendLine("****");
@@ -99,7 +101,11 @@ namespace OrlovMikhail.LJ.Galkovsky.Preparator
                 Split s = splits[i];
                 bool isCurrent = s.Name == current.Name;
                 string formatter = isCurrent ? "**" : "";
-                sb.AppendLine(String.Format("|{4}{0}{4}|{4}{1}&#8211;{2}{4}|{4}{3}{4}", s.Name, s.From, s.To, s.Description, formatter));
+
+                string fromString = ns.GetFriendlyTitleBySortNumber(s.From);
+                string toString = ns.GetFriendlyTitleBySortNumber(s.To);
+
+                sb.AppendLine(String.Format("|{4}{0}{4}|{4}{1}&#8211;{2}{4}|{4}{3}{4}", s.Name, fromString, toString, s.Description, formatter));
             }
 
             sb.AppendLine("|====");

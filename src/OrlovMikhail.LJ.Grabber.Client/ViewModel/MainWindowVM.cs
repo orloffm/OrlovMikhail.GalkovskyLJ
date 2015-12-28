@@ -91,7 +91,7 @@ namespace OrlovMikhail.LJ.Grabber.Client
                 Log = String.Empty;
                 SaveSettings();
 
-                _w.WorkInGivenTarget(URI, BookRootLocation, Subfolder, "dump.xml", Cookie);
+                _w.WorkInGivenTarget(URI, BookRootLocation, Subfolder, Cookie);
             }
             finally
             {

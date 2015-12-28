@@ -18,6 +18,9 @@ namespace OrlovMikhail.LJ.Grabber
         [XmlAttribute("id")]
         public long Id { get; set; }
 
+        [XmlIgnore]
+        public bool IdSpecified { get { return Id != 0; } }
+
         [XmlElement("url")]
         public string Url { get; set; }
 
@@ -33,7 +36,7 @@ namespace OrlovMikhail.LJ.Grabber
         {
             get
             {
-                if(PosterUserpic == null)
+                if (PosterUserpic == null)
                     return false;
 
                 bool hasAnything = (!String.IsNullOrWhiteSpace(PosterUserpic.Height) ||
@@ -56,11 +59,11 @@ namespace OrlovMikhail.LJ.Grabber
 
         public static DateTime? ParseDateTimeFromString(string value)
         {
-            if(String.IsNullOrWhiteSpace(value))
+            if (String.IsNullOrWhiteSpace(value))
                 return null;
 
             string[] s = value.Split(new char[] { '-', ':', ' ' }, StringSplitOptions.RemoveEmptyEntries);
-            if(s.Length != 6)
+            if (s.Length != 6)
                 return null;
 
             DateTime result = new DateTime(int.Parse(s[0]), int.Parse(s[1]), int.Parse(s[2]),

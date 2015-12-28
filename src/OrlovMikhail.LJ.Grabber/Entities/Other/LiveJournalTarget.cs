@@ -33,7 +33,7 @@ namespace OrlovMikhail.LJ.Grabber
             Regex r = new Regex(extractionRegexString, RegexOptions.Compiled);
             Match m = r.Match(rawString);
 
-            if(!m.Success)
+            if (!m.Success)
                 throw new ArgumentException();
 
             LiveJournalTarget ret = new LiveJournalTarget(useStyleMine: false);
@@ -43,22 +43,22 @@ namespace OrlovMikhail.LJ.Grabber
             string arguments = m.Groups["parameters"].Value;
             string[] kvps = arguments.Split('&', '=');
 
-            for(int i = 0; i < kvps.Length - 1; i += 2)
+            for (int i = 0; i < kvps.Length - 1; i += 2)
             {
                 string key = kvps[i];
                 string value = kvps[i + 1];
 
-                if(String.Equals(key, "style", StringComparison.OrdinalIgnoreCase))
+                if (String.Equals(key, "style", StringComparison.OrdinalIgnoreCase))
                 {
-                    if(String.Equals(value, "mine", StringComparison.OrdinalIgnoreCase))
+                    if (String.Equals(value, "mine", StringComparison.OrdinalIgnoreCase))
                         ret.UseStyleMine = true;
                 }
-                else if(String.Equals(key, "thread", StringComparison.OrdinalIgnoreCase))
+                else if (String.Equals(key, "thread", StringComparison.OrdinalIgnoreCase))
                 {
                     // Comment id.
                     ret.CommentId = long.Parse(value);
                 }
-                else if(String.Equals(key, "page", StringComparison.OrdinalIgnoreCase))
+                else if (String.Equals(key, "page", StringComparison.OrdinalIgnoreCase))
                 {
                     // Paget id.
                     ret.Page = int.Parse(value);
@@ -72,13 +72,22 @@ namespace OrlovMikhail.LJ.Grabber
         public long PostId { get; private set; }
         public long? CommentId { get; private set; }
         public int? Page { get; private set; }
+        /// <summary>Whether to request the page with cuts expanded.</summary>
+        public bool ExpandCut { get; private set; }
         /// <summary>Whether to apply "style mine" to the url.</summary>
         public bool UseStyleMine { get; private set; }
 
-        public LiveJournalTarget WithStyleMine(bool value)
+        public LiveJournalTarget WithStyleMine(bool value = true)
         {
             LiveJournalTarget ret = this.MemberwiseClone() as LiveJournalTarget;
             ret.UseStyleMine = value;
+            return ret;
+        }
+
+        public LiveJournalTarget WithCutExpand(bool value = true)
+        {
+            LiveJournalTarget ret = this.MemberwiseClone() as LiveJournalTarget;
+            ret.ExpandCut = value;
             return ret;
         }
 
@@ -97,23 +106,30 @@ namespace OrlovMikhail.LJ.Grabber
 
             bool addedSomething = false;
 
-            if(CommentId.HasValue)
+            if (CommentId.HasValue)
             {
                 sb.Append("?");
                 sb.AppendFormat("thread={0}", CommentId.Value);
                 addedSomething = true;
             }
-            else if(Page.HasValue)
+            else if (Page.HasValue)
             {
                 sb.Append(addedSomething ? "&" : "?");
                 sb.AppendFormat("page={0}", Page.Value);
                 addedSomething = true;
             }
 
-            if(UseStyleMine)
+            if (UseStyleMine)
             {
                 sb.Append(addedSomething ? "&" : "?");
                 sb.Append("style=mine");
+                addedSomething = true;
+            }
+
+            if (ExpandCut)
+            {
+                sb.Append(addedSomething ? "&" : "?");
+                sb.Append("cut_expand=1");
                 addedSomething = true;
             }
 
@@ -124,7 +140,7 @@ namespace OrlovMikhail.LJ.Grabber
         public string ToShortString()
         {
             string s = String.Format("{0}/{1}", Username, PostId);
-            if((Page ?? 1) > 1)
+            if ((Page ?? 1) > 1)
                 s += "#" + Page.Value;
             return s;
         }

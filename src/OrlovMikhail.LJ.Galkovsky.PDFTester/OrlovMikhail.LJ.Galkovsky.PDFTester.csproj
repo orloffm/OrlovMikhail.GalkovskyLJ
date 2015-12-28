@@ -86,6 +86,10 @@
       <Project>{350711e2-d90a-449b-87ff-e8d2d71273de}</Project>
       <Name>OrlovMikhail.LJ.Galkovsky.Shared</Name>
     </ProjectReference>
+    <ProjectReference Include="..\OrlovMikhail.LJ.Grabber\OrlovMikhail.LJ.Grabber.csproj">
+      <Project>{6F4AA11D-A00C-40A8-BBEA-84EF0F2C3D46}</Project>
+      <Name>OrlovMikhail.LJ.Grabber</Name>
+    </ProjectReference>
     <ProjectReference Include="..\OrlovMikhail.Tools\OrlovMikhail.Tools.csproj">
       <Project>{c69bdb83-a2a6-4141-98e1-2445df92db40}</Project>
       <Name>OrlovMikhail.Tools</Name>

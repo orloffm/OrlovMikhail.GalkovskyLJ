@@ -28,32 +28,39 @@ namespace OrlovMikhail.LJ.Grabber
             _scp = scp;
         }
 
-        class SubfolderPassthrough : ISubfolderByEntryGetter
+        class SubfolderPassthrough : INumberingStrategy
         {
-            private readonly string _subfolder;
-            private readonly string _filename;
+            private readonly string _innerFolder;
 
-            public SubfolderPassthrough(string subfolder, string filename)
+            public SubfolderPassthrough(string innerFolder)
             {
-                _subfolder = subfolder;
-                _filename = filename;
+                _innerFolder = innerFolder;
             }
 
-            public void GetSubfolderByFreshEntry(Entry e, out string subFolder, out string filename)
+            public string GetSubfolderByEntry(string s)
             {
-                subFolder = this._subfolder;
-                filename = this._filename;
+                return _innerFolder;
+            }
+
+            public int GetSortNumberBySubfolder(string subfolder)
+            {
+                throw new NotSupportedException();
+            }
+
+            public string GetFriendlyTitleBySortNumber(int? sortNumber)
+            {
+                throw new NotSupportedException();
             }
         }
 
-        public EntryPage WorkInGivenTarget(string URI, string rootLocation, string subfolder, string filename, string cookie)
+        public EntryPage WorkInGivenTarget(string URI, string rootLocation, string innerFolder, string cookie)
         {
-            SubfolderPassthrough p = new SubfolderPassthrough(subfolder, filename);
+            SubfolderPassthrough p = new SubfolderPassthrough(innerFolder);
             EntryPage ret = Work(URI, rootLocation, p, cookie);
             return ret;
         }
 
-        public EntryPage Work(string URI, string rootLocation, ISubfolderByEntryGetter subFolderGetter, string cookie)
+        public EntryPage Work(string URI, string rootLocation, INumberingStrategy subFolderGetter, string cookie)
         {
             LiveJournalTarget t = LiveJournalTarget.FromString(URI);
             ILJClientData cookieData = _ext.Client.CreateDataObject(cookie);
@@ -62,16 +69,16 @@ namespace OrlovMikhail.LJ.Grabber
             log.InfoFormat("Extracting {0}...", t);
             EntryPage freshSource = _ext.GetFrom(t, cookieData);
 
-            string subFolder;
-            string filename;
-            subFolderGetter.GetSubfolderByFreshEntry(freshSource.Entry, out subFolder, out filename);
+            string innerFolder = subFolderGetter.GetSubfolderByEntry(freshSource.Entry.Subject);
+            string subFolder = String.Format("{0}\\{1}", freshSource.Entry.Date.Value.Year, innerFolder);
+            string filename = "dump.xml";
 
             string workLocation = _fs.Path.Combine(rootLocation, subFolder);
             log.Info("Will work from " + workLocation);
 
             EntryPage ep = null;
             string dumpFile = _fs.Path.Combine(workLocation, filename);
-            if(_fs.File.Exists(dumpFile))
+            if (_fs.File.Exists(dumpFile))
             {
                 log.Info("File " + filename + " exists, will load it...");
                 ep = _lp.ParseAsAnEntryPage(_fs.File.ReadAllText(dumpFile));
@@ -83,7 +90,7 @@ namespace OrlovMikhail.LJ.Grabber
             bool needsSaving = _ext.AbsorbAllData(freshSource, cookieData, ref ep);
 
             log.Info("Will save changes: " + needsSaving + ".");
-            if(needsSaving)
+            if (needsSaving)
             {
                 // Save the content as is.
                 string content = _lp.Serialize(ep);

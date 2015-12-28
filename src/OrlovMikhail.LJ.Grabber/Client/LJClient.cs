@@ -22,7 +22,7 @@ namespace OrlovMikhail.LJ.Grabber
 
         public string GetContent(LiveJournalTarget target, ILJClientData data)
         {
-            Uri address = target.WithStyleMine(true).GetUri();
+            Uri address = target.WithStyleMine(true).WithCutExpand().GetUri();
             log.Info("Downloading " + address + "...");
 
             var cookieContainer = new CookieContainer();
