@@ -56,6 +56,7 @@ namespace OrlovMikhail.LJ.Galkovsky.PDFTester
                 }
 
                 int[] nums;
+                string mb = (((double)new FileInfo(absolutePath).Length) / 1024d / 1024d).ToString("#.##");
                 int pages;
                 try
                 {
@@ -76,7 +77,7 @@ namespace OrlovMikhail.LJ.Galkovsky.PDFTester
                 int[] missing = shouldBe.Except(nums).ToArray();
 
                 if (missing.Length == 0)
-                    log.Info(String.Format("File for split {0} is OK. {1} pages.", splitInfo, pages));
+                    log.Info(String.Format("File for split {0} is OK. {1} pages, {2} MB.", splitInfo, pages, mb));
                 else
                 {
                     foreach (int m in missing)
