@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
 using System.IO;
+using System.IO.Abstractions;
 
 namespace OrlovMikhail.LJ.Grabber
 {
@@ -151,6 +152,15 @@ namespace OrlovMikhail.LJ.Grabber
             }
 
             return destImage;
+        }
+
+        public static double GetHeightToWidthRatio(FileInfoBase relativePath)
+        {
+            using (var stream = relativePath.OpenRead())
+            {
+                var image = Image.FromStream(stream);
+                return ((double)image.Height) / ((double)image.Width);
+            }
         }
     }
 }

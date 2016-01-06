@@ -77,8 +77,7 @@ namespace OrlovMikhail.LJ.BookWriter
             {
                 // Image
                 ImagePart ip = (ImagePart)ppb;
-                string relativePath = IOTools.MakeRelativePath(Root, ip.Src);
-                WriteImageInternal(relativePath);
+                WriteImageInternal( ip.Src);
             }
             else if(ppb is VideoPart)
             {
@@ -116,7 +115,9 @@ namespace OrlovMikhail.LJ.BookWriter
         protected abstract void WriteItalicStartInternal();
         protected abstract void WriteBoldEndInternal();
         protected abstract void WriteBoldStartInternal();
-        protected abstract void WriteImageInternal(string relativePath);
+
+        /// <summary>Guaranteed to be called with an existing image.</summary>
+        protected abstract void WriteImageInternal(FileInfoBase toPath);
         protected abstract void WriteVideoInternal(string url);
         protected abstract void WritePreparedTextInternal(string preparedText);
         protected virtual void WriteEmptyPostPart() { WritePreparedTextInternal(""); }
