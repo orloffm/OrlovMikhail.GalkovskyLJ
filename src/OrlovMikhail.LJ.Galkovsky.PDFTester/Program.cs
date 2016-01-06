@@ -56,11 +56,12 @@ namespace OrlovMikhail.LJ.Galkovsky.PDFTester
                 }
 
                 int[] nums;
+                int pages;
                 try
                 {
                     using (PdfReader pdfReader = new PdfReader(absolutePath))
                     {
-
+                        pages = pdfReader.NumberOfPages;
                         IList<Dictionary<string, object>> bookmarks = SimpleBookmark.GetBookmark(pdfReader);
                         nums = GetNumsFromBookmarks(bookmarks);
                     }
@@ -75,7 +76,7 @@ namespace OrlovMikhail.LJ.Galkovsky.PDFTester
                 int[] missing = shouldBe.Except(nums).ToArray();
 
                 if (missing.Length == 0)
-                    log.Info(String.Format("File for split {0} is OK.", splitInfo));
+                    log.Info(String.Format("File for split {0} is OK. {1} pages.", splitInfo, pages));
                 else
                 {
                     foreach (int m in missing)
@@ -97,7 +98,9 @@ namespace OrlovMikhail.LJ.Galkovsky.PDFTester
                 try
                 {
                     // Extract number from title.
-                    string subFolder = gsg.GetSubfolderByEntry(title);
+                    string subFolder;
+                    if (!gsg.TryGetSubfolderByEntry(title, out subFolder))
+                        continue;
                     num = gsg.GetSortNumberBySubfolder(subFolder);
                     ret.Add(num);
                 }

@@ -13,6 +13,10 @@ namespace OrlovMikhail.LJ.Grabber
         /// inside the year folder that the entry should be put to.</summary>
         string GetSubfolderByEntry(string subject);
 
+        /// <summary>Try tp extract the name of the subfolder
+        /// inside the year folder that the entry should be put to.</summary>
+        bool TryGetSubfolderByEntry(string s, out string sf);
+
         /// <summary>Given a subfolder, created by another function
         /// in the interface,
         /// returns the ordered number of the entry.</summary>

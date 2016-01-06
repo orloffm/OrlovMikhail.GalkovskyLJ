@@ -42,6 +42,12 @@ namespace OrlovMikhail.LJ.Grabber
                 return _innerFolder;
             }
 
+            public bool TryGetSubfolderByEntry(string s, out string sf)
+            {
+                sf = _innerFolder;
+                return true;
+            }
+
             public int GetSortNumberBySubfolder(string subfolder)
             {
                 throw new NotSupportedException();

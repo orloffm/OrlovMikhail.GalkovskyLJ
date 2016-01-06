@@ -12,24 +12,40 @@ namespace OrlovMikhail.LJ.Galkovsky
 
         public string GetSubfolderByEntry(string s)
         {
+            string subFolder;
+            if (TryGetSubfolderByEntry(s, out subFolder))
+                return subFolder;
+
+            string error = String.Format("Cannot extract number from subject \"{0}\".", s);
+            log.Error(error);
+            throw new NotSupportedException(error);
+        }
+
+        public bool TryGetSubfolderByEntry(string s, out string sf)
+        {
             int num;
 
             if (TryExtractUsualNumberFromSubject(s, out num))
             {
                 // This is a numbered post.
                 string ret = num.ToString().PadLeft(4, '0');
-                return ret;
+                {
+                    sf = ret;
+                    return true;
+                }
             }
 
             if (TryExtractPSNumberFromSubject(s, out num))
             {
                 string ret = "PS-" + num.ToString().PadLeft(3, '0');
-                return ret;
+                {
+                    sf = ret;
+                    return true;
+                }
             }
 
-            string error = String.Format("Cannot extract number from subject \"{0}\".", s);
-            log.Error(error);
-            throw new NotSupportedException(error);
+            sf = null;
+            return false;
         }
 
         /// <summary>Number (912 or 950) by folder (0912 or PS-001).</summary>
