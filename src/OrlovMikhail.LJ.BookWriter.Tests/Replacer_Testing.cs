@@ -7,7 +7,7 @@ namespace OrlovMikhail.LJ.BookWriter.Tests
     [TestFixture]
     public sealed class Replacer_Testing
     {
-        private TextPreparator _tp;
+        //private TextPreparator _tp;
 
         // TODO
         //[TestCase("a — b", ExpectedResult = @"a\тире b")]

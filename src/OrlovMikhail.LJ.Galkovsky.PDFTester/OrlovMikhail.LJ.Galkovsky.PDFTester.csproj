@@ -51,6 +51,12 @@
       <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="OrlovMikhail.LJ.Grabber">
+      <HintPath>..\..\..\OrlovMikhail.LiveJournalGrabber\src\OrlovMikhail.LJ.Grabber\bin\OrlovMikhail.LJ.Grabber.dll</HintPath>
+    </Reference>
+    <Reference Include="OrlovMikhail.Tools">
+      <HintPath>..\..\..\OrlovMikhail.Tools\src\OrlovMikhail.Tools\bin\OrlovMikhail.Tools.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.IO.Abstractions, Version=2.0.0.115, Culture=neutral, PublicKeyToken=d480b5b72fb413da, processorArchitecture=MSIL">
@@ -85,14 +91,6 @@
     <ProjectReference Include="..\OrlovMikhail.LJ.Galkovsky.Shared\OrlovMikhail.LJ.Galkovsky.Shared.csproj">
       <Project>{350711e2-d90a-449b-87ff-e8d2d71273de}</Project>
       <Name>OrlovMikhail.LJ.Galkovsky.Shared</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\OrlovMikhail.LJ.Grabber\OrlovMikhail.LJ.Grabber.csproj">
-      <Project>{6F4AA11D-A00C-40A8-BBEA-84EF0F2C3D46}</Project>
-      <Name>OrlovMikhail.LJ.Grabber</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\OrlovMikhail.Tools\OrlovMikhail.Tools.csproj">
-      <Project>{c69bdb83-a2a6-4141-98e1-2445df92db40}</Project>
-      <Name>OrlovMikhail.Tools</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
