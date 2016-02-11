@@ -253,3 +253,4 @@ FakesAssemblies/
 *.html
 *.pdfmarks
 Output/
+src/.paket/paket.exe

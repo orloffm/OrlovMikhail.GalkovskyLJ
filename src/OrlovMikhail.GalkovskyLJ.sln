@@ -3,11 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{52994EE3-9773-4831-A9C2-74D50713D54A}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".paket", ".paket", "{7BE89487-2DDC-4F94-8DBF-A2EA5FD5C44A}"
 	ProjectSection(SolutionItems) = preProject
-		.nuget\NuGet.Config = .nuget\NuGet.Config
-		.nuget\NuGet.exe = .nuget\NuGet.exe
-		.nuget\NuGet.targets = .nuget\NuGet.targets
+		paket.dependencies = paket.dependencies
 	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrlovMikhail.LJ.Galkovsky.Dumper", "OrlovMikhail.LJ.Galkovsky.Dumper\OrlovMikhail.LJ.Galkovsky.Dumper.csproj", "{7FD0A56C-9067-4E56-8B5A-2E33710CA3B0}"
