@@ -56,20 +56,16 @@ namespace OrlovMikhail.LJ.BookWriter
                 return text;
 
             string work = text;
-
-            work = Preprocess(work);
-
+            
             work = ReplaceByRegeces(work);
             work = InsertNoBR(work);
 
             return work;
         }
 
-        /// <summary>Does the possible initial
-        /// preprocessing.</summary>
-        protected virtual string Preprocess(string work)
+        public virtual string PrepareUsername(string text)
         {
-            return work;
+            return text;
         }
 
         #region by regeces

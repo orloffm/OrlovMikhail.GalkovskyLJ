@@ -68,7 +68,7 @@ namespace OrlovMikhail.LJ.BookWriter.AsciiDoc
             wroteAfterItemBegin = false;
         }
 
-        protected override void CommentHeaderInternal(string subject, DateTime date, string username, bool isDeleted, bool isScreened, bool isSuspended, string commentUserpicRelativeLocation)
+        protected override void CommentHeaderInternal(string subject, DateTime date, string usernamePrepared, bool isDeleted, bool isScreened, bool isSuspended, string commentUserpicRelativeLocation)
         {
             currentQuotationLevel = 0;
 
@@ -76,7 +76,7 @@ namespace OrlovMikhail.LJ.BookWriter.AsciiDoc
             if (!String.IsNullOrEmpty(commentUserpicRelativeLocation))
                 PL(String.Format("image:{0}[\"userpic\", 40, 40]", commentUserpicRelativeLocation));
 
-            WriteUsernameInternal(username);
+            WriteUsernameInternal(usernamePrepared);
             PL(String.Format(" {0:dd-MM-yyy HH:mm}", date));
 
             if (!String.IsNullOrWhiteSpace(subject))

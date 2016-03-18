@@ -56,8 +56,8 @@ namespace OrlovMikhail.LJ.BookWriter
                 subject = _tp.Prepare(subject);
             }
 
-            string username = _tp.Prepare(c.Poster.Username);
-            CommentHeaderInternal(subject, c.Date.Value, username, c.IsDeleted, c.IsScreened, c.IsSuspendedUser, commentUserpicRelativeLocation);
+            string usernamePrepared = _tp.PrepareUsername(c.Poster.Username);
+            CommentHeaderInternal(subject, c.Date.Value, usernamePrepared, c.IsDeleted, c.IsScreened, c.IsSuspendedUser, commentUserpicRelativeLocation);
         }
 
         public void WritePart(IPostPart ppb)
@@ -87,7 +87,8 @@ namespace OrlovMikhail.LJ.BookWriter
             else if(ppb is UserLinkPart)
             {
                 UserLinkPart ip = (UserLinkPart)ppb;
-                WriteUsernameInternal(_tp.Prepare(ip.Username), ip.IsCommunity);
+                string usernamePrepared = _tp.PrepareUsername(ip.Username);
+                WriteUsernameInternal(usernamePrepared, ip.IsCommunity);
             }
             else if(ppb is BoldStartPart)
                 WriteBoldStartInternal();
@@ -106,7 +107,7 @@ namespace OrlovMikhail.LJ.BookWriter
         }
 
         protected abstract void EntryHeaderInternal(string subject, string url, DateTime date, string posterUserpicRelativeLocation);
-        protected abstract void CommentHeaderInternal(string subject, DateTime date, string username, bool isDeleted, bool isScreened, bool isSuspended, string commentUserpicRelativeLocation);
+        protected abstract void CommentHeaderInternal(string subject, DateTime date, string usernamePrepared, bool isDeleted, bool isScreened, bool isSuspended, string commentUserpicRelativeLocation);
 
         protected abstract void WriteUsernameInternal(string username, bool isCommunity = false);
         protected abstract void WriteParagraphStartInternal(int quotationLevel);
