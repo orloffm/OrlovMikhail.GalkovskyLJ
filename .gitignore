@@ -14,3 +14,4 @@ src/.paket/paket.exe
 *.pdf
 *.epub
 *.mobi
+src/paket.lock

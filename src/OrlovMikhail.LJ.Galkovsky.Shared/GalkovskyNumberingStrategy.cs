@@ -8,7 +8,7 @@ namespace OrlovMikhail.LJ.Galkovsky
 {
     public class GalkovskyNumberingStrategy : INumberingStrategy
     {
-        static readonly ILog log = LogManager.GetLogger(typeof(Worker));
+        static readonly ILog log = LogManager.GetLogger(typeof(GalkovskyNumberingStrategy));
 
         public string GetSubfolderByEntry(string s)
         {

@@ -1,4 +1,5 @@
 framework: net45
+copy_local: true
 source https://www.nuget.org/api/v2
 source ..\..\nugets
 

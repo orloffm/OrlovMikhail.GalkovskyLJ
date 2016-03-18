@@ -10,9 +10,9 @@ using OrlovMikhail.Tools;
 
 namespace OrlovMikhail.LJ.Galkovsky
 {
-   public static class FragmentHelper
-   {
-       public const string FRAGMENT_FILE_NAME = "fragment.asc";
+    public static class FragmentHelper
+    {
+        public const string FRAGMENT_FILE_NAME = "fragment.asc";
 
         /// <summary>Fragment numbers and relative paths.</summary>
         public static List<Tuple<int, string>> GetAllFragmentPaths(IFileSystem fs, INumberingStrategy ns, string root, out int? maxFound)
