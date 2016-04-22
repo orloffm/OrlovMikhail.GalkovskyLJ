@@ -93,7 +93,7 @@ namespace OrlovMikhail.LJ.Galkovsky.Preparator
             sb.AppendLine("Записи разбиты по книгам следующим образом:");
             sb.AppendLine();
 
-            sb.AppendLine("[grid=\"none\",cols=\"^1,^2,<10\"]");
+            sb.AppendLine("[grid=\"none\",cols=\"^3,^5,<10\"]");
             sb.AppendLine("|====");
 
             for (int i = 0; i < splits.Length; i++)
