@@ -9,7 +9,6 @@ bin/
 packages/
 src/.paket/paket.exe
 
-*.xml
 *.asc
 *.pdf
 *.epub
