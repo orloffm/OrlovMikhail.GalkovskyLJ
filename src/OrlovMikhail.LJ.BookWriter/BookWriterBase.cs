@@ -34,11 +34,11 @@ namespace OrlovMikhail.LJ.BookWriter
         public void EntryHeader(Entry e, string posterUserpicRelativeLocation)
         {
             string subject = e.Subject;
-            if(subject.Length == 0)
+            if (subject.Length == 0)
                 subject = e.Id.ToString();
 
             subject = HTMLParser.StripOfTags(subject.Trim());
-            if(subject.EndsWith(".") && !subject.EndsWith("..."))
+            if (subject.EndsWith(".") && !subject.EndsWith("..."))
                 subject = subject.Substring(0, subject.Length - 1);
             subject = WebUtility.HtmlDecode(subject);
             subject = _tp.Prepare(subject);
@@ -49,7 +49,7 @@ namespace OrlovMikhail.LJ.BookWriter
         public void CommentHeader(Comment c, string commentUserpicRelativeLocation)
         {
             string subject = c.Subject;
-            if(!String.IsNullOrWhiteSpace(subject))
+            if (!String.IsNullOrWhiteSpace(subject))
             {
                 subject = HTMLParser.StripOfTags(subject);
                 subject = WebUtility.HtmlDecode(subject);
@@ -62,49 +62,54 @@ namespace OrlovMikhail.LJ.BookWriter
 
         public void WritePart(IPostPart ppb)
         {
-            if(ppb is RawTextPostPart)
+            if (ppb is RawTextPostPart)
             {
                 // Text.
                 RawTextPostPart rtpp = ppb as RawTextPostPart;
                 string preparedText = _tp.Prepare(rtpp.Text);
                 WritePreparedTextInternal(preparedText);
             }
-            else if(ppb is EmptyPostPart)
+            else if (ppb is EmptyPostPart)
             {
                 WriteEmptyPostPart();
             }
-            else if(ppb is ImagePart)
+            else if (ppb is ImagePart)
             {
                 // Image
                 ImagePart ip = (ImagePart)ppb;
-                WriteImageInternal( ip.Src);
+                WriteImageInternal(ip.Src);
             }
-            else if(ppb is VideoPart)
+            else if (ppb is VideoPart)
             {
                 VideoPart vp = (VideoPart)ppb;
                 WriteVideoInternal(vp.URL);
             }
-            else if(ppb is UserLinkPart)
+            else if (ppb is UserLinkPart)
             {
                 UserLinkPart ip = (UserLinkPart)ppb;
                 string usernamePrepared = _tp.PrepareUsername(ip.Username);
                 WriteUsernameInternal(usernamePrepared, ip.IsCommunity);
             }
-            else if(ppb is BoldStartPart)
+            else if (ppb is BoldStartPart)
                 WriteBoldStartInternal();
-            else if(ppb is BoldEndPart)
+            else if (ppb is BoldEndPart)
                 WriteBoldEndInternal();
-            else if(ppb is ItalicStartPart)
+            else if (ppb is ItalicStartPart)
                 WriteItalicStartInternal();
-            else if(ppb is ItalicEndPart)
+            else if (ppb is ItalicEndPart)
                 WriteItalicEndInternal();
-            else if(ppb is LineBreakPart)
+            else if (ppb is StrikeStartPart)
+                WriteStrikeStartInternal();
+            else if (ppb is StrikeEndPart)
+                WriteStrikeEndInternal();
+            else if (ppb is LineBreakPart)
                 WriteLineBreakInternal();
-            else if(ppb is ParagraphStartPart)
+            else if (ppb is ParagraphStartPart)
                 WriteParagraphStartInternal((ppb as ParagraphStartPart).QuotationLevel);
             else
                 log.WarnFormat("Post part of type {0} is not supported.", ppb.GetType().Name);
         }
+
 
         protected abstract void EntryHeaderInternal(string subject, string url, DateTime date, string posterUserpicRelativeLocation);
         protected abstract void CommentHeaderInternal(string subject, DateTime date, string usernamePrepared, bool isDeleted, bool isScreened, bool isSuspended, string commentUserpicRelativeLocation);
@@ -114,6 +119,8 @@ namespace OrlovMikhail.LJ.BookWriter
         protected abstract void WriteLineBreakInternal();
         protected abstract void WriteItalicEndInternal();
         protected abstract void WriteItalicStartInternal();
+        protected abstract void WriteStrikeStartInternal();
+        protected abstract void WriteStrikeEndInternal();
         protected abstract void WriteBoldEndInternal();
         protected abstract void WriteBoldStartInternal();
 

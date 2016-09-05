@@ -17,7 +17,5 @@ namespace OrlovMikhail.LJ.BookWriter.Tests
         {
             _m = new HTMLParser();
         }
-        
-       
     }
 }

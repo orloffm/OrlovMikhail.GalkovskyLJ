@@ -13,6 +13,7 @@ namespace OrlovMikhail.LJ.BookWriter
         LineBreak,
         Bold,
         Italic,
+        Strike,
         Underline,
         Center,
         Image,
@@ -43,6 +44,8 @@ namespace OrlovMikhail.LJ.BookWriter
             matches["em"] = HTMLElementKind.Italic;
             matches["u"] = HTMLElementKind.Underline;
             matches["a"] = HTMLElementKind.Anchor;
+            matches["s"] = HTMLElementKind.Strike;
+            matches["strike"] = HTMLElementKind.Strike;
             matches["center"] = HTMLElementKind.Center;
             matches["img"] = HTMLElementKind.Image;
             matches["em"] = HTMLElementKind.Italic;

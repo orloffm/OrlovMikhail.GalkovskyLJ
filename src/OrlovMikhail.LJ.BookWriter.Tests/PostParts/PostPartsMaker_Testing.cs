@@ -85,8 +85,7 @@ namespace OrlovMikhail.LJ.BookWriter.Tests
             Assert.IsInstanceOf<UserLinkPart>(result[0]);
             Assert.AreEqual("orloffm", ((UserLinkPart)result[0]).Username);
         }
-
-
+        
         [Test]
         public void DoesntAddFinishingFormattingIfNotNeeded()
         {
@@ -112,6 +111,26 @@ namespace OrlovMikhail.LJ.BookWriter.Tests
             Assert.IsInstanceOf<ItalicEndPart>(result[4]);
             Assert.IsInstanceOf<ParagraphStartPart>(result[5]);
             Assert.IsInstanceOf<RawTextPostPart>(result[6]);
+        }
+
+        [Test]
+        public void SupportsStrikeThrough()
+        {
+            List<HTMLTokenBase> tokens = new List<HTMLTokenBase>();
+
+            tokens.Add(new TextHTMLToken("A"));
+            tokens.Add(TagHTMLToken.FromTag("<s>"));
+            tokens.Add(new TextHTMLToken("B"));
+            tokens.Add(TagHTMLToken.FromTag("</s>"));
+            tokens.Add(new TextHTMLToken("C"));
+
+            IPostPart[] result = _m.CreateTextParts(tokens.ToArray(), null).ToArray();
+            Assert.AreEqual(5, result.Length);
+            Assert.IsInstanceOf<RawTextPostPart>(result[0]);
+            Assert.IsInstanceOf<StrikeStartPart>(result[1]);
+            Assert.IsInstanceOf<RawTextPostPart>(result[2]);
+            Assert.IsInstanceOf<StrikeEndPart>(result[3]);
+            Assert.IsInstanceOf<RawTextPostPart>(result[4]);
         }
 
         [Test]

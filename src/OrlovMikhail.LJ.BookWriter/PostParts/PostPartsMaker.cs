@@ -181,17 +181,32 @@ namespace OrlovMikhail.LJ.BookWriter
 
                         case HTMLElementKind.Underline:
                         case HTMLElementKind.Italic:
-                            if(isPairWithNext)
+                            if (isPairWithNext)
                             {
                                 // Skip both.
                                 i++;
                             }
                             else
                             {
-                                if(tagToken.IsOpening)
+                                if (tagToken.IsOpening)
                                     yield return ItalicStartPart.Instance;
                                 else
                                     yield return ItalicEndPart.Instance;
+                            }
+                            break;
+
+                        case HTMLElementKind.Strike:
+                            if (isPairWithNext)
+                            {
+                                // Skip both.
+                                i++;
+                            }
+                            else
+                            {
+                                if (tagToken.IsOpening)
+                                    yield return StrikeStartPart.Instance;
+                                else
+                                    yield return StrikeEndPart.Instance;
                             }
                             break;
 

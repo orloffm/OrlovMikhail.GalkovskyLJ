@@ -57,6 +57,7 @@
   </Target>
   
   <Target Name="PackPackage" DependsOnTargets="CheckPrerequisites">
+	<MakeDir Directories="$(PaketOutputPath)"/>
     <Exec Command="$(PackCommand)" IgnoreStandardErrorWarningFormat="true" WorkingDirectory="$(ProjectDir)"/>
   </Target>
  

@@ -181,6 +181,8 @@ namespace OrlovMikhail.LJ.BookWriter.AsciiDoc
         protected override void WriteBoldEndInternal() { P("**"); }
         protected override void WriteItalicStartInternal() { P("__"); }
         protected override void WriteItalicEndInternal() { P("__"); }
+        protected override void WriteStrikeStartInternal() { P(@"[line-through]#"); }
+        protected override void WriteStrikeEndInternal() { P(@"#"); }
 
         public static string[] SplitToLines(string text, int lineWidth = 60)
         {
