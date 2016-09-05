@@ -76,7 +76,7 @@ EPUB и MOBI будут доступны после того, как будет 
 3. Переключить на страницу выбора стиля журнала,
 http://www.livejournal.com/customize/,
 ввести в поиске `SimpleXML`, переключиться на этот layer. Его исходный код
-приведён в файле [src/Data/layer.txt](meta/LiveJournal/Data/layer.txt)
+приведён в файле https://raw.githubusercontent.com/orloffm/OrlovMikhail.LiveJournalGrabber/master/Data/layer.txt.
 Теперь ЖЖ будет выдавать специально сформированный XML для вашего журнала.
 Возможно выдавать любой журнал в таком XML-виде путём добавления `?style=mine` 
 к адресу. Этим мы и пользуемся.
