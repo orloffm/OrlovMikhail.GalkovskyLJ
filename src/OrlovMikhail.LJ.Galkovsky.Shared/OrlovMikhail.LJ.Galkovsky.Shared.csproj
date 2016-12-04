@@ -34,9 +34,14 @@
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="FragmentHelper.cs" />
-    <Compile Include="GalkovskyNumberingStrategy.cs" />
+    <Compile Include="FragmentInformation.cs" />
+    <Compile Include="GalkovskyFolderNamingStrategy.cs" />
+    <Compile Include="IFragmentHelper.cs" />
+    <Compile Include="IGalkovskyFolderNamingStrategy.cs" />
+    <Compile Include="ISplitLoader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Split.cs" />
+    <Compile Include="SplitLoader.cs" />
   </ItemGroup>
   <ItemGroup>
     <Reference Include="System" />

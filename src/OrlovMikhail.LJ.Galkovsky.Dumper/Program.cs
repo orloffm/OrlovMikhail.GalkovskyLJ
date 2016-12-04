@@ -24,7 +24,7 @@ namespace OrlovMikhail.LJ.Galkovsky.Dumper
             IContainer _container = builder.Build();
 
             IWorker w = _container.Resolve<IWorker>();
-            INumberingStrategy gsg = new GalkovskyNumberingStrategy();
+            IFolderNamingStrategy gsg = new GalkovskyFolderNamingStrategy();
 
             Dictionary<string, string> argsDic = ConsoleTools.ArgumentsToDictionary(args);
 
@@ -35,7 +35,7 @@ namespace OrlovMikhail.LJ.Galkovsky.Dumper
             if (!SettingsTools.LoadValue("cookie", argsDic, Settings.Default, s => s.Cookie))
                 return;
 
-            bool continueWithNext = argsDic.ContainsKey("continue");
+            bool continueWithNext = !argsDic.ContainsKey("nocontinue");
 
             while (true)
             {

@@ -10,31 +10,53 @@ using OrlovMikhail.Tools;
 
 namespace OrlovMikhail.LJ.Galkovsky
 {
-    public static class FragmentHelper
+    public class FragmentHelper : IFragmentHelper
     {
+        private readonly IGalkovskyFolderNamingStrategy _ns;
+
         public const string FRAGMENT_FILE_NAME = "fragment.asc";
 
-        /// <summary>Fragment numbers and relative paths.</summary>
-        public static List<Tuple<int, string>> GetAllFragmentPaths(IFileSystem fs, INumberingStrategy ns, string root, out int? maxFound)
+        public FragmentHelper(IGalkovskyFolderNamingStrategy ns)
         {
+            _ns = ns;
+        }
+
+        /// <summary>Returns a dictionary for all dump files, of their entry's ids and the relative paths.</summary>
+        public Dictionary<long, FragmentInformation> GetAllFragmentPaths(IFileSystem fs, string root)
+        {
+            Dictionary<long, FragmentInformation> ret = new Dictionary<long, FragmentInformation>();
+
             DirectoryInfoBase rootInfo = fs.DirectoryInfo.FromDirectoryName(root);
-            FileInfoBase[] fragments = rootInfo.EnumerateFiles(FRAGMENT_FILE_NAME, SearchOption.AllDirectories).ToArray();
-            List<Tuple<int, string>> relativePaths = new List<Tuple<int, string>>();
+            FileInfoBase[] dumps = rootInfo.EnumerateFiles(Worker.DumpFileName, SearchOption.AllDirectories).ToArray();
 
-            foreach (FileInfoBase fragment in fragments)
+            foreach (FileInfoBase dumpFile in dumps)
             {
-                int number = ns.GetSortNumberBySubfolder(fragment.Directory.Name);
-                string relativePath = IOTools.MakeRelativePath(rootInfo, fragment);
+                FileInfoBase fragmentFile = dumpFile.Directory.GetFiles(FRAGMENT_FILE_NAME).FirstOrDefault();
 
-                relativePaths.Add(Tuple.Create(number, relativePath));
+                string content = fs.File.ReadAllText(dumpFile.FullName);
+
+                ILayerParser layerParser = new LayerParser();
+                EntryPage ep = layerParser.ParseAsAnEntryPage(content);
+
+                FragmentInformation fi = new FragmentInformation();
+                fi.GalkovskyEntryKey = _ns.GetGalkovskyEntryKey(ep.Entry.Subject);
+
+                if (fragmentFile != null)
+                    fi.RelativeFragmentPath = IOTools.MakeRelativePath(rootInfo, fragmentFile);
+
+                long entryId = ep.Entry.Id;
+                ret.Add(entryId, fi);
             }
 
-            if (relativePaths.Any())
-                maxFound = relativePaths.Max(z => z.Item1);
-            else
-                maxFound = null;
+            return ret;
+        }
 
-            return relativePaths;
+        public IEnumerable<FragmentInformation> SelectValuesFor(Split current, Dictionary<long, FragmentInformation> fragsById)
+        {
+            return fragsById
+                .Where(z => z.Key >= current.FromId && (current.Next == null || z.Key < current.Next.FromId))
+                .OrderBy(z => z.Key)
+                .Select(z => z.Value);
         }
     }
 }

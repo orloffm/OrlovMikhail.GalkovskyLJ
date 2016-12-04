@@ -14,7 +14,9 @@ namespace OrlovMikhail.LJ.Galkovsky.PDFTester
 {
     class Program
     {
-        static readonly ILog log = LogManager.GetLogger(typeof(Program));
+             const string SourcePdf = "output\\GalkovskyLJ_{0}.A5.pdf";
+
+       static readonly ILog log = LogManager.GetLogger(typeof(Program));
 
         static void Main(string[] args)
         {
@@ -30,33 +32,31 @@ namespace OrlovMikhail.LJ.Galkovsky.PDFTester
 
             string root = Settings.Default.RootFolder;
 
-            // All available files.
-            int? maxFound;
-            GalkovskyNumberingStrategy ns = new GalkovskyNumberingStrategy();
-            List<Tuple<int, string>> relativePaths = FragmentHelper.GetAllFragmentPaths(fs, ns, root, out maxFound);
+            // All available fragment files by entry ids.
+            IGalkovskyFolderNamingStrategy ns = new GalkovskyFolderNamingStrategy();
+            IFragmentHelper fragHelper = new FragmentHelper(ns);
+            Dictionary<long, FragmentInformation> fragsById = fragHelper.GetAllFragmentPaths(fs, root);
 
             // Splits.
-            Split[] splits = Split.LoadSplits(fs, root, maxFound);
+            ISplitLoader splitLoader = new SplitLoader(root);
+            Split[] splits = splitLoader.LoadSplits(fs);
 
-            const string sourcePdf = "output\\GalkovskyLJ_{0}.A5.pdf";
-
-            foreach (Split s in splits)
+            for (int i = 0; i < splits.Length; i++)
             {
-                string fromString = ns.GetFriendlyTitleBySortNumber(s.From);
-                string toString = ns.GetFriendlyTitleBySortNumber(s.To);
-                string splitInfo = String.Format("{0} ({1}-{2})", s.Name, fromString, toString);
+                Split s = splits[i];
 
-                string relativePath = String.Format(sourcePdf, s.Name);
+                string relativePath = String.Format(SourcePdf, s.Name);
                 string absolutePath = Path.Combine(root, relativePath);
 
                 if (!File.Exists(absolutePath))
                 {
-                    log.Error(String.Format("File for split {0} doesn't exist.", splitInfo));
+                    log.Error(String.Format("File for split {0} doesn't exist.", s));
                     continue;
                 }
 
-                int[] nums;
-                string mb = (((double)new FileInfo(absolutePath).Length) / 1024d / 1024d).ToString("#.##");
+
+                string[] entryKeysInPdf;
+                string mb = (new FileInfo(absolutePath).Length/1024d/1024d).ToString("#.##");
                 int pages;
                 try
                 {
@@ -64,46 +64,45 @@ namespace OrlovMikhail.LJ.Galkovsky.PDFTester
                     {
                         pages = pdfReader.NumberOfPages;
                         IList<Dictionary<string, object>> bookmarks = SimpleBookmark.GetBookmark(pdfReader);
-                        nums = GetNumsFromBookmarks(bookmarks);
+                        entryKeysInPdf = GetGalkovskyEntryKeys(bookmarks,ns);
                     }
                 }
-                catch
+                catch(Exception ex)
                 {
-                    log.Error(String.Format("File for split {0} yielded an error.", splitInfo));
+                    log.Error(String.Format("File for split {0} yielded an error.", s), ex);
                     continue;
                 }
 
-                int[] shouldBe = Enumerable.Range(s.From, s.To.Value - s.From + 1).ToArray();
-                int[] missing = shouldBe.Except(nums).ToArray();
+                FragmentInformation[] allDumps = fragHelper.SelectValuesFor(s, fragsById).ToArray();
+                var withFragments = allDumps.Where(z => !String.IsNullOrWhiteSpace(z.RelativeFragmentPath));
+                string[] expectedEntryKeys = withFragments.Select(z => z.GalkovskyEntryKey).ToArray();
+
+              
+                string[] missing = expectedEntryKeys.Except(entryKeysInPdf, StringComparer.OrdinalIgnoreCase).ToArray();
 
                 if (missing.Length == 0)
-                    log.Info(String.Format("File for split {0} is OK. {1} pages, {2} MB.", splitInfo, pages, mb));
+                    log.Info(String.Format("File for split {0} is OK. {1} pages, {2} MB.", s, pages, mb));
                 else
                 {
-                    foreach (int m in missing)
-                        log.Error(String.Format("File for split {0} doesn't have record {1}.", splitInfo, m));
+                    foreach (string m in missing)
+                        log.Error(String.Format("File for split {0} doesn't have record {1}.", s, m));
                 }
             }
         }
 
-        private static int[] GetNumsFromBookmarks(IList<Dictionary<string, object>> bookmarks)
+        private static string[] GetGalkovskyEntryKeys(IList<Dictionary<string, object>> bookmarks, IGalkovskyFolderNamingStrategy gsg)
         {
-            List<int> ret = new List<int>(100);
-            INumberingStrategy gsg = new GalkovskyNumberingStrategy();
+            List<string> ret = new List<string>(100);
 
             for (int i = 0; i < bookmarks.Count; i++)
             {
                 string title = bookmarks[i].Values.First().ToString();
 
-                int num;
                 try
                 {
-                    // Extract number from title.
-                    string subFolder;
-                    if (!gsg.TryGetSubfolderByEntry(title, out subFolder))
-                        continue;
-                    num = gsg.GetSortNumberBySubfolder(subFolder);
-                    ret.Add(num);
+                    // Extract from title.
+                    string key = gsg.GetGalkovskyEntryKey(title);
+                    ret.Add(key);
                 }
                 catch
                 {
@@ -111,14 +110,12 @@ namespace OrlovMikhail.LJ.Galkovsky.PDFTester
             }
 
             // Special case.
-            if (ret.Contains(4))
+            if (ret.Contains("4"))
             {
-                ret.Add(1);
-                ret.Add(2);
-                ret.Add(3);
+                ret.Insert(0, "3");
+                ret.Insert(0, "2");
+                ret.Insert(0, "1");
             }
-
-            ret.Sort();
 
             return ret.ToArray();
         }

@@ -36,30 +36,33 @@ namespace OrlovMikhail.LJ.Galkovsky.Preparator
             foreach (string existingFile in existingFiles)
                 File.Delete(existingFile);
 
-            // All available files.
-            int? maxFound;
-            GalkovskyNumberingStrategy ns = new GalkovskyNumberingStrategy();
-            List<Tuple<int, string>> relativePaths = FragmentHelper.GetAllFragmentPaths(fs, ns, root, out maxFound);
+            // All available fragment files by entry ids.
+            IGalkovskyFolderNamingStrategy ns = new GalkovskyFolderNamingStrategy();
+            IFragmentHelper fragHelper = new FragmentHelper(ns);
+            Dictionary<long, FragmentInformation> fragsById = fragHelper.GetAllFragmentPaths(fs, root);
 
-            // Splits.
-            Split[] splits = Split.LoadSplits(fs, root, maxFound);
+            // Splits from split.txt
+            ISplitLoader splitLoader = new SplitLoader(root);
+            Split[] splits = splitLoader.LoadSplits(fs);
 
-            foreach (Split s in splits)
+            for (int i = 0; i < splits.Length; i++)
             {
-                string lead = MakeLead(splits, s, ns);
+                Split current = splits[i];
 
-                string[] matchingPaths = relativePaths
-                    .Where(z => z.Item1 >= s.From && (!s.To.HasValue || z.Item1 <= s.To.Value))
-                    .OrderBy(z => z.Item1)
-                    .Select(z => z.Item2).ToArray();
+                FragmentInformation[] allDumps = fragHelper.SelectValuesFor(current, fragsById).ToArray();
+
+                // All relative paths for this split record.
+                string[] matchingPaths = allDumps.Select(z => z.RelativeFragmentPath)
+                          .Where(p => !String.IsNullOrWhiteSpace(p))
+                          .ToArray();
 
                 if (matchingPaths.Length == 0)
                     continue;
 
-                log.InfoFormat("Writing {0}...", s.Name);
+                log.InfoFormat("Writing {0}...", current.Name);
 
                 StringBuilder sb = new StringBuilder();
-                string title = String.Format("ЖЖ Галковского. Часть {0}. {1}", s.Name, s.Description);
+                string title = String.Format("ЖЖ Галковского. Часть {0}. {1}", current.Name, current.Description);
                 sb.AppendLine(title);
                 sb.AppendLine(new string('=', title.Length));
                 sb.AppendLine(":doctype: book");
@@ -68,8 +71,11 @@ namespace OrlovMikhail.LJ.Galkovsky.Preparator
                 sb.AppendLine(":toclevels: 2");
                 sb.AppendLine(":imagesdir: .");
 
-                // Shared lead.
+                // Lead.
                 sb.AppendLine();
+                FragmentInformation firstDump = allDumps.First();
+                FragmentInformation lastDump = allDumps.Last();
+                string lead = MakeLead(splits, current, firstDump, lastDump);
                 sb.AppendLine(lead);
 
                 foreach (string matchingPath in matchingPaths)
@@ -80,13 +86,13 @@ namespace OrlovMikhail.LJ.Galkovsky.Preparator
                 }
 
                 string content = sb.ToString();
-                string fileName = String.Format(galkovskyFormat, s.Name);
+                string fileName = String.Format(galkovskyFormat, current.Name);
                 string fileLocation = fs.Path.Combine(root, fileName);
                 fs.File.WriteAllText(fileLocation, content, new UTF8Encoding(true));
             }
         }
 
-        private static string MakeLead(Split[] splits, Split current, INumberingStrategy ns)
+        private static string MakeLead(Split[] splits, Split current, FragmentInformation firstDump, FragmentInformation lastDump)
         {
             StringBuilder sb = new StringBuilder();
             sb.AppendLine("****");
@@ -100,12 +106,13 @@ namespace OrlovMikhail.LJ.Galkovsky.Preparator
             {
                 Split s = splits[i];
                 bool isCurrent = s.Name == current.Name;
-                string formatter = isCurrent ? "**" : "";
+                string formatter = isCurrent ? "**" : String.Empty;
 
-                string fromString = ns.GetFriendlyTitleBySortNumber(s.From);
-                string toString = ns.GetFriendlyTitleBySortNumber(s.To);
-
-                sb.AppendLine(String.Format("|{4}{0}{4}|{4}{1}&#8211;{2}{4}|{4}{3}{4}", s.Name, fromString, toString, s.Description, formatter));
+                sb.AppendLine(String.Format("|{4}{0}{4}|{4}{1}&#8211;{2}{4}|{4}{3}{4}", s.Name,
+                    firstDump.GalkovskyEntryKey,
+                    lastDump.GalkovskyEntryKey,
+                    s.Description,
+                    formatter));
             }
 
             sb.AppendLine("|====");
