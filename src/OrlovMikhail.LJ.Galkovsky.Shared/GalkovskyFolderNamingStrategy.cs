@@ -9,7 +9,14 @@ namespace OrlovMikhail.LJ.Galkovsky
     {
         public string GetGalkovskyEntryKey(string subject)
         {
-            string partBeforeDot = new string(subject.TakeWhile(c => c != '.').ToArray()).Trim();
+            string partBeforeDot = new string(subject.TakeWhile(c => c != '.' && c != ',').ToArray()).Trim();
+
+            if (partBeforeDot == "ДЕЛИКАТНАЯ ТЕМА")
+                return "3";
+            else if (partBeforeDot == "УТОЧНЕНИЕ ИНТЕРЕСОВ")
+                return "2";
+            else if (partBeforeDot == "ПРОБА ПЕРА")
+                return "1";
 
             bool extractedAnIdentifier = !(partBeforeDot.Length == 0 || partBeforeDot.Length == subject.Length);
             if (!extractedAnIdentifier)
