@@ -59,7 +59,6 @@ namespace OrlovMikhail.LJ.Galkovsky.Dumper
                     Console.WriteLine("==============================");
                     Console.WriteLine(ex.Message);
                     Console.WriteLine("==============================");
-                    Console.Read();
                     return;
                 }
 
