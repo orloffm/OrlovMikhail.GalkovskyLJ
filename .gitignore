@@ -14,3 +14,4 @@ src/.paket/paket.exe
 *.epub
 *.mobi
 src/paket.lock
+.DS_Store
