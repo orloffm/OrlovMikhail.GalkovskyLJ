@@ -9,7 +9,7 @@ namespace OrlovMikhail.LJ.BookWriter.AsciiDoc
 {
     public class AsciiDocBookWriterFactory : IBookWriterFactory
     {
-        public IBookWriter Create(DirectoryInfoBase bookRootLocation, FileInfoBase path)
+        public IBookWriter Create(IDirectoryInfo bookRootLocation, IFileInfo path)
         {
             return new AsciiDocBookWriter(bookRootLocation, path);
         }

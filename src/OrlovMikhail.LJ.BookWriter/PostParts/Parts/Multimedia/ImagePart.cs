@@ -7,9 +7,9 @@ namespace OrlovMikhail.LJ.BookWriter
     [DebuggerDisplay("[Image, {Src.FullName}]")]
     public class ImagePart : MultimediaBasePart, IEquatable<ImagePart>
     {
-        public FileInfoBase Src { get; set; }
+        public IFileInfo Src { get; set; }
 
-        public ImagePart(FileInfoBase src)
+        public ImagePart(IFileInfo src)
         {
             Src = src;
         }

@@ -1,7 +1,6 @@
-﻿using OrlovMikhail.LJ.Grabber;
 using System;
 using System.IO.Abstractions;
-using OrlovMikhail.LJ.BookWriter;
+using OrlovMikhail.LJ.Grabber.Entities;
 
 namespace OrlovMikhail.LJ.BookWriter
 {

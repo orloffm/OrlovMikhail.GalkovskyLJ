@@ -1,10 +1,16 @@
-﻿using log4net;
+using Serilog;
 using OrlovMikhail.LJ.Grabber;
+using OrlovMikhail.LJ.Grabber.Entities;
+using OrlovMikhail.LJ.Grabber.LayerParser;
+using OrlovMikhail.LJ.Grabber.PostProcess;
+using OrlovMikhail.LJ.Grabber.PostProcess.Files;
+using OrlovMikhail.LJ.Grabber.PostProcess.Filter;
+using OrlovMikhail.LJ.Grabber.PostProcess.Userpics;
 using System.Collections.Generic;
 using System.IO.Abstractions;
 using System.Linq;
 using OrlovMikhail.LJ.BookWriter;
-using OrlovMikhail.Tools;
+using OrlovMikhail.LJ.BookWriter.Tools;
 using System.Threading.Tasks;
 using System;
 using System.Threading;
@@ -24,7 +30,7 @@ namespace OrlovMikhail.LJ.Galkovsky.BookMaker
         IPostPartsMaker _ppm;
         IHTMLParser _htmlParser;
 
-        static readonly ILog log = LogManager.GetLogger(typeof(BookMaker));
+        static readonly ILogger Log = Serilog.Log.ForContext<BookMaker>();
 
         public BookMaker(ILayerParser lp, IFileSystem fs, IBookWriterFactory f,
             IFileStorageFactory fsf, IFileUrlExtractor ext, IUserpicStorageFactory usf,
@@ -43,7 +49,7 @@ namespace OrlovMikhail.LJ.Galkovsky.BookMaker
             this._htmlParser = htmlParser;
         }
 
-        public async Task Make(DirectoryInfoBase bookRootLocation, FileInfoBase[] dumps, bool overwrite)
+        public async Task Make(IDirectoryInfo bookRootLocation, IFileInfo[] dumps, bool overwrite)
         {
             // And now for each post...
 #if DEBUG
@@ -56,15 +62,15 @@ namespace OrlovMikhail.LJ.Galkovsky.BookMaker
 
             Action runTask = () =>
             {
-                FileInfoBase dump = dumps[nextIndex];
-                log.DebugFormat("Running {0}...", dump.Directory.Name);
+                IFileInfo dump = dumps[nextIndex];
+                Log.Debug("Running {DirectoryName}...", dump.Directory.Name);
 
                 Task postProcessor = Task.Run(() => ProcessDump(dump, bookRootLocation, overwrite));
                 postTasks.Add(postProcessor);
                 nextIndex++;
             };
 
-            log.Debug("Inititial population.");
+            Log.Debug("Initial population.");
             while(nextIndex < CONCURRENCY_LEVEL && nextIndex < dumps.Length)
             {
                 // Adding tasks to process posts.
@@ -81,13 +87,13 @@ namespace OrlovMikhail.LJ.Galkovsky.BookMaker
                     int count = postTasks.Count;
                     int running = postTasks.Count(z => !(z.IsCompleted || z.IsCanceled || z.IsFaulted));
 
-                    log.DebugFormat("Tasks in array: {0}, running: {1}.", count, running);
+                    Log.Debug("Tasks in array: {Count}, running: {Running}.", count, running);
 
                     await postTask;
                 }
                 catch(Exception exc)
                 {
-                    log.Error(exc.ToString());
+                    Log.Error(exc.ToString());
                 }
 
                 if(nextIndex < dumps.Length)
@@ -99,18 +105,18 @@ namespace OrlovMikhail.LJ.Galkovsky.BookMaker
 
         }
 
-        void ProcessDump(FileInfoBase source, DirectoryInfoBase bookRootLocation, bool overWrite)
+        void ProcessDump(IFileInfo source, IDirectoryInfo bookRootLocation, bool overWrite)
         {
-            log.DebugFormat("{0} is on thread {1}.", source.Directory.Name, Thread.CurrentThread.ManagedThreadId);
+            Log.Debug("{DirectoryName} is on thread {ThreadId}.", source.Directory.Name, Thread.CurrentThread.ManagedThreadId);
 
-            FileInfoBase target = _fs.FileInfo.FromFileName(_fs.Path.Combine(source.Directory.FullName, FragmentHelper.FRAGMENT_FILE_NAME));
+            IFileInfo target = _fs.FileInfo.New(_fs.Path.Combine(source.Directory.FullName, FragmentHelper.FRAGMENT_FILE_NAME));
             if(target.Exists && target.Length != 0 && !overWrite)
             {
-                log.DebugFormat("Target already exists for {0}.", source.Directory.FullName);
+                Log.Debug("Target already exists for {DirectoryFullName}.", source.Directory.FullName);
                 return;
             }
 
-            log.Info(source.FullName);
+            Log.Information(source.FullName);
 
             EntryPage ep = _lp.ParseAsAnEntryPage(_fs.File.ReadAllText(source.FullName));
             string html = ep.Entry.Text;
@@ -167,9 +173,9 @@ namespace OrlovMikhail.LJ.Galkovsky.BookMaker
             }
         }
 
-        private string GetUserpicRelativeLocation(EntryBase e, IUserpicStorage us, DirectoryInfoBase bookRootLocation)
+        private string GetUserpicRelativeLocation(EntryBase e, IUserpicStorage us, IDirectoryInfo bookRootLocation)
         {
-            FileInfoBase posterUserpicLocation = us.TryGet(e.PosterUserpic.Url);
+            IFileInfo posterUserpicLocation = us.TryGet(e.PosterUserpic.Url);
             string relativeUserpicLocation = posterUserpicLocation == null ? null : IOTools.MakeRelativePath(bookRootLocation, posterUserpicLocation);
             return relativeUserpicLocation;
         }

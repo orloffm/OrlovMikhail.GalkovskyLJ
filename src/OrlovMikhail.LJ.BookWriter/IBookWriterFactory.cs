@@ -9,6 +9,6 @@ namespace OrlovMikhail.LJ.BookWriter
 {
     public interface IBookWriterFactory
     {
-        IBookWriter Create(DirectoryInfoBase bookRootLocation, FileInfoBase path);
+        IBookWriter Create(IDirectoryInfo bookRootLocation, IFileInfo path);
     }
 }

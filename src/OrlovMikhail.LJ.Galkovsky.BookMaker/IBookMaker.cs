@@ -6,6 +6,6 @@ namespace OrlovMikhail.LJ.Galkovsky.BookMaker
 {
     public interface IBookMaker
     {
-        Task Make(DirectoryInfoBase bookRootLocation, FileInfoBase[] dumps, bool overwrite);
+        Task Make(IDirectoryInfo bookRootLocation, IFileInfo[] dumps, bool overwrite);
     }
 }

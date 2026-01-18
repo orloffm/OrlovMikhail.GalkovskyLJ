@@ -1,36 +1,36 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Abstractions;
 using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using iTextSharp.text.pdf;
-using log4net;
-using OrlovMikhail.LJ.Grabber;
-using OrlovMikhail.Tools;
+using iText.Kernel.Pdf;
+using Serilog;
+using OrlovMikhail.LJ.Galkovsky.Tools;
+using OrlovMikhail.LJ.Grabber.Extractor.FolderNamingStrategy;
 
 namespace OrlovMikhail.LJ.Galkovsky.PDFTester
 {
     class Program
     {
-             const string SourcePdf = "output\\GalkovskyLJ_{0}.A5.pdf";
-
-       static readonly ILog log = LogManager.GetLogger(typeof(Program));
+        const string SourcePdf = "output\\GalkovskyLJ_{0}.A5.pdf";
 
         static void Main(string[] args)
         {
-            log4net.Config.XmlConfigurator.Configure();
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Information()
+                .WriteTo.Console()
+                .CreateLogger();
 
             Dictionary<string, string> argsDic = ConsoleTools.ArgumentsToDictionary(args);
 
-            if (!SettingsTools.LoadValue("root", argsDic, Settings.Default, s => s.RootFolder))
+            if (!argsDic.TryGetValue("root", out string root) || string.IsNullOrWhiteSpace(root))
+            {
+                Log.Error("Missing required argument: -root");
+                PrintUsage();
                 return;
-            Settings.Default.Save();
+            }
 
             IFileSystem fs = new FileSystem();
-
-            string root = Settings.Default.RootFolder;
 
             // All available fragment files by entry ids.
             IGalkovskyFolderNamingStrategy ns = new GalkovskyFolderNamingStrategy();
@@ -50,26 +50,25 @@ namespace OrlovMikhail.LJ.Galkovsky.PDFTester
 
                 if (!File.Exists(absolutePath))
                 {
-                    log.Error(String.Format("File for split {0} doesn't exist.", s));
+                    Log.Error("File for split {Split} doesn't exist.", s);
                     continue;
                 }
 
-
                 string[] entryKeysInPdf;
-                string mb = (new FileInfo(absolutePath).Length/1024d/1024d).ToString("#.##");
+                string mb = (new FileInfo(absolutePath).Length / 1024d / 1024d).ToString("#.##");
                 int pages;
                 try
                 {
-                    using (PdfReader pdfReader = new PdfReader(absolutePath))
+                    using (PdfDocument pdfDoc = new PdfDocument(new PdfReader(absolutePath)))
                     {
-                        pages = pdfReader.NumberOfPages;
-                        IList<Dictionary<string, object>> bookmarks = SimpleBookmark.GetBookmark(pdfReader);
-                        entryKeysInPdf = GetGalkovskyEntryKeys(bookmarks,ns);
+                        pages = pdfDoc.GetNumberOfPages();
+                        var outlines = pdfDoc.GetOutlines(true);
+                        entryKeysInPdf = GetGalkovskyEntryKeys(outlines, ns);
                     }
                 }
-                catch(Exception ex)
+                catch (Exception ex)
                 {
-                    log.Error(String.Format("File for split {0} yielded an error.", s), ex);
+                    Log.Error(ex, "File for split {Split} yielded an error.", s);
                     continue;
                 }
 
@@ -77,30 +76,34 @@ namespace OrlovMikhail.LJ.Galkovsky.PDFTester
                 var withFragments = allDumps.Where(z => !String.IsNullOrWhiteSpace(z.RelativeFragmentPath));
                 string[] expectedEntryKeys = withFragments.Select(z => z.GalkovskyEntryKey).ToArray();
 
-              
                 string[] missing = expectedEntryKeys.Except(entryKeysInPdf, StringComparer.OrdinalIgnoreCase).ToArray();
 
                 if (missing.Length == 0)
-                    log.Info(String.Format("File for split {0} is OK. {1} pages, {2} MB.", s, pages, mb));
+                    Log.Information("File for split {Split} is OK. {Pages} pages, {Size} MB.", s, pages, mb);
                 else
                 {
                     foreach (string m in missing)
-                        log.Error(String.Format("File for split {0} doesn't have record {1}.", s, m));
+                        Log.Error("File for split {Split} doesn't have record {Record}.", s, m);
                 }
             }
         }
 
-        private static string[] GetGalkovskyEntryKeys(IList<Dictionary<string, object>> bookmarks, IGalkovskyFolderNamingStrategy gsg)
+        private static string[] GetGalkovskyEntryKeys(PdfOutline outlines, IGalkovskyFolderNamingStrategy gsg)
         {
             List<string> ret = new List<string>(100);
 
-            for (int i = 0; i < bookmarks.Count; i++)
+            if (outlines == null)
+                return ret.ToArray();
+
+            var children = outlines.GetAllChildren();
+            foreach (var outline in children)
             {
-                string title = bookmarks[i].Values.First().ToString();
+                string title = outline.GetTitle();
+                if (string.IsNullOrEmpty(title))
+                    continue;
 
                 try
                 {
-                    // Extract from title.
                     string key = gsg.GetGalkovskyEntryKey(title);
                     ret.Add(key);
                 }
@@ -118,6 +121,14 @@ namespace OrlovMikhail.LJ.Galkovsky.PDFTester
             }
 
             return ret.ToArray();
+        }
+
+        static void PrintUsage()
+        {
+            Console.WriteLine("Usage: pdftest -root <folder>");
+            Console.WriteLine();
+            Console.WriteLine("Arguments:");
+            Console.WriteLine("  -root      Root folder containing the book files");
         }
     }
 }

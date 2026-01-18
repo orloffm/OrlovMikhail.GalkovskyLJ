@@ -1,25 +1,25 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Abstractions;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using log4net;
-using OrlovMikhail.Tools;
-using OrlovMikhail.LJ.Grabber;
+using Serilog;
+using OrlovMikhail.LJ.Galkovsky.Tools;
+using OrlovMikhail.LJ.Grabber.Extractor.FolderNamingStrategy;
 
 namespace OrlovMikhail.LJ.Galkovsky.Preparator
 {
     class Program
     {
-        static readonly ILog log = LogManager.GetLogger(typeof(Program));
-
         private const string galkovskyFormat = "GalkovskyLJ_{0}.asc";
 
         static void Main(string[] args)
         {
-            log4net.Config.XmlConfigurator.Configure();
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Information()
+                .WriteTo.Console()
+                .CreateLogger();
 
             IFileSystem fs = new FileSystem();
 
@@ -27,7 +27,8 @@ namespace OrlovMikhail.LJ.Galkovsky.Preparator
             string root = argsDic.GetExistingOrDefault("root");
             if (String.IsNullOrEmpty(root))
             {
-                log.Error(@"No \root specified.");
+                Log.Error("No -root specified.");
+                PrintUsage();
                 return;
             }
 
@@ -59,7 +60,7 @@ namespace OrlovMikhail.LJ.Galkovsky.Preparator
                 if (matchingPaths.Length == 0)
                     continue;
 
-                log.InfoFormat("Writing {0}...", current.Name);
+                Log.Information("Writing {Name}...", current.Name);
 
                 StringBuilder sb = new StringBuilder();
                 string title = String.Format("ЖЖ Галковского. Часть {0}. {1}", current.Name, current.Description);
@@ -119,6 +120,14 @@ namespace OrlovMikhail.LJ.Galkovsky.Preparator
             sb.Append("****");
 
             return sb.ToString();
+        }
+
+        static void PrintUsage()
+        {
+            Console.WriteLine("Usage: prepare -root <folder>");
+            Console.WriteLine();
+            Console.WriteLine("Arguments:");
+            Console.WriteLine("  -root      Root folder containing the book files");
         }
     }
 }

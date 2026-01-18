@@ -1,19 +1,16 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO.Abstractions;
 using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using log4net;
-using OrlovMikhail.LJ.Grabber;
-using OrlovMikhail.Tools;
+using Serilog;
+using OrlovMikhail.LJ.Grabber.PostProcess.Files;
+using OrlovMikhail.LJ.BookWriter.Tools;
 
 namespace OrlovMikhail.LJ.BookWriter
 {
     public class PostPartsMaker : IPostPartsMaker
     {
-        static readonly ILog log = LogManager.GetLogger(typeof(PostPartsMaker));
+        static readonly ILogger Log = Serilog.Log.ForContext<PostPartsMaker>();
 
         public IPostPart[] CreateTextParts(HTMLTokenBase[] tokens, IFileStorage fs)
         {
@@ -239,7 +236,7 @@ namespace OrlovMikhail.LJ.BookWriter
 
                             if(!tagToken.Attributes.TryGetValue("src", out src))
                             {
-                                log.Warn("Encountered iframe tag without source.");
+                                Log.Warning("Encountered iframe tag without source.");
                                 break;
                             }
 
@@ -253,21 +250,21 @@ namespace OrlovMikhail.LJ.BookWriter
                         case HTMLElementKind.Image:
                             if(!tagToken.Attributes.TryGetValue("src", out src))
                             {
-                                log.Warn("Encountered image tag without source.");
+                                Log.Warning("Encountered image tag without source.");
                                 break;
                             }
 
-                            FileInfoBase local = fs.TryGet(src);
+                            IFileInfo local = fs.TryGet(src);
                             if(local != null)
                             {
                                 if(!local.Exists)
-                                    log.WarnFormat("Encountered image {0} does not exist.", src);
+                                    Log.Warning("Encountered image {Source} does not exist.", src);
                                 else
                                     yield return new ImagePart(local);
                             }
                             else
                             {
-                                log.WarnFormat("Encountered image {0} not local.", src);
+                                Log.Warning("Encountered image {Source} not local.", src);
 
                                 // No image saved, so we will just write the URL.
                                 string replaceString = String.Format("({0})", src);

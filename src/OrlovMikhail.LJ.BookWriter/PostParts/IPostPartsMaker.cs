@@ -1,5 +1,5 @@
 using System.Collections.Generic;
-using OrlovMikhail.LJ.Grabber;
+using OrlovMikhail.LJ.Grabber.PostProcess.Files;
 
 namespace OrlovMikhail.LJ.BookWriter
 {

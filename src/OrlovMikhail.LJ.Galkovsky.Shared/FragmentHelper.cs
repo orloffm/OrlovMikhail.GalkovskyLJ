@@ -1,12 +1,13 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Abstractions;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using OrlovMikhail.LJ.Grabber;
-using OrlovMikhail.Tools;
+using OrlovMikhail.LJ.Grabber.Entities;
+using OrlovMikhail.LJ.Grabber.Extractor;
+using OrlovMikhail.LJ.Grabber.Extractor.FolderNamingStrategy;
+using OrlovMikhail.LJ.Grabber.LayerParser;
+using OrlovMikhail.LJ.Galkovsky.Tools;
 
 namespace OrlovMikhail.LJ.Galkovsky
 {
@@ -26,12 +27,12 @@ namespace OrlovMikhail.LJ.Galkovsky
         {
             Dictionary<long, FragmentInformation> ret = new Dictionary<long, FragmentInformation>();
 
-            DirectoryInfoBase rootInfo = fs.DirectoryInfo.FromDirectoryName(root);
-            FileInfoBase[] dumps = rootInfo.EnumerateFiles(Worker.DumpFileName, SearchOption.AllDirectories).ToArray();
+            IDirectoryInfo rootInfo = fs.DirectoryInfo.New(root);
+            IFileInfo[] dumps = rootInfo.EnumerateFiles(Worker.DumpFileName, SearchOption.AllDirectories).ToArray();
 
-            foreach (FileInfoBase dumpFile in dumps)
+            foreach (IFileInfo dumpFile in dumps)
             {
-                FileInfoBase fragmentFile = dumpFile.Directory.GetFiles(FRAGMENT_FILE_NAME).FirstOrDefault();
+                IFileInfo fragmentFile = dumpFile.Directory.GetFiles(FRAGMENT_FILE_NAME).FirstOrDefault();
 
                 string content = fs.File.ReadAllText(dumpFile.FullName);
 

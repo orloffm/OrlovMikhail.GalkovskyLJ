@@ -1,18 +1,12 @@
-﻿using log4net;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Web;
 
 namespace OrlovMikhail.LJ.BookWriter
 {
     public class HTMLParser : IHTMLParser
     {
-        static readonly ILog log = LogManager.GetLogger(typeof(HTMLParser));
-
         public static string StripOfTags(string source)
         {
             string result = Regex.Replace(source, @"<[^>]*>", String.Empty);

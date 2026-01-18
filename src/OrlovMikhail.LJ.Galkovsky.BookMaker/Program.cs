@@ -1,35 +1,41 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
 using System.IO.Abstractions;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using log4net;
-using OrlovMikhail.LJ.Grabber;
+using Serilog;
 using Autofac;
+using OrlovMikhail.LJ.Grabber;
 using OrlovMikhail.LJ.BookWriter;
 using OrlovMikhail.LJ.BookWriter.AsciiDoc;
-using OrlovMikhail.Tools;
+using OrlovMikhail.LJ.Galkovsky.Tools;
 
 namespace OrlovMikhail.LJ.Galkovsky.BookMaker
 {
     class Program
     {
-        static readonly ILog log = LogManager.GetLogger(typeof(Program));
-
         static void Main(string[] args)
         {
-            log4net.Config.XmlConfigurator.Configure();
+            Log.Logger = new LoggerConfiguration()
+                .MinimumLevel.Information()
+                .WriteTo.Console()
+                .CreateLogger();
 
             // Configuration.
             Dictionary<string, string> argsDic = ConsoleTools.ArgumentsToDictionary(args);
-            if(!SettingsTools.LoadValue("root", argsDic, Settings.Default, s => s.RootFolder))
+
+            if (!argsDic.TryGetValue("root", out string rootFolder) || string.IsNullOrWhiteSpace(rootFolder))
+            {
+                Log.Error("Missing required argument: -root");
+                PrintUsage();
                 return;
-            if(!SettingsTools.LoadValue("source", argsDic, Settings.Default, s => s.Source))
+            }
+
+            if (!argsDic.TryGetValue("source", out string source) || string.IsNullOrWhiteSpace(source))
+            {
+                Log.Error("Missing required argument: -source");
+                PrintUsage();
                 return;
-            Settings.Default.Save();
+            }
+
             bool overWrite = argsDic.ContainsKey("overwrite");
 
             // Concrete classes.
@@ -42,10 +48,10 @@ namespace OrlovMikhail.LJ.Galkovsky.BookMaker
 
             // Load all dump files.
             IFileSystem fs = container.Resolve<IFileSystem>();
-            DirectoryInfoBase root = fs.DirectoryInfo.FromDirectoryName(Settings.Default.RootFolder);
-            FileInfoBase[] dumps = FindAllDumps(Settings.Default.Source, fs);
-            log.Info("Dumps found: " + dumps.Length);
-            if(dumps.Length == 0)
+            IDirectoryInfo root = fs.DirectoryInfo.New(rootFolder);
+            IFileInfo[] dumps = FindAllDumps(source, fs);
+            Log.Information("Dumps found: {Count}", dumps.Length);
+            if (dumps.Length == 0)
                 return;
 
             // Run.
@@ -53,20 +59,30 @@ namespace OrlovMikhail.LJ.Galkovsky.BookMaker
             bm.Make(root, dumps, overWrite).Wait();
         }
 
-        private static FileInfoBase[] FindAllDumps(string passed, IFileSystem fs)
+        private static IFileInfo[] FindAllDumps(string passed, IFileSystem fs)
         {
-            FileInfoBase sourceFI = fs.FileInfo.FromFileName(passed);
-            if(sourceFI.Exists)
-                return new FileInfoBase[] { sourceFI };
+            IFileInfo sourceFI = fs.FileInfo.New(passed);
+            if (sourceFI.Exists)
+                return new IFileInfo[] { sourceFI };
 
-            DirectoryInfoBase sourceDI = fs.DirectoryInfo.FromDirectoryName(passed);
-            if(sourceDI.Exists)
+            IDirectoryInfo sourceDI = fs.DirectoryInfo.New(passed);
+            if (sourceDI.Exists)
             {
-                FileInfoBase[] found = sourceDI.GetFiles("dump.xml", SearchOption.AllDirectories);
+                IFileInfo[] found = sourceDI.GetFiles("dump.xml", System.IO.SearchOption.AllDirectories);
                 return found;
             }
 
-            return new FileInfoBase[0];
+            return new IFileInfo[0];
+        }
+
+        static void PrintUsage()
+        {
+            Console.WriteLine("Usage: bookmaker -root <folder> -source <path> [-overwrite]");
+            Console.WriteLine();
+            Console.WriteLine("Arguments:");
+            Console.WriteLine("  -root       Root folder for output");
+            Console.WriteLine("  -source     Source dump.xml file or folder containing dumps");
+            Console.WriteLine("  -overwrite  Overwrite existing fragment files");
         }
     }
 }

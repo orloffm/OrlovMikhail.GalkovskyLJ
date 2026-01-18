@@ -1,15 +1,8 @@
-﻿
+
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".paket", ".paket", "{7BE89487-2DDC-4F94-8DBF-A2EA5FD5C44A}"
-	ProjectSection(SolutionItems) = preProject
-		paket.dependencies = paket.dependencies
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrlovMikhail.LJ.Galkovsky.Dumper", "OrlovMikhail.LJ.Galkovsky.Dumper\OrlovMikhail.LJ.Galkovsky.Dumper.csproj", "{7FD0A56C-9067-4E56-8B5A-2E33710CA3B0}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrlovMikhail.LJ.Galkovsky.Shared", "OrlovMikhail.LJ.Galkovsky.Shared\OrlovMikhail.LJ.Galkovsky.Shared.csproj", "{350711E2-D90A-449B-87FF-E8D2D71273DE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OrlovMikhail.LJ.BookWriter", "OrlovMikhail.LJ.BookWriter\OrlovMikhail.LJ.BookWriter.csproj", "{87E91951-B240-4486-99B1-746C52CCE06A}"
@@ -30,10 +23,6 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{7FD0A56C-9067-4E56-8B5A-2E33710CA3B0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{7FD0A56C-9067-4E56-8B5A-2E33710CA3B0}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{7FD0A56C-9067-4E56-8B5A-2E33710CA3B0}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{7FD0A56C-9067-4E56-8B5A-2E33710CA3B0}.Release|Any CPU.Build.0 = Release|Any CPU
 		{350711E2-D90A-449B-87FF-E8D2D71273DE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{350711E2-D90A-449B-87FF-E8D2D71273DE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{350711E2-D90A-449B-87FF-E8D2D71273DE}.Release|Any CPU.ActiveCfg = Release|Any CPU

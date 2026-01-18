@@ -1,10 +1,10 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Abstractions;
 using System.Text;
-using OrlovMikhail.LJ.Grabber;
-using OrlovMikhail.Tools;
+using OrlovMikhail.LJ.Grabber.PostProcess.Userpics;
+using OrlovMikhail.LJ.BookWriter.Tools;
 
 namespace OrlovMikhail.LJ.BookWriter.AsciiDoc
 {
@@ -19,10 +19,10 @@ namespace OrlovMikhail.LJ.BookWriter.AsciiDoc
 
         #region ctor and write
 
-        public AsciiDocBookWriter(DirectoryInfoBase root, FileInfoBase path)
-            : base(root, path, new AsciiDocTextPreparator())
+        public AsciiDocBookWriter(IDirectoryInfo root, IFileInfo target)
+            : base(root, target, new AsciiDocTextPreparator())
         {
-            _sr = new StreamWriter(path.FullName, append: false, encoding: new UTF8Encoding(encoderShouldEmitUTF8Identifier: true));
+            _sr = new StreamWriter(target.FullName, append: false, encoding: new UTF8Encoding(encoderShouldEmitUTF8Identifier: true));
 
             currentQuotationLevel = 0;
             wroteAfterItemBegin = false;
@@ -94,7 +94,7 @@ namespace OrlovMikhail.LJ.BookWriter.AsciiDoc
         }
 
         /// <summary>Guaranteed to be called with an existing image.</summary>
-        protected override void WriteImageInternal(FileInfoBase toPath)
+        protected override void WriteImageInternal(IFileInfo toPath)
         {
             double hToW = ImageHelper.GetHeightToWidthRatio(toPath);
             const double ahToWRatio = 1.414285714285714d;
@@ -194,7 +194,7 @@ namespace OrlovMikhail.LJ.BookWriter.AsciiDoc
                 if (sb.Length >= lineWidth)
                 {
                     char previous = sb[sb.Length - 1];
-                    // We can't skip after 
+                    // We can't skip after
                     bool canSkipHere = previous != ';';
 
                     if (canSkipHere && Char.IsWhiteSpace(c))

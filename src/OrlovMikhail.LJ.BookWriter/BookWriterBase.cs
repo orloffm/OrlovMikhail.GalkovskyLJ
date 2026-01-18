@@ -1,6 +1,5 @@
-﻿using log4net;
-using OrlovMikhail.LJ.Grabber;
-using OrlovMikhail.Tools;
+using Serilog;
+using OrlovMikhail.LJ.Grabber.Entities;
 using System;
 using System.IO.Abstractions;
 using System.Net;
@@ -9,13 +8,13 @@ namespace OrlovMikhail.LJ.BookWriter
 {
     public abstract class BookWriterBase : IBookWriter
     {
-        static readonly ILog log = LogManager.GetLogger(typeof(BookWriterBase));
+        static readonly ILogger Log = Serilog.Log.ForContext<BookWriterBase>();
 
-        protected readonly DirectoryInfoBase Root;
-        protected readonly FileInfoBase Target;
+        protected readonly IDirectoryInfo Root;
+        protected readonly IFileInfo Target;
         ITextPreparator _tp;
 
-        protected BookWriterBase(DirectoryInfoBase root, FileInfoBase target, ITextPreparator tp)
+        protected BookWriterBase(IDirectoryInfo root, IFileInfo target, ITextPreparator tp)
         {
             Root = root;
             Target = target;
@@ -107,7 +106,7 @@ namespace OrlovMikhail.LJ.BookWriter
             else if (ppb is ParagraphStartPart)
                 WriteParagraphStartInternal((ppb as ParagraphStartPart).QuotationLevel);
             else
-                log.WarnFormat("Post part of type {0} is not supported.", ppb.GetType().Name);
+                Log.Warning("Post part of type {TypeName} is not supported.", ppb.GetType().Name);
         }
 
 
@@ -125,7 +124,7 @@ namespace OrlovMikhail.LJ.BookWriter
         protected abstract void WriteBoldStartInternal();
 
         /// <summary>Guaranteed to be called with an existing image.</summary>
-        protected abstract void WriteImageInternal(FileInfoBase toPath);
+        protected abstract void WriteImageInternal(IFileInfo toPath);
         protected abstract void WriteVideoInternal(string url);
         protected abstract void WritePreparedTextInternal(string preparedText);
         protected virtual void WriteEmptyPostPart() { WritePreparedTextInternal(""); }
